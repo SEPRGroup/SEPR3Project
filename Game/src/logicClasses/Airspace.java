@@ -18,7 +18,7 @@ public class Airspace {
 				numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
-	private List<EntryPoint> listofEntrypoints;
+	private List<EntryPoint> listOfEntryPoints;
 	private List<ExitPoint> listOfExitPoints;
 	private SeparationRules separationRules;
 	private Airport airport;
@@ -32,7 +32,7 @@ public class Airspace {
 		this.score = 0;
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		this.listOfWayppoints = new ArrayList<Waypoint>();
-		this.listofEntrypoints = new ArrayList<EntryPoint>();
+		this.listOfEntryPoints = new ArrayList<EntryPoint>();
 		this.listOfExitPoints = new ArrayList<ExitPoint>();
 		this.airport = new Airport();
 		this.numberOfGameLoopsSinceLastFlightAdded = 0; // Stores how many loops since the last flight was spawned before another flight can enter
@@ -256,8 +256,8 @@ public class Airspace {
 			this.listOfExitPoints.get(i).init(gc);
 		}
 		
-		for (int i = 0; i < this.listofEntrypoints.size(); i++) { // Initialising entry point
-			this.listofEntrypoints.get(i).init(gc);
+		for (int i = 0; i < this.listOfEntryPoints.size(); i++) { // Initialising entry point
+			this.listOfEntryPoints.get(i).init(gc);
 		}
 		
 	}
@@ -303,23 +303,21 @@ public class Airspace {
 		
 		this.airport.render(g, gc);
 
-		for (int i = 0; i < this.listOfWayppoints.size(); i++) { // Draws waypoints
-			this.listOfWayppoints.get(i).render(g, this);
+		for (Waypoint w:listOfWayppoints) { // Draws waypoints
+			w.render(g, this);
 		}
-		for (int i = 0; i < this.listOfExitPoints.size(); i++) { // Draws exit points
-			this.listOfExitPoints.get(i).render(g, this);
+		for (ExitPoint e:listOfExitPoints) { // Draws exit points
+			e.render(g, this);
 		}
-		for (int i = 0; i < this.listofEntrypoints.size(); i++) { // Draws entry points
-			this.listofEntrypoints.get(i).render(g);
+		for (EntryPoint e:listOfEntryPoints) { // Draws entry points
+			e.render(g);
 		}
-		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) { // Draws flights in airspace
-			this.listOfFlightsInAirspace.get(i).render(g, gc);
+		for (Flight f:listOfFlightsInAirspace) { // Draws flights in airspace
+			f.render(g, gc);
 		}
 		
-		
-		this.separationRules.render(g, gc, this);
-		this.controls.render(gc,g);
-
+		separationRules.render(g, gc, this);
+		controls.render(gc,g);
 	}
 
 
@@ -343,7 +341,7 @@ public class Airspace {
 	}
 
 	public List<EntryPoint> getListOfEntryPoints() {
-		return this.listofEntrypoints;
+		return this.listOfEntryPoints;
 	}
 
 	public List<ExitPoint> getListOfExitPoints() {
@@ -364,10 +362,10 @@ public class Airspace {
 	}
 
 	public boolean addEntryPoint(EntryPoint entrypoint) {
-		if (this.listofEntrypoints.contains(entrypoint)) {
+		if (this.listOfEntryPoints.contains(entrypoint)) {
 			return false;
 		} else {
-			this.listofEntrypoints.add(entrypoint);
+			this.listOfEntryPoints.add(entrypoint);
 			return true;
 		}
 	}
@@ -407,7 +405,7 @@ public class Airspace {
 	}
 
 	public void removeEntryPoint(EntryPoint entrypoint) {
-		this.listofEntrypoints.remove(entrypoint);
+		this.listOfEntryPoints.remove(entrypoint);
 	}
 
 	public void removeExitPoint(ExitPoint exitpoint) {
@@ -420,7 +418,7 @@ public class Airspace {
 
 	
 	public void setListOfEntryPoints(List<EntryPoint> listOfEntryPoints) {
-		this.listofEntrypoints = listOfEntryPoints;
+		this.listOfEntryPoints = listOfEntryPoints;
 	}
 	
 	public Controls getControls(){
