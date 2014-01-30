@@ -28,7 +28,7 @@ public class Airspace {
 	// CONSTRUCTOR
 
 	public Airspace() {
-		this.maximumNumberOfFlightsInAirspace = 5;
+		this.maximumNumberOfFlightsInAirspace = 10;
 		this.score = 0;
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		this.listOfWayppoints = new ArrayList<Waypoint>();
