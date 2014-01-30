@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 
 public class EntryPoint extends Point {
 	
-	Image entryPointTop, entryPointRight, entryPointLeft;
+	static Image entryPointTop, entryPointRight, entryPointLeft;
 
     public EntryPoint(double xcoord, double ycoord) {
     	super(xcoord, ycoord);
@@ -22,9 +22,12 @@ public class EntryPoint extends Point {
      * @throws SlickException
      */
     	
-    	this.entryPointTop = new Image("res/graphics/entrypoint_top.png");
-		this.entryPointRight = new Image("res/graphics/entrypoint_right.png");
-		this.entryPointLeft = new Image("res/graphics/entrypoint_left.png");
+    	if (entryPointTop == null)
+    		entryPointTop = new Image("res/graphics/entrypoint_top.png");
+    	if (entryPointRight == null)
+    		entryPointRight = new Image("res/graphics/entrypoint_right.png");
+    	if (entryPointLeft == null)
+    		entryPointLeft = new Image("res/graphics/entrypoint_left.png");
 
 	}
     
@@ -36,16 +39,16 @@ public class EntryPoint extends Point {
     
 	public void render(Graphics g) throws SlickException {
 		
-		if(this.y == 0){
-			this.entryPointTop.draw((int)this.x-20, (int) this.y);
+		if(y == 0){
+			entryPointTop.draw((int)x-20, (int)y);
 		}
 		
-		else if(this.x == 150){
-			this.entryPointLeft.draw((int)this.x, (int) this.y-20);
+		else if(x == 150){
+			entryPointLeft.draw((int)x, (int)y-20);
 		}
 		
-		else if(this.x == 1200){
-			this.entryPointRight.draw((int)this.x-40, (int) this.y-20);
+		else if(x == 1200){
+			entryPointRight.draw((int)x-40, (int)y-20);
 		}
     }
 	
