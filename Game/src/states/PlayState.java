@@ -45,7 +45,8 @@ public class PlayState extends BasicGameState {
 		
 		gc.setAlwaysRender(true);
 		gc.setUpdateOnlyWhenVisible(true);
-		gc.setMouseCursor("res/graphics/cross.png",12,12);
+		// Set mouse cursor
+		//gc.setMouseCursor("res/graphics/cross.png",12,12);
 	
 		
 		// Font
