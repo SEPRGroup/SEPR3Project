@@ -19,7 +19,8 @@ import org.newdawn.slick.Image;
 public class PlayState extends BasicGameState {
 
 	private Airspace airspace;
-	private int i;
+	// added in state field 
+	private int state;
 	Image cursorImg;
 	public static float time;
 	private Sound endOfGameSound;
@@ -30,8 +31,8 @@ public class PlayState extends BasicGameState {
 	private boolean settingDifficulty, gameEnded;
 
 	public PlayState(int state) {
-		
-
+		// Initialised the state so it can be dynamically returned
+		this.state = state;
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -40,7 +41,7 @@ public class PlayState extends BasicGameState {
 		settingDifficulty = true;
 		time = 0;
 		airspace = new Airspace();
-		i = 1;
+		// Removed i as not necessary 
 		this.stringTime="";
 		
 		gc.setAlwaysRender(true);
@@ -161,12 +162,7 @@ public class PlayState extends BasicGameState {
 			clockImage.draw(0,5);
 			g.drawString(this.stringTime, 25, 11);
 		
-		}
-		
-
-		
-		
-		
+		}	
 
 	}
 
@@ -221,9 +217,7 @@ public class PlayState extends BasicGameState {
 				airspace.createAndSetSeparationRules();
 				settingDifficulty = false;
 				
-			}
-			
-		
+			}			
 		}
 		
 		else{
@@ -271,35 +265,27 @@ public class PlayState extends BasicGameState {
 				sbg.enterState(2);
 				gameEnded = true;
 							
-			}
-						
-						
+			}					
+			
 			Input input = gc.getInput();
 						
 			// Checking For Pause Screen requested in game
 						
 			if (input.isKeyPressed(Input.KEY_P)) {
 				sbg.enterState(3);
-			}
-			
+			}			
 						
 			if (!gameplayMusic.playing()){
 				//Loops gameplay music based on random number created in init
 							
 				gameplayMusic.loop(1.0f, 0.5f);
-			}
-			
+			}			
 		}
-		
-		
-		
-		
-
 	}
 
 
 	public int getID() {
-		return 1;
+		return state;
 	}
 
 	public Airspace getAirspace() {

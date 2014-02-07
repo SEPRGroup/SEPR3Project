@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
 public class Airport {
 	
 	//FIELDS
-	
+	private String airportName = "Nothing"; // {!} needs a name
 	Image airportImage;
 	
 	//CONSTRUCTOR
@@ -28,7 +28,11 @@ public class Airport {
 	} 
 	
 	
-	
+	@Override
+	public String toString(){
+		String s = "Airport Name: " + airportName;
+		return s;
+	}
 	
 
 }

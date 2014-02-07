@@ -441,4 +441,10 @@ public class Airspace {
 	public int getNumberOfGameLoopsWhenDifficultyIncreases(){
 		return this.numberOfGameLoopsWhenDifficultyIncreases;
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Airspace: "+ airport.toString();
+		return s;
+	}
 }
