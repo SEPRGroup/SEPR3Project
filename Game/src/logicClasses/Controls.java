@@ -27,6 +27,8 @@ public class Controls {
 	private Image altitudeButton, changePlanButton;
 	private int difficultyValueOfGame; //Sets the difficulty of the control scheme
 	
+	private FlightMenu menu;
+	
 	
 	// CONSTRUCTOR
 	public Controls() {
@@ -36,14 +38,11 @@ public class Controls {
 		mouseHeldDownOnFlight = false;
 		headingAlreadyChangedByMouse = false;
 		selectedFlight = null;
-		
-		
-
 	}
 
 
 	// INIT
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc) throws SlickException {	
 		Font awtFont = new Font("Courier", Font.BOLD, 15); // Setting up fonts used in text boxes
 		font = new TrueTypeFont(awtFont, false);
 		turnLeftTextBox = new TextField(gc, font, 10, 145, 100, 23); //Creating textboxes
@@ -55,6 +54,8 @@ public class Controls {
 		altitudeButton = new Image("res/graphics/altitudebutton.png");
 		changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
 		
+		menu = new FlightMenu();
+		menu.init(gc);
 	}
 	
 	
@@ -99,8 +100,7 @@ public class Controls {
 	 * @param nearestFlight Flight object
 	 */
 	public void changeModeByClickingOnFlight(Flight nearestFlight){
-		
-		
+	
 		if (selectedFlight.getFlightPlan().getChangingPlan() == true){
 			nearestFlight.getFlightPlan().setChangingPlan(false);
 		}
@@ -189,7 +189,6 @@ public class Controls {
 	 */
 	
 	public void giveHeadingWithMouse(int pointX, int pointY, Airspace airspace){
-		
 		
 		double deltaX, deltaY;
 		double distanceBetweenMouseAndPlane;
@@ -358,7 +357,7 @@ public class Controls {
 					g.drawString("At min altitude", 10, 420);
 				}
 				
-				
+				menu.render(g, gc);
 				
 				}
 			changePlanButton.draw(0,45);
@@ -464,6 +463,7 @@ public class Controls {
 
 	public void setSelectedFlight(Flight flight1){
 		selectedFlight = flight1;
+		menu.setFlight(flight1);
 	}
 
 
