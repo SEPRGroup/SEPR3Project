@@ -18,7 +18,7 @@ public class FlightMenu {
 		altSize = 100, speedSize = 100, headingSize = 100,	//slider lengths
 		sliderWidth = 20, indicatorSize = 30,	//track and indicator sizes
 		buttonWidth = 40, buttonHeight = 25,	//buttonSizes
-		spacing = 8;	//spacing between components
+		spacingSize = 8;	//spacing between components
 	
 	private Image	//scaled instance copies
 		altBase, speedBase, headingBase, aIndicator, aIndicatorSelect,
@@ -121,14 +121,14 @@ public class FlightMenu {
 		headingPos.setLocation(-r, -r);
 		
 		//position altitude slider to left of bearing slider, centred
-		altPos.setLocation(-r -spacing -sliderWidth, -(altSize/2.0f));
+		altPos.setLocation(-r -spacingSize -sliderWidth, -(altSize/2.0f));
 		
 		//position speed slider to below bearing slider, centred
-		speedPos.setLocation(-(speedSize/2.0f), r +spacing);
+		speedPos.setLocation(-(speedSize/2.0f), r +spacingSize);
 		
 		//position buttons to left of altitude slider, centred
-		cmdPos.setLocation(altPos.getX() -spacing -buttonWidth, -(spacing/2) -buttonHeight);
-		abortPos.setLocation(altPos.getX() -spacing -buttonWidth, (spacing/2));
+		cmdPos.setLocation(altPos.getX() -spacingSize -buttonWidth, -(spacingSize/2) -buttonHeight);
+		abortPos.setLocation(altPos.getX() -spacingSize -buttonWidth, (spacingSize/2));
 		
 		setIndicatorPos();
 	}
@@ -192,6 +192,8 @@ public class FlightMenu {
 	}
 	public void setAltSize(int altSize) {
 		this.altSize = altSize;
+		altBase = sliderBase.getScaledCopy(sliderWidth, altSize);
+		altBase.rotate(90);
 		position();
 	}
 
@@ -200,14 +202,16 @@ public class FlightMenu {
 	}
 	public void setSpeedSize(int speedSize) {
 		this.speedSize = speedSize;
+		speedBase = sliderBase.getScaledCopy(altSize, sliderWidth);
 		position();
 	}
 
 	public int getBearingSize() {
 		return headingSize;
 	}
-	public void setBearingSize(int bearingSize) {
+	public void setHeadingSize(int bearingSize) {
 		this.headingSize = bearingSize;
+		headingBase = sliderRingBase.getScaledCopy(headingSize, headingSize);
 		position();
 	}
 
@@ -216,6 +220,9 @@ public class FlightMenu {
 	}
 	public void setSliderWidth(int sliderWidth) {
 		this.sliderWidth = sliderWidth;
+		altBase = sliderBase.getScaledCopy(sliderWidth, altSize);
+		altBase.rotate(90);
+		speedBase = sliderBase.getScaledCopy(altSize, sliderWidth);
 		position();
 	}
 
@@ -224,6 +231,8 @@ public class FlightMenu {
 	}
 	public void setIndicatorSize(int indicatorSize) {
 		this.indicatorSize = indicatorSize;
+		aIndicator = sliderIndicator.getScaledCopy(indicatorSize, indicatorSize);
+		aIndicatorSelect = sliderIndicatorSelect.getScaledCopy(indicatorSize, indicatorSize);
 		position();
 	}
 
@@ -232,6 +241,8 @@ public class FlightMenu {
 	}
 	public void setButtonWidth(int buttonWidth) {
 		this.buttonWidth = buttonWidth;
+		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
+		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
 		position();
 	}
 
@@ -240,14 +251,16 @@ public class FlightMenu {
 	}
 	public void setButtonHeight(int buttonHeight) {
 		this.buttonHeight = buttonHeight;
+		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
+		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
 		position();
 	}
 
-	public int getSpacing() {
-		return spacing;
+	public int getSpacingSize() {
+		return spacingSize;
 	}
-	public void setSpacing(int spacing) {
-		this.spacing = spacing;
+	public void setSpacingSize(int spacingSize) {
+		this.spacingSize = spacingSize;
 		position();
 	}
 
