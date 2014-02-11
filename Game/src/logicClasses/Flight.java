@@ -387,12 +387,12 @@ public class Flight {
  * Update: calls all the update functions.
  */
 
-	public void update() {
+	public void update(ScoreTracking score) {
 
 		this.updateCurrentHeading();
 		this.updateXYCoordinates();
 		this.updateAltitude();
-		this.flightPlan.update();
+		this.flightPlan.update(score);
 	}
 	
 /**

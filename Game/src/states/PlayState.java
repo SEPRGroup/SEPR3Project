@@ -161,6 +161,10 @@ public class PlayState extends BasicGameState {
 			g.setColor(Color.white);
 			clockImage.draw(0,5);
 			g.drawString(this.stringTime, 25, 11);
+			
+			// Drawing Score
+			g.setColor(Color.white);
+			g.drawString(airspace.getScore().toString(), 10, 101);
 		
 		}	
 
@@ -177,7 +181,7 @@ public class PlayState extends BasicGameState {
 	    	time = 0;
 	    	gameEnded = false;
 	    	settingDifficulty = true;
-			
+	    	airspace.getScore().resetScore();
 		}
 		
 		// Checks whether the user is still choosing the difficulty
@@ -236,6 +240,9 @@ public class PlayState extends BasicGameState {
 			if(secs==60){
 				secs=0;
 				mins+=1;
+				// {!} should do +60 score every minute(possibly) 
+				//     - after 3 minutes adds on 2 less points every time?
+				airspace.getScore().updateTimeScore();
 			}
 			if(mins<10) {
 				stringMins="0"+mins;

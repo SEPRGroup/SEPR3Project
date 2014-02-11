@@ -119,23 +119,6 @@ public class Airspace_Tests {
 			flight1.setY(101010);
 			assertTrue(airspace.checkIfFlightHasLeftAirspace(flight1));
 	}
-	
-	// Testing changeScore()
-	@Test
-	public void changeScoreTest() {
-		//Testing initialization of score
-		int score = 10;
-		int oldscore;
-		airspace.changeScore(score);
-		oldscore = airspace.getScore();
-		assertTrue(airspace.getScore() == score);
-		
-		//Testing changing of score
-		score += 10;
-		airspace.changeScore(score);
-		assertTrue(airspace.getScore() == oldscore + score);
-	}
 }
-
 
 

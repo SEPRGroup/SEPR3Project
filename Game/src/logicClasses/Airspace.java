@@ -14,7 +14,7 @@ public class Airspace {
 	// FIELDS
 
 	private int maximumNumberOfFlightsInAirspace;
-	private int score, numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
+	private int numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
 				numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
@@ -24,12 +24,12 @@ public class Airspace {
 	private Airport airport;
 	private int difficultyValueOfGame; 
 	private Controls controls;
+	private ScoreTracking score;
 	
 	// CONSTRUCTOR
 
 	public Airspace() {
 		this.maximumNumberOfFlightsInAirspace = 10;
-		this.score = 0;
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
 		this.listOfWayppoints = new ArrayList<Waypoint>();
 		this.listOfEntryPoints = new ArrayList<EntryPoint>();
@@ -41,6 +41,7 @@ public class Airspace {
 		this.randomNumberForFlightGeneration = 500;
 		this.controls = new Controls();
 		this.difficultyValueOfGame = 0; // This value will be changed when the user selects a difficulty in the playstate
+		this.score = new ScoreTracking();
 		
 		
 	}
@@ -214,15 +215,6 @@ public class Airspace {
 	}
 
 	/**
-	 * changeScore: Add a value to the current score
-	 * @param value the amount the score is increased by. 
-	 */
-	
-	public void changeScore(int value) {
-		this.score += value;
-	}
-	
-	/**
 	 * increaseDifficulty 
 	 */
 	
@@ -273,12 +265,12 @@ public class Airspace {
 		this.numberOfGameLoops++;
 		if (this.numberOfGameLoops >= this.numberOfGameLoopsWhenDifficultyIncreases) {
 			this.increaseDifficulty();
-
+	
 		}
 		
 		
 		for (int i = 0; i < this.listOfFlightsInAirspace.size(); i++) {
-			this.listOfFlightsInAirspace.get(i).update();
+			this.listOfFlightsInAirspace.get(i).update(score);
 			if(this.listOfFlightsInAirspace.get(i).getFlightPlan().getCurrentRoute().size()==0) {
 				this.removeSpecificFlight(i);
 			}
@@ -290,7 +282,11 @@ public class Airspace {
 		
 		this.separationRules.update(this);
 		this.controls.update(gc, this);
-		
+		System.out.println(score.toString());
+	}
+	
+	public ScoreTracking getScore(){
+		return score;
 	}
 	/**
 	 * render: Render all of the graphics in the airspace
@@ -326,10 +322,6 @@ public class Airspace {
 
 	public int getMaxNumberOfFlights() {
 		return this.maximumNumberOfFlightsInAirspace;
-	}
-
-	public int getScore() {
-		return this.score;
 	}
 
 	public List<Flight> getListOfFlights() {

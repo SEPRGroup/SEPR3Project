@@ -36,7 +36,7 @@ public class FlightPlan {
 		this.waypointsAlreadyVisited = new ArrayList<Point>();
 		this.changingPlan = false;
 		this.draggingWaypoint = false;
-		
+				
 	}
 
 	// METHODS
@@ -158,12 +158,13 @@ public class FlightPlan {
 	 * updateFlightPlan: Handles updating the flight plan when a flight passes through a waypoint
 	 */
 	
-	public void updateFlightPlan(){
+	public void updateFlightPlan(ScoreTracking score){
 
 		if (this.currentRoute.size() > 0) { //Check to see if there are still waypoints to visit and then check if the flight is passing through waypoint
 			if (this.flight.checkIfFlightAtWaypoint(currentRoute.get(0))) {
 				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
 				this.currentRoute.remove(0);
+				score.updateWaypointScore();
 			}
 		}
 
@@ -301,9 +302,9 @@ public class FlightPlan {
 		}
 	}
 	
-	public void update() {
+	public void update(ScoreTracking score) {
 		
-		this.updateFlightPlan();
+		this.updateFlightPlan(score);
 		if(this.changingPlan == true){
 			this.changeFlightPlan();
 		}
