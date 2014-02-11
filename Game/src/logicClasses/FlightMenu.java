@@ -1,11 +1,13 @@
 package logicClasses;
 
+import java.awt.Font;
 import java.awt.geom.Point2D;
-
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 
 public class FlightMenu {
@@ -16,12 +18,18 @@ public class FlightMenu {
 	private int	//graphics data
 		altSize = 100, speedSize = 100, headingSize = 120,	//slider lengths
 		sliderWidth = 12, indicatorSize = 20,	//track and indicator sizes
-		buttonWidth = 40, buttonHeight = 25,	//buttonSizes
+		buttonWidth = 55, buttonHeight = 25,	//buttonSizes
 		spacingSize = 6;	//spacing between components
 
 	private Image	//scaled instance copies
 		altBase, speedBase, headingBase, aIndicator, aIndicatorSelect,
 		aButton, aButtonSelect;
+	private TrueTypeFont
+		aLabelFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 10), false),
+		aButtonFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 11), false);
+	private Color
+		aLabelColor = Color.white, aButtonColor = Color.white;
+	
 	private Point2D.Float	//cached graphics position data
 		altPos , speedPos, headingPos, cmdPos, abortPos,
 		altIndicatorPos, speedIndicatorPos, headingIndicatorPos;
@@ -65,9 +73,9 @@ public class FlightMenu {
 
 		//create scaled copies of images
 		altBase = sliderBase.getScaledCopy(altSize, sliderWidth);
-		altBase.setCenterOfRotation(0, 0);	//{!} will leave image positioned sliderWidth to the left
-		altBase.setRotation(90);
-		speedBase = sliderBase.getScaledCopy(altSize, sliderWidth);
+		altBase.setCenterOfRotation(0, 0);
+		altBase.setRotation(90);	//{!} will leave image positioned sliderWidth to the left
+		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
 		headingBase = sliderRingBase.getScaledCopy(headingSize, headingSize);
 		aIndicator = sliderIndicator.getScaledCopy(indicatorSize, indicatorSize);
 		aIndicatorSelect = sliderIndicatorSelect.getScaledCopy(indicatorSize, indicatorSize);
@@ -84,37 +92,70 @@ public class FlightMenu {
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		if (flight != null){
 			//{!} constrain positions
-
-			drawImage(altBase, altPos);
+	
+			//draw altitude slider and labels
+			drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
+				//account for image mispositioning after rotation
+			drawString(String.valueOf(Controls.MINIMUMALTITUDE),
+			           aLabelFont, aLabelColor,
+			           altPos.x +sliderWidth, altPos.y +altSize);	//centred on bottom right edge of slider 
+			drawString(String.valueOf(Controls.MAXIMUMALTITUDE),
+			           aLabelFont, aLabelColor,
+			           altPos.x +sliderWidth, altPos.y);	//centred on top right edge of slider
 			if (ALT == mode)
 				drawImage(aIndicatorSelect, altIndicatorPos);
 			else drawImage(aIndicator, altIndicatorPos);
 
+			//draw speed slider and labels
 			drawImage(speedBase, speedPos);
+			drawString(String.valueOf(200),	//{!} No variables to use for numbers yet
+			           aLabelFont, aLabelColor,
+			           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
+			drawString(String.valueOf(400),	//{!} No variables to use for numbers yet
+			           aLabelFont, aLabelColor,
+			           speedPos.x +speedSize, speedPos.y +sliderWidth);	//centred on bottom right edge of slider
 			if (SPEED == mode)
 				drawImage(aIndicatorSelect, speedIndicatorPos);
 			else drawImage(aIndicator, speedIndicatorPos);
 
+			//draw heading slider and labels
 			drawImage(headingBase, headingPos);
 			if (HEADING == mode)
 				drawImage(aIndicatorSelect, headingIndicatorPos);
 			else drawImage(aIndicator, headingIndicatorPos);
 
+			//draw command button and label
 			if (CMD == mode)
 				drawImage(aButtonSelect, cmdPos);
 			else drawImage(aButton, cmdPos);
-			//{!} draw button text
+			{	//draw button text
+				String cmdString;
+				if (flight.getAltitude()==0)
+					cmdString = "Take Off";
+				else cmdString = "Land";
+				drawString(cmdString, aButtonFont, aButtonColor, 
+				           cmdPos.x +(buttonWidth/2.0f), cmdPos.y +(buttonHeight/2.0f));
+			}
 
+			//draw abort button and label
 			if (ABORT == mode)
 				drawImage(aButtonSelect, abortPos);
 			else drawImage(aButton, abortPos);
-			//{!} draw button text
+			drawString("Abort", aButtonFont, aButtonColor, 
+			           abortPos.x +(buttonWidth/2.0f), abortPos.y +(buttonHeight/2.0f));
+			
 		}
 	}
 
 	private void drawImage(Image image, Point2D pos){
 		image.draw((float)( pos.getX() +flight.getX() ), 
 		           (float)( pos.getY() +flight.getY() ) );
+	}
+	
+	private void drawString(String str, TrueTypeFont font, Color color, float x, float y){
+		font.drawString((float)( x -(font.getWidth(str)/2.0) +flight.getX() ),
+		                (float)( y -(font.getHeight()/2.0) +flight.getY() ),
+		                str, color);
 	}
 
 	private void position(){
@@ -126,14 +167,14 @@ public class FlightMenu {
 		headingPos.setLocation(-r, -r);
 
 		//position altitude slider to left of bearing slider, centred
-		altPos.setLocation(-r -spacingSize, -(altSize/2.0f));	//remember altPos mispositioning
+		altPos.setLocation(-r -spacingSize -sliderWidth, -(altSize/2.0f));
 
 		//position speed slider to below bearing slider, centred
 		speedPos.setLocation(-(speedSize/2.0f), r +spacingSize);
 
 		//position buttons to left of altitude slider, centred
-		cmdPos.setLocation(altPos.x -sliderWidth -spacingSize -buttonWidth, -(spacingSize/2.0f) -buttonHeight);	//remember altPos mispositioning
-		abortPos.setLocation(altPos.x -sliderWidth -spacingSize -buttonWidth, (spacingSize/2.0f));	//remember altPos mispositioning
+		cmdPos.setLocation(altPos.x -spacingSize -buttonWidth, -(spacingSize/2.0f) -buttonHeight);
+		abortPos.setLocation(altPos.x -spacingSize -buttonWidth, (spacingSize/2.0f));
 
 		setIndicatorPos();
 	}
@@ -146,15 +187,15 @@ public class FlightMenu {
 				ir = indicatorSize/2.0;
 
 			altIndicatorPos.setLocation(
-					altPos.x -sliderWidth +sr -ir ,	//remember altPos mispositioning
+					altPos.x +sr -ir,
 					altPos.y +(altSize*(1-normalScale(Controls.MINIMUMALTITUDE,
 					                                  Controls.MAXIMUMALTITUDE, 
 					                                  altIndicator )) -ir));
 
 			speedIndicatorPos.setLocation(
-					speedPos.x +(speedSize*normalScale(200,400, 
-							speedIndicator) -ir),	//{!} no variables to use speed yet
-							speedPos.y +sr -ir);
+					speedPos.x +(speedSize*normalScale(200,400, speedIndicator) -ir),
+						//{!} no variables to use speed yet
+					speedPos.y +sr -ir);
 
 			headingIndicatorPos.setLocation(
 					(br-sr)*Math.sin(Math.toRadians(headingIndicator)) -ir,
@@ -232,7 +273,7 @@ public class FlightMenu {
 		altBase = sliderBase.getScaledCopy(sliderWidth, altSize);
 		altBase.setCenterOfRotation(0, 0);	//{!} will leave image positioned sliderWidth to the left
 		altBase.setRotation(90);
-		speedBase = sliderBase.getScaledCopy(altSize, sliderWidth);
+		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
 		position();
 	}
 

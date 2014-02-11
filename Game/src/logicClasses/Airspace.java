@@ -172,8 +172,7 @@ public class Airspace {
 					this.numberOfGameLoopsSinceLastFlightAdded = 0;
 					if (this.listOfFlightsInAirspace.add(tempFlight)) {
 						this.listOfFlightsInAirspace.get(
-								this.listOfFlightsInAirspace.size() - 1)
-								.init(gc);
+								this.listOfFlightsInAirspace.size() -1).init(gc);
 						return true;
 					}
 				}
@@ -282,7 +281,6 @@ public class Airspace {
 		
 		this.separationRules.update(this);
 		this.controls.update(gc, this);
-		System.out.println(score.toString());
 	}
 	
 	public ScoreTracking getScore(){
