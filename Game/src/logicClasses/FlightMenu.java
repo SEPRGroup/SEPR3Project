@@ -252,7 +252,7 @@ public class FlightMenu {
 	}
 	public void setSpeedSize(int speedSize) {
 		this.speedSize = speedSize;
-		speedBase = sliderBase.getScaledCopy(altSize, sliderWidth);
+		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
 		position();
 	}
 
