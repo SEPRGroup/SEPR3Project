@@ -97,7 +97,7 @@ public class MenuState extends BasicGameState {
 				
 				if (Mouse.isButtonDown(0)) {
 					this.mouseBeenReleased=false;
-					sbg.enterState(1);
+					sbg.enterState(2);
 				}
 
 			} 
@@ -105,7 +105,7 @@ public class MenuState extends BasicGameState {
 			if ((posX > 490 && posX < 725) && (posY > 534 && posY < 596)) {
 				if (Mouse.isButtonDown(0)) {
 					this.mouseBeenReleased=false;
-					sbg.enterState(5);
+					sbg.enterState(6);
 				}
 
 			} 
@@ -118,13 +118,13 @@ public class MenuState extends BasicGameState {
 
 			if( (posX>20 && posX< 178 && posY>534 && posY<575) && Mouse.isButtonDown(0)) {
 				this.mouseBeenReleased=false;
-				sbg.enterState(4);
+				sbg.enterState(5);
 			}
 		}
 	}
 
 	public int getID() {
-		return 0;
+		return 1;
 	}
 
 }
