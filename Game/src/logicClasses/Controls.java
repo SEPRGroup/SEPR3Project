@@ -55,7 +55,8 @@ public class Controls {
 		changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
 		
 		menu = new FlightMenu();
-		menu.init(gc);
+		menu.init();
+		menu.setInput(gc.getInput());
 	}
 	
 	
@@ -453,8 +454,6 @@ public class Controls {
 			headingAlreadyChangedByMouse = false;
 		}
 		
-
-
 	}
 	
 	//MUTATORS AND ACCESSORS

@@ -2,15 +2,18 @@ package logicClasses;
 
 import java.awt.Font;
 import java.awt.geom.Point2D;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 
-public class FlightMenu {
+public class FlightMenu implements MouseListener{
 	private static Image	//base images
 		sliderBase, sliderRingBase, sliderIndicator, sliderIndicatorSelect,
 		button, buttonSelect;
@@ -31,16 +34,18 @@ public class FlightMenu {
 		aLabelColor = Color.white, aButtonColor = Color.white;
 	
 	private Point2D.Float	//cached graphics position data
-		altPos , speedPos, headingPos, cmdPos, abortPos,
+		altPos, speedPos, headingPos, cmdPos, abortPos,
 		altIndicatorPos, speedIndicatorPos, headingIndicatorPos;
-
+		
+	private Input input;
 	private Flight flight;	//bound Flight
-
+	
+	private int mode = NONE;	//active subcomponent
+	private static final int
+		NONE = 0, ALT = 1, SPEED = 2, HEADING = 3, CMD = 4, ABORT = 5;
 	private double	//indicator positions
 		altIndicator, speedIndicator, headingIndicator;
-	private int mode = 0;	//active subcomponent
-	private static final int
-		ALT = 1, SPEED = 2, HEADING = 3, CMD = 4, ABORT = 5;
+
 
 
 	public FlightMenu() {
@@ -57,7 +62,7 @@ public class FlightMenu {
 	}
 
 
-	public void init(GameContainer gc) throws SlickException{
+	public void init() throws SlickException{
 		//load images if needed
 		if (sliderBase == null)
 			sliderBase = new Image("res/graphics/FlightMenu/rectangle_slider.png");
@@ -82,12 +87,6 @@ public class FlightMenu {
 		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
 		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
 	}
-
-
-	public void update(){
-		//check for mouse state, trigger events
-	}
-
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		if (flight != null){
@@ -159,7 +158,7 @@ public class FlightMenu {
 	}
 
 	private void position(){
-		mode = 0;	//invalidate any current mouse movements
+		mode = NONE;	//invalidate any current mouse movements
 
 		double r = headingSize /2.0f;
 
@@ -207,6 +206,18 @@ public class FlightMenu {
 		//return the position of pos on the scale min-max, normalised to 0-1
 		return (pos-min) / (max-min);
 	}
+	
+	private Boolean inButton(Point2D pos, int mouseX, int mouseY){
+		int	x = (int)Math.floor(pos.getX()),
+			y = (int)Math.floor(pos.getY());
+		//normalise to internal coordinates
+		mouseX -= flight.getX();
+		mouseY -= flight.getY();
+
+		return (mouseX>x && mouseX<(x+buttonWidth) && 
+				mouseY>y && mouseY<(y+buttonHeight));
+
+	}
 
 	private void eventTargetSpeed(double speed){
 		System.out.println(String.format("speed := %1$3d", speed));
@@ -223,8 +234,8 @@ public class FlightMenu {
 		setIndicatorPos();
 	}
 
-	private void eventAbort(double heading){
-		System.out.println(String.format("altitude := %1$3d", heading));
+	private void eventAbort(){
+		System.out.println("abort");
 		setIndicatorPos();
 	}
 
@@ -316,6 +327,7 @@ public class FlightMenu {
 	}
 
 	public void setFlight(Flight flight) {
+		mode = NONE;
 		this.flight = flight;
 		if (flight != null){
 			altIndicator = flight.getTargetAltitude();
@@ -324,5 +336,111 @@ public class FlightMenu {
 			setIndicatorPos();
 		}
 	}
+
+
+	@Override
+	public void inputEnded() {};
+
+	@Override
+	public void inputStarted() {};
+
+	@Override
+	public boolean isAcceptingInput() {
+		return (flight != null);
+	}
+
+	@Override
+	public void setInput(Input input) {
+		if (this.input != null){
+			this.input.removeMouseListener(this);
+		}
+		this.input = input;
+		input.addMouseListener(this);
+	}
+
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) {}
+
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+		switch (mode){
+		case NONE:	//nothing to check
+			break;
+			
+		//reposition sliders
+		case ALT:
+			
+			break;
+		case SPEED:
+			
+			break;
+		case HEADING:
+			
+			break;
+			
+		//check if should invalidate button presses
+		case CMD:
+			if (!inButton(cmdPos, newx, newy))
+				mode = NONE;
+			break;
+		case ABORT:
+			if (!inButton(abortPos, newx, newy))
+				mode = NONE;
+			break;
+		}
+	}
+
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {}
+
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		if (Input.MOUSE_LEFT_BUTTON == button){
+			//System.out.println("Mouse pressed");
+			//check for which component button is in
+			//{!}
+			if (inButton(cmdPos, x, y))
+				mode = CMD;
+			if (inButton(abortPos, x, y))
+				mode = ABORT;
+		}
+	}
+
+	@Override
+	public void mouseReleased(int button, int x, int y) {
+		if (Input.MOUSE_LEFT_BUTTON == button){
+			//System.out.println("Mouse released");
+			switch (mode){
+			case NONE:	//nothing to check
+				break;
+				
+			//release sliders
+			case ALT:
+				
+				break;
+			case SPEED:
+				
+				break;
+			case HEADING:
+				
+				break;
+				
+			//release buttons
+			case CMD:
+				//interpret context
+				if (flight.getAltitude() == 0)
+					eventTakeoff();
+				else eventLand();
+				break;
+			case ABORT:
+				eventAbort();
+				break;				
+			}
+			mode = NONE;
+		}
+	}
+
+	@Override
+	public void mouseWheelMoved(int change) {}
 
 }
