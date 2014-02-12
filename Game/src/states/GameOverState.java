@@ -83,6 +83,6 @@ public class GameOverState extends BasicGameState {
 	}
 
 	public int getID() {
-			return 2;
+			return 3;
 	}
 }

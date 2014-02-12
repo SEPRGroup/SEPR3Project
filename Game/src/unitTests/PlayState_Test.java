@@ -1,10 +1,12 @@
-package states;
+package unitTests;
 
 import static org.junit.Assert.*;
 import logicClasses.Airspace;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import states.PlayState;
 
 public class PlayState_Test {
 	private Airspace airspaceInstance;

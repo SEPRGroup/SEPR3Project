@@ -161,7 +161,7 @@ public class ControlsState extends BasicGameState {
 	}
 
 	public int getID(){
-		return 5;
+		return 6;
 	}
 	
 	

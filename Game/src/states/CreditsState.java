@@ -88,7 +88,7 @@ public class CreditsState extends BasicGameState {
 	}
 
 	public int getID(){
-		return 4;
+		return 5;
 	}
 	
 	

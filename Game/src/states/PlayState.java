@@ -20,7 +20,7 @@ public class PlayState extends BasicGameState {
 
 	private Airspace airspace;
 	// added in state field 
-	private int state;
+
 	Image cursorImg;
 	public static float time;
 	private Sound endOfGameSound;
@@ -31,8 +31,7 @@ public class PlayState extends BasicGameState {
 	private boolean settingDifficulty, gameEnded;
 
 	public PlayState(int state) {
-		// Initialised the state so it can be dynamically returned
-		this.state = state;
+		
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -292,7 +291,7 @@ public class PlayState extends BasicGameState {
 
 
 	public int getID() {
-		return state;
+		return 2;
 	}
 
 	public Airspace getAirspace() {

@@ -150,6 +150,6 @@ public class PauseState extends BasicGameState {
 	}
 	
 	public int getID(){
-		return 3;
+		return 4;
 	}
 }
