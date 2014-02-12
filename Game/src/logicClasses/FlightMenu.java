@@ -3,6 +3,8 @@ package logicClasses;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import static java.lang.Math.PI;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -28,10 +30,10 @@ public class FlightMenu implements MouseListener{
 		altBase, speedBase, headingBase, aIndicator, aIndicatorSelect,
 		aButton, aButtonSelect;
 	private TrueTypeFont
-		aLabelFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 10), false),
-		aButtonFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 11), false);
+		labelFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 10), false),
+		buttonFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 11), false);
 	private Color
-		aLabelColor = Color.white, aButtonColor = Color.white;
+		labelColor = Color.white, buttonColor = Color.white;
 	
 	private Point2D.Float	//cached graphics position data
 		altPos, speedPos, headingPos, cmdPos, abortPos,
@@ -43,7 +45,7 @@ public class FlightMenu implements MouseListener{
 	private int mode = NONE;	//active subcomponent
 	private static final int
 		NONE = 0, ALT = 1, SPEED = 2, HEADING = 3, CMD = 4, ABORT = 5;
-	private double	//indicator positions
+	private double	//normalised indicator positions, range 0-1	|	heading in radians
 		altIndicator, speedIndicator, headingIndicator;
 
 
@@ -96,10 +98,10 @@ public class FlightMenu implements MouseListener{
 			drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
 				//account for image mispositioning after rotation
 			drawString(String.valueOf(Controls.MINIMUMALTITUDE),
-			           aLabelFont, aLabelColor,
+			           labelFont, labelColor,
 			           altPos.x +sliderWidth, altPos.y +altSize);	//centred on bottom right edge of slider 
 			drawString(String.valueOf(Controls.MAXIMUMALTITUDE),
-			           aLabelFont, aLabelColor,
+			           labelFont, labelColor,
 			           altPos.x +sliderWidth, altPos.y);	//centred on top right edge of slider
 			if (ALT == mode)
 				drawImage(aIndicatorSelect, altIndicatorPos);
@@ -108,10 +110,10 @@ public class FlightMenu implements MouseListener{
 			//draw speed slider and labels
 			drawImage(speedBase, speedPos);
 			drawString(String.valueOf(200),	//{!} No variables to use for numbers yet
-			           aLabelFont, aLabelColor,
+			           labelFont, labelColor,
 			           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
 			drawString(String.valueOf(400),	//{!} No variables to use for numbers yet
-			           aLabelFont, aLabelColor,
+			           labelFont, labelColor,
 			           speedPos.x +speedSize, speedPos.y +sliderWidth);	//centred on bottom right edge of slider
 			if (SPEED == mode)
 				drawImage(aIndicatorSelect, speedIndicatorPos);
@@ -132,7 +134,7 @@ public class FlightMenu implements MouseListener{
 				if (flight.getAltitude()==0)
 					cmdString = "Take Off";
 				else cmdString = "Land";
-				drawString(cmdString, aButtonFont, aButtonColor, 
+				drawString(cmdString, buttonFont, buttonColor, 
 				           cmdPos.x +(buttonWidth/2.0f), cmdPos.y +(buttonHeight/2.0f));
 			}
 
@@ -140,7 +142,7 @@ public class FlightMenu implements MouseListener{
 			if (ABORT == mode)
 				drawImage(aButtonSelect, abortPos);
 			else drawImage(aButton, abortPos);
-			drawString("Abort", aButtonFont, aButtonColor, 
+			drawString("Abort", buttonFont, buttonColor, 
 			           abortPos.x +(buttonWidth/2.0f), abortPos.y +(buttonHeight/2.0f));
 			
 		}
@@ -187,24 +189,27 @@ public class FlightMenu implements MouseListener{
 
 			altIndicatorPos.setLocation(
 					altPos.x +sr -ir,
-					altPos.y +(altSize*(1-normalScale(Controls.MINIMUMALTITUDE,
-					                                  Controls.MAXIMUMALTITUDE, 
-					                                  altIndicator )) -ir));
+					altPos.y +multScale(altSize, 0, altIndicator) -ir);
+			
 
 			speedIndicatorPos.setLocation(
-					speedPos.x +(speedSize*normalScale(200,400, speedIndicator) -ir),
-						//{!} no variables to use speed yet
+					speedPos.x +multScale(0, speedSize, speedIndicator) -ir,	
 					speedPos.y +sr -ir);
 
 			headingIndicatorPos.setLocation(
-					(br-sr)*Math.sin(Math.toRadians(headingIndicator)) -ir,
-					(br-sr)*-Math.cos(Math.toRadians(headingIndicator)) -ir);
+					(br-sr)*Math.sin(headingIndicator) -ir,
+					(br-sr)*-Math.cos(headingIndicator) -ir);
 		}
 	}
 
 	private double normalScale(double min, double max, double pos){
 		//return the position of pos on the scale min-max, normalised to 0-1
 		return (pos-min) / (max-min);
+	}
+	
+	private double multScale(double min, double max, double normPos){
+		//return the actual position on the scale min-max, of normalised position normPos
+		return min +(normPos * (max - min));
 	}
 	
 	private Boolean inButton(Point2D pos, int mouseX, int mouseY){
@@ -216,35 +221,48 @@ public class FlightMenu implements MouseListener{
 
 		return (mouseX>x && mouseX<(x+buttonWidth) && 
 				mouseY>y && mouseY<(y+buttonHeight));
+	}
+	
+	private Boolean inIndicator(Point2D pos, int mouseX, int mouseY){
+		int	x = (int)Math.floor(pos.getX()),
+			y = (int)Math.floor(pos.getY());
+		//normalise to internal coordinates
+		mouseX -= flight.getX();
+		mouseY -= flight.getY();
 
+		return (mouseX>x && mouseX<(x+indicatorSize) && 
+				mouseY>y && mouseY<(y+indicatorSize));
 	}
 
 	private void eventTargetSpeed(double speed){
-		System.out.println(String.format("speed := %1$3d", speed));
-		setIndicatorPos();
+		System.out.println(String.format("speed := %1$3f", speed));
+		//{!} nothing available to change at this time
 	}
 
 	private void eventTargetAltitude(double altitude){
-		System.out.println(String.format("altitude := %1$4d", altitude));
-		setIndicatorPos();
+		System.out.println(String.format("altitude := %1$4f", altitude));
+		flight.setTargetAltitude((int)Math.round(altitude));
 	}
 
 	private void eventTargetHeading(double heading){
-		System.out.println(String.format("altitude := %1$3d", heading));
-		setIndicatorPos();
+		int targetHeading = (int)(Math.round(Math.toDegrees(heading)));
+		System.out.println(String.format("heading := %1$3d", targetHeading));
+		flight.giveHeading(targetHeading);	//NOT setTargetHeading
 	}
 
 	private void eventAbort(){
 		System.out.println("abort");
-		setIndicatorPos();
+		//{!} set flight parameters
 	}
 
 	private void eventLand(){
 		System.out.println("land");
+		//{!} set flight parameters
 	}
 
 	private void eventTakeoff(){
 		System.out.println("takeoff");
+		//{!} set flight parameters
 	}
 
 
@@ -326,13 +344,43 @@ public class FlightMenu implements MouseListener{
 		position();
 	}
 
+	public TrueTypeFont getLabelFont() {
+		return labelFont;
+	}
+	public void setLabelFont(TrueTypeFont labelFont) {
+		this.labelFont = labelFont;
+	}
+
+	public TrueTypeFont getButtonFont() {
+		return buttonFont;
+	}
+	public void setButtonFont(TrueTypeFont buttonFont) {
+		this.buttonFont = buttonFont;
+	}
+
+	public Color getLabelColor() {
+		return labelColor;
+	}
+	public void setLabelColor(Color labelColor) {
+		this.labelColor = labelColor;
+	}
+
+	public Color getButtonColor() {
+		return buttonColor;
+	}
+	public void setButtonColor(Color buttonColor) {
+		this.buttonColor = buttonColor;
+	}
+
 	public void setFlight(Flight flight) {
 		mode = NONE;
 		this.flight = flight;
 		if (flight != null){
-			altIndicator = flight.getTargetAltitude();
-			speedIndicator = flight.getFlightPlan().getVelocity();	//{!}
-			headingIndicator = flight.getTargetHeading();
+			altIndicator = normalScale(Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE,
+			                           flight.getTargetAltitude());
+			speedIndicator = normalScale(200, 400,
+			                             flight.getFlightPlan().getVelocity());	//{!}	no variables available
+			headingIndicator = Math.toRadians(flight.getTargetHeading());
 			setIndicatorPos();
 		}
 	}
@@ -368,15 +416,36 @@ public class FlightMenu implements MouseListener{
 			break;
 			
 		//reposition sliders
-		case ALT:
-			
-			break;
-		case SPEED:
-			
-			break;
-		case HEADING:
-			
-			break;
+		case ALT: {
+			//calculate y position relative to top of scale
+			int y = (int)Math.round( newy -flight.getY() -altPos.y);
+			//cap y to within bounds of scale
+			y = (y <= 0) ? 0 : y;
+			y = (y >= altSize) ? altSize : y;
+			altIndicator = normalScale(altSize, 0, y);	//invert scale direction
+			setIndicatorPos();
+		}
+		break;
+		case SPEED: {
+			//calculate x position relative to left of scale
+			int x = (int)Math.round( newx -flight.getX() -speedPos.x);
+			//cap x to within bounds of scale
+			x = (x <= 0) ? 0 : x;
+			x = (x >= speedSize) ? speedSize : x;
+			speedIndicator = normalScale(0, speedSize, x);
+			setIndicatorPos();
+		}
+		break;
+		case HEADING: {
+			double
+				x = newx -flight.getX(),
+				y = newy -flight.getY();
+			headingIndicator = Math.atan2(y, x) +PI/2;	//correct for polar coordinates
+			headingIndicator = 
+					(headingIndicator < 0) ? headingIndicator+(2*PI) : headingIndicator;
+			setIndicatorPos();
+		}
+		break;
 			
 		//check if should invalidate button presses
 		case CMD:
@@ -398,7 +467,13 @@ public class FlightMenu implements MouseListener{
 		if (Input.MOUSE_LEFT_BUTTON == button){
 			//System.out.println("Mouse pressed");
 			//check for which component button is in
-			//{!}
+			mode = NONE;
+			if (inIndicator(altIndicatorPos, x, y))
+				mode = ALT;
+			if (inIndicator(speedIndicatorPos, x, y))
+				mode = SPEED;
+			if (inIndicator(headingIndicatorPos, x, y))
+				mode = HEADING;
 			if (inButton(cmdPos, x, y))
 				mode = CMD;
 			if (inButton(abortPos, x, y))
@@ -416,19 +491,18 @@ public class FlightMenu implements MouseListener{
 				
 			//release sliders
 			case ALT:
-				
+				eventTargetAltitude(altIndicator);
 				break;
 			case SPEED:
-				
+				eventTargetSpeed(speedIndicator);
 				break;
 			case HEADING:
-				
+				eventTargetHeading(headingIndicator);
 				break;
 				
 			//release buttons
 			case CMD:
-				//interpret context
-				if (flight.getAltitude() == 0)
+				if (flight.getAltitude() == 0)	//interpret context
 					eventTakeoff();
 				else eventLand();
 				break;
@@ -437,6 +511,7 @@ public class FlightMenu implements MouseListener{
 				break;				
 			}
 			mode = NONE;
+			setIndicatorPos();
 		}
 	}
 
