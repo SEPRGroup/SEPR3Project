@@ -1,8 +1,12 @@
 package logicClasses;
+import java.io.IOException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 
 
 
@@ -19,7 +23,23 @@ public class Airport {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
-		airportImage = new Image("res/graphics/airport.png");
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    airportImage = new Image("res/graphics/airport.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+            }
+
+            public String getDescription() {
+                return "airport image";
+            }
+			
+		});
+		
 	}
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException { 

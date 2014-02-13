@@ -1,9 +1,13 @@
 package logicClasses;
 
+import java.io.IOException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 
 
 public class EntryPoint extends Point {
@@ -23,11 +27,62 @@ public class EntryPoint extends Point {
      */
     	
     	if (entryPointTop == null)
-    		entryPointTop = new Image("res/graphics/entrypoint_top.png");
+    		LoadingList.get().add(new DeferredResource(){
+    			public void load() throws IOException{
+    				
+                    try { 
+                        //create the resource
+                        //loads immediately since deferred loading is OFF
+                        entryPointTop = new Image("res/graphics/entrypoint_top.png");
+                    } catch (SlickException e) {
+                        throw new IOException("error loading image");
+                    }
+                    
+                }
+
+                public String getDescription() {
+                    return "entry point top image";
+                }
+    			
+    		});
     	if (entryPointRight == null)
-    		entryPointRight = new Image("res/graphics/entrypoint_right.png");
+    		LoadingList.get().add(new DeferredResource(){
+    			public void load() throws IOException{
+    				
+                    try { 
+                        //create the resource
+                        //loads immediately since deferred loading is OFF
+                        entryPointRight = new Image("res/graphics/entrypoint_right.png");
+                    } catch (SlickException e) {
+                        throw new IOException("error loading image");
+                    }
+                  
+                }
+
+                public String getDescription() {
+                    return "entry point right image";
+                }
+       		});
+    		
     	if (entryPointLeft == null)
-    		entryPointLeft = new Image("res/graphics/entrypoint_left.png");
+    		LoadingList.get().add(new DeferredResource(){
+    			public void load() throws IOException{
+                    try { 
+                        //create the resource
+                        //loads immediately since deferred loading is OFF
+                        entryPointLeft = new Image("res/graphics/entrypoint_left.png");
+                    } catch (SlickException e) {
+                        throw new IOException("error loading image");
+                    }
+                    //reset the loading back to what it was before
+                   
+                }
+
+                public String getDescription() {
+                    return "entry point left image";
+                }
+    			
+    		});
 
 	}
     

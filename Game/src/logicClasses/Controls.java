@@ -1,5 +1,6 @@
 package logicClasses;
 import java.awt.Font;
+import java.io.IOException;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -9,6 +10,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.GameContainer;
 
 public class Controls {
@@ -51,8 +54,45 @@ public class Controls {
 		turnLeftTextBox.setMaxLength(3); //Makes sure that user cannot enter more than three letters as a heading (360 is max)
 		turnRightTextBox.setMaxLength(3);
 		headingControlTextBox.setMaxLength(3);
-		altitudeButton = new Image("res/graphics/altitudebutton.png");
-		changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                	altitudeButton = new Image("res/graphics/altitudebutton.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                //reset the loading back to what it was before
+               
+            }
+
+            public String getDescription() {
+                return "altitude button image";
+            }
+			
+		});
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                	changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                //reset the loading back to what it was before
+               
+            }
+
+            public String getDescription() {
+                return "change plan button image";
+            }
+			
+		});
+		
+		
 		
 		menu = new FlightMenu();
 		menu.init();

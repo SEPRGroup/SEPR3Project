@@ -1,10 +1,14 @@
 package logicClasses;
 
+import java.io.IOException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 
 public class Waypoint extends Point {
 
@@ -27,9 +31,45 @@ public class Waypoint extends Point {
 
 	public void init(GameContainer gc) throws SlickException {
 		if (waypointImage == null)
-			waypointImage =new Image("res/graphics/waypoint.png"); 
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+				
+	                try { 
+	                    //create the resource
+	                    //loads immediately since deferred loading is OFF
+	                    waypointImage = new Image("res/graphics/waypoint.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+
+	            public String getDescription() {
+	                return "airport image";
+	            }
+				
+			});
+			
 		if (nextWaypointImage == null)
-			nextWaypointImage =  new Image("res/graphics/waypoint_next.png");
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    //loads immediately since deferred loading is OFF
+	                    nextWaypointImage = new Image("res/graphics/waypoint_next.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                //reset the loading back to what it was before
+	              
+	            }
+
+	            public String getDescription() {
+	                return "airport image";
+	            }
+				
+			});
 	}
 
 	/**

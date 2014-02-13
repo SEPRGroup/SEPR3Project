@@ -15,7 +15,7 @@ public class Flight {
 	private boolean turningRight, turningLeft;
 	private String flightName;
 	private FlightPlan flightPlan;
-	private Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
+	static Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
 	private boolean selected;
 	private Airspace airspace;
 
@@ -373,12 +373,21 @@ public class Flight {
 	 */
 	
 	public void init(GameContainer gc) throws SlickException {
-		
-		this.regularFlightImage = new Image("res/graphics/flight.png");
-		this.shadowImage = new Image("res/graphics/flight_shadow.png");
-		this.slowFlightImage = new Image("res/graphics/flight_slow.png");
-		this.fastFlightImage = new Image("res/graphics/flight_fast.png");
-		this.selectedFlightInformationBackgroundImage = new Image("res/graphics/selected_flight2.jpg");
+		if (regularFlightImage == null){
+			regularFlightImage = new Image("res/graphics/flight.png");
+		}
+		if(shadowImage == null){
+			shadowImage = new Image("res/graphics/flight_shadow.png");	
+		}
+		if (slowFlightImage == null){
+			slowFlightImage = new Image("res/graphics/flight_slow.png");
+		}
+		if (fastFlightImage == null){
+			fastFlightImage = new Image("res/graphics/flight_fast.png");
+		}
+		if (selectedFlightInformationBackgroundImage == null){
+			selectedFlightInformationBackgroundImage = new Image("res/graphics/selected_flight2.jpg");
+		}
 
 	}
 	
