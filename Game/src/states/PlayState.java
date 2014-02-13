@@ -31,7 +31,7 @@ public class PlayState extends BasicGameState {
 		controlBarImage, clockImage, cursorImg;
 	private static Sound endOfGameSound;
 	private static Music gameplayMusic;
-	public static TrueTypeFont font;	
+	private static TrueTypeFont font;	
 	public static float time;
 
 	private Airspace airspace;
@@ -338,8 +338,7 @@ public class PlayState extends BasicGameState {
 
 			if (posX>100 && posX<216 && posY>300 && posY<354)
 				easyHover.draw(100,300);
-			else 
-				easyButton.draw(100,300);
+			else easyButton.draw(100,300);
 			
 			if (posX>100 && posX<284 && posY>400 && posY<454)
 				mediumHover.draw(100,400);

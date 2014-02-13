@@ -242,7 +242,7 @@ public class Flight {
 	
 	public void drawSelectedFlightInformation(Graphics g, GameContainer gc) {
 		
-		this.selectedFlightInformationBackgroundImage.draw(0,450);
+		selectedFlightInformationBackgroundImage.draw(0,450);
 		g.setColor(Color.white);
 		g.drawString(this.flightName,  10, 460);
 		g.drawString("Plan: ",  10, 480);
@@ -413,7 +413,7 @@ public class Flight {
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		
-		this.drawFlight(g,  gc);
+		this.drawFlight(g, gc);
 		this.flightPlan.render(g,gc);
 
 		if(this.selected) {

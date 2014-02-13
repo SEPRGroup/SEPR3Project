@@ -1,7 +1,9 @@
 package stateContainer;
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 import states.GameOverState;
 import states.MenuState;
@@ -14,16 +16,19 @@ import states.SplashScreen;
 public class Game extends StateBasedGame {
 
 	public static final String NAME = "Turbulence";
-	public static final int SPLASHSTATE = 0;
-	public static final int MENUSTATE = 1;
-	public static final int PLAYSTATE = 2;
-	public static final int GAMEOVERSTATE = 3;
-	public static final int PAUSESTATE = 4;
-	public static final int CREDITSSTATE = 5;
-	public static final int CONTROLSSTATE = 6;
 	
-	public static final int MAXIMUMWIDTH = 1200;
-	public static final int MAXIMUMHEIGHT = 600;
+	public static final int 
+		SPLASHSTATE = 0,
+		MENUSTATE = 1,
+	 	PLAYSTATE = 2,
+		GAMEOVERSTATE = 3,
+		PAUSESTATE = 4,
+		CREDITSSTATE = 5,
+		CONTROLSSTATE = 6;
+	
+	public static final int 
+		MAXIMUMWIDTH = 1200, MAXIMUMHEIGHT = 600;
+
 
 	/**
 	 * Adds all states to a container 
@@ -32,18 +37,19 @@ public class Game extends StateBasedGame {
 
 	public Game(String NAME) {
 		super(NAME);
-		this.addState(new SplashScreen(SPLASHSTATE));
-		this.addState(new MenuState(MENUSTATE));
-		this.addState(new PlayState(PLAYSTATE));
-		this.addState(new GameOverState(GAMEOVERSTATE));
-		this.addState(new PauseState(PAUSESTATE));
-		this.addState(new CreditsState(CREDITSSTATE));
-		this.addState(new ControlsState(CONTROLSSTATE));
-		this.enterState(SPLASHSTATE);
 	}
 
-	public void initStatesList(GameContainer gc) throws SlickException {	
-
+	@Override
+	public void initStatesList(GameContainer gc) throws SlickException {
+		
+		addState(new SplashScreen(SPLASHSTATE));
+		enterState(SPLASHSTATE);
+		addState(new MenuState(MENUSTATE));
+		addState(new PlayState(PLAYSTATE));
+		addState(new GameOverState(GAMEOVERSTATE));
+		addState(new PauseState(PAUSESTATE));
+		addState(new CreditsState(CREDITSSTATE));
+		addState(new ControlsState(CONTROLSSTATE));
 	}
 
 	public static void main(String[] args) {

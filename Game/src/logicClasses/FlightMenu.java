@@ -233,12 +233,15 @@ public class FlightMenu implements MouseListener{
 	}
 
 	private void eventTargetAltitude(double altitude){
-		System.out.println(String.format("altitude := %1$4f", altitude));
-		flight.setTargetAltitude((int)Math.round(altitude));
+		int targetAltitude = (int)Math.round(
+				multScale(Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE, altitude));
+		System.out.println(String.format("altitude := %1$4d", targetAltitude));
+		flight.setTargetAltitude((int)Math.round(targetAltitude));
 	}
 	
 	private void eventTargetSpeed(double speed){
-		System.out.println(String.format("speed := %1$3f", speed));
+		double targetSpeed = multScale(200, 400, speed);
+		System.out.println(String.format("speed := %1$3f", targetSpeed));
 		//{!} nothing available to change at this time
 	}
 	

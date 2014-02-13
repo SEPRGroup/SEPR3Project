@@ -13,7 +13,7 @@ public class ExitPoint extends Point {
 	public ExitPoint(double xcoord, double ycoord, String name){
 		super(xcoord, ycoord, name);
 
-		System.out.println("ExitPoint " + pointRef + " set:(" + x + "," + y +").");
+		//System.out.println("ExitPoint " + pointRef + " set:(" + x + "," + y +").");
 	}
 
 	/**
