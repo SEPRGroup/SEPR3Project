@@ -1,19 +1,30 @@
 package states;
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
 
 
 public class GameOverState extends BasicGameState {
 	
-	private Image gameOverBackground, playAgainButton, quitButton, menuButton;
-	private Image playAgainHover, quitHover, menuHover;
+	private static Image 
+		quitButton, menuButton, playAgainButton,   
+		quitHover, menuHover, playAgainHover,
+		gameOverBackground;
+	
 	
 	public GameOverState(int state) {
 		
 	}
 	
+	
+	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 				throws SlickException {
 		
@@ -26,63 +37,56 @@ public class GameOverState extends BasicGameState {
 		menuHover = new Image("res/menu_graphics/menu_hover.png");
 	}
 
+	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 				throws SlickException{
 		
 		gameOverBackground.draw(0,0);
 		
-		int posX=Mouse.getX();
-		int flippedposY=Mouse.getY();
-		//Fixing posY to reflect graphics coords
-		int posY = 600 - flippedposY;
+		int	posX = Mouse.getX();
+		int posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
+			//Fixing posY to reflect graphics coords
 		
-		if (posX>728&&posX<844&&posY>380&&posY<426){
+		if (posX>728&&posX<844&&posY>380&&posY<426)
 			menuHover.draw(728,380);
-		} else {
-			menuButton.draw(728,380);
-		}
+		else menuButton.draw(728,380);
 		
-		if (posX>354&&posX<582&&posY>380&&posY<424){
+		if (posX>354&&posX<582&&posY>380&&posY<424)
 			playAgainHover.draw(354,380);
-		} else {
-			playAgainButton.draw(354,380);
-		}
+		else playAgainButton.draw(354,380);
 		
-		if ((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)){
+		if ((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580))
 			quitHover.draw(1148,556);
-		} else {
-			quitButton.draw(1148,556);
-		}
+		else quitButton.draw(1148,556);
 		
 		g.setColor(Color.white);
 	}
 
+	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)throws SlickException {
 		
-		int posX=Mouse.getX();
-		int posY=Mouse.getY();
+		int posX = Mouse.getX(),
+			posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
 		
-		posY = 600 - posY;
-		
-		if(posX>354&&posX<582&&posY>380&&posY<424&&Mouse.isButtonDown(0)) {
-			sbg.enterState(1);
-		}
-		
-		if(posX>728&&posX<844&&posY>380&&posY<426&&Mouse.isButtonDown(0)) { // 116 46
-			sbg.enterState(0);
-		}
-		
-		if((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)) {
-			if(Mouse.isButtonDown(0)) {
-				System.exit(0);
+
+		if (Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			if(posX>354&&posX<582&&posY>380&&posY<424) {
+				sbg.enterState(stateContainer.Game.PLAYSTATE);
 			}
 			
+			if(posX>728&&posX<844&&posY>380&&posY<426) { // 116 46
+				sbg.enterState(stateContainer.Game.MENUSTATE);
+			}
+			
+			if((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580)) {
+				System.exit(0);
+			}
 		}
-		else {
-		}
+		
 	}
 
+	@Override
 	public int getID() {
-			return 3;
+		return stateContainer.Game.GAMEOVERSTATE;
 	}
 }
