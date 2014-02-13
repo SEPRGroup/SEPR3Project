@@ -1,95 +1,117 @@
 package states;
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+//import java.awt.Font;
+//import java.io.InputStream;
+
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+//import org.newdawn.slick.util.ResourceLoader;
 
 
 public class CreditsState extends BasicGameState {
 	
-	private Image menuBackground, menuButton, menuHover;
+	private static Image
+		menuButton, menuHover, menuBackground;
+	//private static TrueTypeFont font;
+	
+	private String[][] credits;	//[section, line]
 
+	
 	public CreditsState(int state){
 		
 	}
 	
+	
+	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-	
-	menuBackground = new Image("res/menu_graphics/menu_screen.png");
-	menuButton = new Image("res/menu_graphics/menu_button.png");
-	menuHover = new Image("res/menu_graphics/menu_hover.png");
-	
+
+		menuBackground = new Image("res/menu_graphics/menu_screen.png");
+		menuButton = new Image("res/menu_graphics/menu_button.png");
+		menuHover = new Image("res/menu_graphics/menu_hover.png");
+		
+		/*try {
+			Font awtFont = new Font("Courier New", Font.PLAIN, 20);
+			font = new TrueTypeFont(awtFont, false);
+		} catch(Exception e){
+			e.printStackTrace();
+		}*/
+
+		credits = new String[][] {
+				{"Music Assets",
+					"\"Jarvic 8\" Kevin MacLeod (incompetech.com)",
+					"Licensed under Creative Commons: By Attribution 3.0",
+					"http://creativecommons.org/licenses/by/3.0/"
+				},
+				{"Images",
+					"Background image attributed to Rijksdienst voor het Cultureel Erfgoed",
+					"This files are licensed under the Creative Commons Attribution-Share Alike 3.0 Netherlands license.",
+					"Clouds image attirubted to Keith Pomakis"
+				}				
+		};
 	}
 
+	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException{
 		
-		int posX=Mouse.getX();
-		int flippedposY=Mouse.getY();
-		//Fixing posY to reflect graphics coords
-		int posY = 600 - flippedposY;
+		int posX = Mouse.getX();
+		int posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
+			//Fixing posY to reflect graphics coords
 	
 		menuBackground.draw(0,0);
 		
-		if (posX>20 && posX< 136 && posY>20 && posY<66){
+		if (posX>20 && posX< 136 && posY>20 && posY<66)
 			menuHover.draw(20,20);
-		} else {
-			menuButton.draw(20,20);
-		}
+		else menuButton.draw(20,20);
 		
-		g.setColor(new Color(250, 235, 215, 50));
+		//draw background panel
+		g.setColor(new Color(250, 235, 215, 50));	//pale orange, semi-transparent
 		g.fillRoundRect (50, 230, 1100, 320, 5);
-		
-		g.setColor(Color.white);
-		//setting text for credits
-		String Title = "Music Assets";
-		String MusicAssetsL1 = "\"Jarvic 8\" Kevin MacLeod (incompetech.com)";
-		String MusicAssetsL3 = "Licensed under Creative Commons: By Attribution 3.0";
-		String MusicAssetsL4 = "http://creativecommons.org/licenses/by/3.0/";
-		
-		String Title2 = "Images";
-		String Image2 = "Background image attirubted to Rijksdienst voor het Cultureel Erfgoed";
-		String Image3 = "This files are licensed under the Creative Commons Attribution-Share Alike 3.0 Netherlands license.";
-		
-		String Image4 = "Clouds image attirubted to Keith Pomakis";
-		
-
-
-		
-		g.drawString(Title, 60f, 240f);
-		g.drawString(MusicAssetsL1, 60f, 255f);
-		g.drawString(MusicAssetsL3, 60f, 270f);
-		g.drawString(MusicAssetsL4, 60f, 285f);
-		
-		
-		g.drawString(MusicAssetsL3, 60f, 345f);
-		g.drawString(MusicAssetsL4, 60f, 360f);
-		
-		g.drawString(Title2, 60f, 405f);
-		g.drawString(Image2, 60f, 420f);
-		g.drawString(Image4, 60f, 435f);
-		g.drawString(Image3, 60f, 450f);
+				
+		{	//draw credits screen
+			g.setColor(Color.white);
+			int y = 240;
+			for (String[] section: credits){
+				for (String line: section){
+					//font.drawString(60, y, line);
+					g.drawString(line, 60, y);
+					y += 15;
+				}
+				y += 30;
+			}
+		}
 		
 	}
 
+	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 	
-		int posX=Mouse.getX();
-		int flippedposY=Mouse.getY();
-		//Fixing posY to reflect graphics coords
-		int posY = 600 - flippedposY;
+		int posX = Mouse.getX();
+		int posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
+			//Fixing posY to reflect graphics coords
 	
-		if((posX>20 && posX< 136 && posY>20 && posY<66) && Mouse.isButtonDown(0)) {
-			sbg.enterState(0);
-		}
-	
+		if (Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			
+			if (posX>20 && posX<136 && posY>20 && posY<66) {
+				sbg.enterState(stateContainer.Game.MENUSTATE);
+			}
+		}	
+		
 	}
 
+	@Override
 	public int getID(){
-		return 5;
-	}
-	
+		return stateContainer.Game.CREDITSSTATE;
+	}	
 	
 }
