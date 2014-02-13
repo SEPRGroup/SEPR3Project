@@ -1,19 +1,26 @@
 package states;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+
 import org.lwjgl.input.Mouse;
-import java.awt.Font;
-import java.io.InputStream;
-import org.newdawn.slick.util.ResourceLoader;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
 
 
 public class MenuState extends BasicGameState {
 	public static TrueTypeFont font;
-	private Image creditsHover, controlsHover, menuBackground, playButton, quitButton, playHover, quitHover, creditsButton, controlsButton;
+	private static Image 
+		menuBackground,
+		playButton, quitButton, creditsButton, controlsButton, 
+		playHover, quitHover, creditsHover, controlsHover;
+	
 	private boolean mouseBeenReleased;
-
 
 	public MenuState(int state) {
 		this.mouseBeenReleased=false;
@@ -31,8 +38,6 @@ public class MenuState extends BasicGameState {
 		creditsHover = new Image("res/menu_graphics/credits_hover.png");
 		controlsButton = new Image("res/menu_graphics/controls_silver.png");
 		controlsHover = new Image("res/menu_graphics/controls_hover.png");
-
-
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
@@ -41,9 +46,8 @@ public class MenuState extends BasicGameState {
 		g.setFont(font);
 		menuBackground.draw(0,0);
 
-
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
+		int	posX = Mouse.getX(),
+			posY = Mouse.getY();
 
 		if ((posX > 439 && posX < 762) && (posY > 165 && posY < 255)){
 			playHover.draw(439,349);
@@ -78,53 +82,44 @@ public class MenuState extends BasicGameState {
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 
-		int posX = Mouse.getX();
-		int posY = Mouse.getY();
-
+		int	posX = Mouse.getX(),
+			posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
 		// Mapping Mouse coords onto graphics coords
-		posY = 600 - posY;
-		if(!this.mouseBeenReleased) {
-			if(!Mouse.isButtonDown(0)) {
-				this.mouseBeenReleased=true;
-			}
-		}
-		if (Mouse.isButtonDown(0)) {
+
+		/*if (Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			System.out.println(posX);
 			System.out.println(posY);
-		}
-		if(this.mouseBeenReleased){
-			if ((posX > 439 && posX < 762) && (posY > 349 && posY < 439)) {
+		}*/
+		
+		if (Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) {	
+			if(mouseBeenReleased){	//button first pressed
+				mouseBeenReleased = false;
 				
-				if (Mouse.isButtonDown(0)) {
-					this.mouseBeenReleased=false;
-					sbg.enterState(2);
+				if ((posX > 439 && posX < 762) && (posY > 349 && posY < 439)) {
+					sbg.enterState(stateContainer.Game.PLAYSTATE);
 				}
+				
+				if ((posX > 490 && posX < 725) && (posY > 534 && posY < 596)) {
+					sbg.enterState(stateContainer.Game.CONTROLSSTATE);
+				} 
 
-			} 
-
-			if ((posX > 490 && posX < 725) && (posY > 534 && posY < 596)) {
-				if (Mouse.isButtonDown(0)) {
-					this.mouseBeenReleased=false;
-					sbg.enterState(6);
-				}
-
-			} 
-
-			if ((posX > 1148 && posX < 1172) && (posY > 556 && posY < 582)) {
-				if (Mouse.isButtonDown(0)) {
+				if ((posX > 1148 && posX < 1172) && (posY > 556 && posY < 582)) {
 					System.exit(0);
 				}
-			}
 
-			if( (posX>20 && posX< 178 && posY>534 && posY<575) && Mouse.isButtonDown(0)) {
-				this.mouseBeenReleased=false;
-				sbg.enterState(5);
+				if( (posX>20 && posX< 178 && posY>534 && posY<575) ) {	
+					sbg.enterState(stateContainer.Game.CREDITSSTATE);
+				}
 			}
+			/* else mouse is dragged*/
+		}	
+		else if (!mouseBeenReleased){	//mouse just released
+			mouseBeenReleased = true;
 		}
 	}
 
 	public int getID() {
-		return 1;
+		return stateContainer.Game.MENUSTATE;
 	}
 
 }

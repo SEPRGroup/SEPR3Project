@@ -2,31 +2,37 @@ package states;
 
 import java.awt.Font;
 import java.io.InputStream;
-import java.math.*;
 
 import logicClasses.Airspace;
 
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.Image;
 
 
 public class PlayState extends BasicGameState {
+	private static Image 
+		easyButton, mediumButton,hardButton,  
+		easyHover, mediumHover, hardHover,  
+		backgroundImage, difficultyBackground,
+		controlBarImage, clockImage, cursorImg;
+	private static Sound endOfGameSound;
+	private static Music gameplayMusic;
+	public static TrueTypeFont font;	
+	public static float time;
 
 	private Airspace airspace;
 	// added in state field 
-
-	Image cursorImg;
-	public static float time;
-	private Sound endOfGameSound;
-	private Music gameplayMusic;
-	public static TrueTypeFont font;
-	private Image controlBarImage, clockImage, backgroundImage, difficultyBackground, easyButton, easyHover, mediumButton, mediumHover, hardButton, hardHover;
 	private String stringTime;
 	private boolean settingDifficulty, gameEnded;
 
@@ -34,6 +40,7 @@ public class PlayState extends BasicGameState {
 		
 	}
 
+	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		gameEnded = false;
@@ -50,27 +57,20 @@ public class PlayState extends BasicGameState {
 	
 		
 		// Font
-		
 		try{
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway_font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
-			font = new TrueTypeFont(awtFont, true);
-			
-			
+			font = new TrueTypeFont(awtFont, true);		
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 		// Music
-		
 		gameplayMusic = new Music("res/music/Jarvic 8.ogg");
 		endOfGameSound = new Sound("res/music/175385__digitaldominic__scream.wav");
 	
-		
-		
 		//Images
-		
 		controlBarImage = new Image("res/graphics/control_bar_vertical.png");
 		clockImage = new Image("res/graphics/clock.png");
 		backgroundImage = new Image("res/graphics/background.png");
@@ -83,7 +83,6 @@ public class PlayState extends BasicGameState {
 		hardHover = new Image("res/menu_graphics/hard_hover.png");
 		
 		//initialise the airspace object;
-		
 		
     	//Waypoints
     	airspace.newWaypoint(350, 150, "A");
@@ -104,48 +103,40 @@ public class PlayState extends BasicGameState {
     	airspace.newExitPoint(800, 0, "1");
     	airspace.newExitPoint(150, 200, "2");
     	airspace.newExitPoint(1200, 300, "3");
+    	
     	airspace.init(gc);
-		
-
 	}
 
+	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		
 		// Checks whether the user is still choosing the difficulty
 		
 		if(settingDifficulty){
-			
+
 			int posX = Mouse.getX();
-			int flippedposY=Mouse.getY();
-			//Fixing posY to reflect graphics coords
-			int posY = 600 - flippedposY;
-			
+			int posY= stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
+				//Fixing posY to reflect graphics coords
+
 			difficultyBackground.draw(0,0);
 
-		if (posX>100 && posX<216 && posY>300 && posY<354){
-			easyHover.draw(100,300);
-		} else {
-			easyButton.draw(100,300);
-		}
-
-		if (posX>100 && posX<284 && posY>400 && posY<454){
-			mediumHover.draw(100,400);
-		} else {
-			mediumButton.draw(100,400);
-		}
-		
-		if (posX>100 && posX<227 && posY>500 && posY<554){
-			hardHover.draw(100,500);
-		} else {
-			hardButton.draw(100,500);
-		}		
-		}
-		
-		else{
-		
-			g.setFont(font);
+			if (posX>100 && posX<216 && posY>300 && posY<354)
+				easyHover.draw(100,300);
+			else 
+				easyButton.draw(100,300);
 			
+			if (posX>100 && posX<284 && posY>400 && posY<454)
+				mediumHover.draw(100,400);
+			else mediumButton.draw(100,400);
+			
+			if (posX>100 && posX<227 && posY>500 && posY<554)
+				hardHover.draw(100,500);
+			else hardButton.draw(100,500);
+		}
+		
+		else{	//main game
+			g.setFont(font);
 			
 			// Drawing Side Images
 			backgroundImage.draw(150,0);
@@ -154,8 +145,7 @@ public class PlayState extends BasicGameState {
 			// Drawing Airspace and elements within it
 			g.setColor(Color.white);
 			airspace.render(g, gc);
-			
-			
+					
 			// Drawing Clock and Time
 			g.setColor(Color.white);
 			clockImage.draw(0,5);
@@ -168,14 +158,14 @@ public class PlayState extends BasicGameState {
 		}	
 
 	}
-
+	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		
 		// Checks if the game has been retried and if it has resets the airspace
 		
 		if (gameEnded){
-			
+	
 			airspace.resetAirspace();
 	    	time = 0;
 	    	gameEnded = false;
@@ -188,42 +178,38 @@ public class PlayState extends BasicGameState {
 		if(settingDifficulty){
 		
 			int posX = Mouse.getX();
-			int posY = Mouse.getY();
+			int posY = stateContainer.Game.MAXIMUMHEIGHT -Mouse.getY();
 			
-			posY = 600-posY;
-			
-			if((posX>100&&posX<216) && (posY>300&&posY<354) && Mouse.isButtonDown(0)) {
+			if (Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+				if((posX>100&&posX<216) && (posY>300&&posY<354)) {
+					
+					airspace.setDifficultyValueOfGame(1);
+					airspace.getControls().setDifficultyValueOfGame(1);
+					airspace.createAndSetSeparationRules();
+					settingDifficulty = false;			
+				}
 				
-				airspace.setDifficultyValueOfGame(1);
-				airspace.getControls().setDifficultyValueOfGame(1);
-				airspace.createAndSetSeparationRules();
-				settingDifficulty = false;
+				
+				if((posX>100&&posX<284) && (posY>400&&posY<454)) {
+					
+					airspace.setDifficultyValueOfGame(2);
+					airspace.getControls().setDifficultyValueOfGame(2);
+					airspace.createAndSetSeparationRules();
+					settingDifficulty = false;	
+				}
 				
 				
+				if((posX>100&&posX<227) && (posY>500&&posY<554)) {
+					
+					airspace.setDifficultyValueOfGame(3);
+					airspace.getControls().setDifficultyValueOfGame(3);
+					airspace.createAndSetSeparationRules();
+					settingDifficulty = false;
+				}	
 			}
-			
-			
-			if((posX>100&&posX<284) && (posY>400&&posY<454) && Mouse.isButtonDown(0)) {
-				
-				airspace.setDifficultyValueOfGame(2);
-				airspace.getControls().setDifficultyValueOfGame(2);
-				airspace.createAndSetSeparationRules();
-				settingDifficulty = false;
-				
-			}
-			
-			
-			if((posX>100&&posX<227) && (posY>500&&posY<554) && Mouse.isButtonDown(0)) {
-				
-				airspace.setDifficultyValueOfGame(3);
-				airspace.getControls().setDifficultyValueOfGame(3);
-				airspace.createAndSetSeparationRules();
-				settingDifficulty = false;
-				
-			}			
 		}
 		
-		else{
+		else{	//main game
 			
 			// Updating Clock and Time
 			
@@ -236,8 +222,8 @@ public class PlayState extends BasicGameState {
 				
 			String stringMins="";
 			String stringSecs="";
-			if(secs==60){
-				secs=0;
+			if(secs>=60){
+				secs -= 60;
 				mins+=1;
 				// {!} should do +60 score every minute(possibly) 
 				//     - after 3 minutes adds on 2 less points every time?
@@ -268,7 +254,7 @@ public class PlayState extends BasicGameState {
 				airspace.resetAirspace();
 				gameplayMusic.stop();
 				endOfGameSound.play();
-				sbg.enterState(2);
+				sbg.enterState(stateContainer.Game.GAMEOVERSTATE);
 				gameEnded = true;
 							
 			}					
@@ -278,7 +264,7 @@ public class PlayState extends BasicGameState {
 			// Checking For Pause Screen requested in game
 						
 			if (input.isKeyPressed(Input.KEY_P)) {
-				sbg.enterState(3);
+				sbg.enterState(stateContainer.Game.PAUSESTATE);
 			}			
 						
 			if (!gameplayMusic.playing()){
@@ -290,8 +276,9 @@ public class PlayState extends BasicGameState {
 	}
 
 
+	@Override
 	public int getID() {
-		return 2;
+		return stateContainer.Game.PLAYSTATE;
 	}
 
 	public Airspace getAirspace() {
