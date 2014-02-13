@@ -23,6 +23,7 @@ public class SplashScreen extends BasicGameState {
 		
 	}
 	
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame s)
 			throws SlickException {
@@ -45,7 +46,6 @@ public class SplashScreen extends BasicGameState {
 					((loadFill.width * loading.getRemainingResources()) 
 							/ loading.getTotalResources());
 		
-		
 		g.setColor(Color.white);
 		g.fillRoundRect(loadBase.x, loadBase.y, 
 				loadBase.width, loadBase.height, oy/3);
@@ -54,26 +54,26 @@ public class SplashScreen extends BasicGameState {
 				loadFill.width, loadFill.height, oy/3);	
 	}
 	
-
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta)
 			throws SlickException {
 		
-		if (loading.getRemainingResources() == 0){
+		if (loading.getRemainingResources() == 0)
 			s.enterState(stateContainer.Game.MENUSTATE);
-		}
-		else try {
-			loading.getNext().load();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
+		else {
+			DeferredResource next = loading.getNext();
+			try {
+				next.load();
+			} catch (IOException e) {
+				System.out.println("Failed loading:\t" +next.getDescription());
+				e.printStackTrace();
+			}	
+		}		
 	}
 
 	@Override
 	public int getID() {
-		return 0;
-	}
-
-	
+		return stateContainer.Game.SPLASHSTATE;
+	}	
 	
 }
