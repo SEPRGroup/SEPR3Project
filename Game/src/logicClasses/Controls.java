@@ -59,12 +59,12 @@ public class Controls {
 			public void load() throws IOException{
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                 	altitudeButton = new Image("res/graphics/altitudebutton.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
                 }
-                //reset the loading back to what it was before
+                
                
             }
 
@@ -77,12 +77,12 @@ public class Controls {
 			public void load() throws IOException{
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                 	changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
                 }
-                //reset the loading back to what it was before
+                
                
             }
 

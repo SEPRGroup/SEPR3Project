@@ -1,9 +1,13 @@
 package logicClasses;
+import java.io.IOException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 
 
 public class ExitPoint extends Point {
@@ -24,12 +28,64 @@ public class ExitPoint extends Point {
 
 	public void init(GameContainer gc) throws SlickException {
 
-		if (exitPointTop == null)
-			exitPointTop = new Image("res/graphics/exitpoint_top.png");
-		if (exitPointRight == null)
-			exitPointRight = new Image("res/graphics/exitpoint_right.png");
-		if (exitPointLeft == null)
-			exitPointLeft = new Image("res/graphics/exitpoint_left.png");
+		if (exitPointTop == null){
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+	                try { 
+	                    //create the resource
+	                    
+	                	exitPointTop = new Image("res/graphics/exitpoint_top.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	               
+	            }
+
+	            public String getDescription() {
+	                return "exit point top image";
+	            }
+			});
+		}
+		if (exitPointRight == null){
+				LoadingList.get().add(new DeferredResource(){
+					public void load() throws IOException{
+		                try { 
+		                    //create the resource
+		                    
+		                	exitPointRight = new Image("res/graphics/exitpoint_right.png");
+		                } catch (SlickException e) {
+		                    throw new IOException("error loading image");
+		                }
+		                
+		               
+		            }
+
+		            public String getDescription() {
+		                return "exit point right image";
+		            }
+				});
+		}
+		if (exitPointLeft == null){
+				LoadingList.get().add(new DeferredResource(){
+					public void load() throws IOException{
+		                try { 
+		                    //create the resource
+		                    
+		                	exitPointLeft = new Image("res/graphics/exitpoint_left.png");
+		                } catch (SlickException e) {
+		                    throw new IOException("error loading image");
+		                }
+		                
+		               
+		            }
+
+		            public String getDescription() {
+		                return "exit point left image";
+		            }
+				});
+		}
+			
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class Airport {
 			public void load() throws IOException{
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     airportImage = new Image("res/graphics/airport.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");

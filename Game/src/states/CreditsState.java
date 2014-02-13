@@ -3,6 +3,8 @@ package states;
 //import java.awt.Font;
 //import java.io.InputStream;
 
+import java.io.IOException;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,6 +13,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 //import org.newdawn.slick.util.ResourceLoader;
@@ -33,10 +37,67 @@ public class CreditsState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+            		menuBackground = new Image("res/menu_graphics/menu_screen.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
 
-		menuBackground = new Image("res/menu_graphics/menu_screen.png");
-		menuButton = new Image("res/menu_graphics/menu_button.png");
-		menuHover = new Image("res/menu_graphics/menu_hover.png");
+            public String getDescription() {
+                return "menu background image";
+            }
+			
+		});
+
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	menuButton = new Image("res/menu_graphics/menu_button.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "menu button image";
+            }
+			
+		});
+	
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+            		menuHover = new Image("res/menu_graphics/menu_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "menu hover image";
+            }
+			
+		});
+
 		
 		/*try {
 			Font awtFont = new Font("Courier New", Font.PLAIN, 20);

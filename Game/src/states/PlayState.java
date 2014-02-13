@@ -75,7 +75,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     gameplayMusic = new Music("res/music/Jarvic 8.ogg");
                 } catch (SlickException e) {
                     throw new IOException("error loading music");
@@ -93,7 +93,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     endOfGameSound = new Sound("res/music/175385__digitaldominic__scream.wav");
                 } catch (SlickException e) {
                     throw new IOException("error loading sound");
@@ -113,7 +113,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     controlBarImage = new Image("res/graphics/control_bar_vertical.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -132,7 +132,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     clockImage = new Image("res/graphics/clock.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -151,7 +151,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     backgroundImage = new Image("res/graphics/background.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -170,7 +170,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     difficultyBackground = new Image("res/menu_graphics/difficulty.jpg");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -189,7 +189,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     easyButton = new Image("res/menu_graphics/easy.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -208,7 +208,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     easyHover = new Image("res/menu_graphics/easy_hover.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -227,7 +227,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     mediumButton = new Image("res/menu_graphics/medium.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -246,7 +246,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     mediumHover = new Image("res/menu_graphics/medium_hover.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -265,7 +265,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     hardButton = new Image("res/menu_graphics/hard.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");
@@ -284,7 +284,7 @@ public class PlayState extends BasicGameState {
 			
                 try { 
                     //create the resource
-                    //loads immediately since deferred loading is OFF
+                    
                     hardHover = new Image("res/menu_graphics/hard_hover.png");
                 } catch (SlickException e) {
                     throw new IOException("error loading image");

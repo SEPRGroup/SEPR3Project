@@ -30,13 +30,13 @@ public class Waypoint extends Point {
 	 */
 
 	public void init(GameContainer gc) throws SlickException {
-		if (waypointImage == null)
+		if (waypointImage == null){
 			LoadingList.get().add(new DeferredResource(){
 				public void load() throws IOException{
 				
 	                try { 
 	                    //create the resource
-	                    //loads immediately since deferred loading is OFF
+	                    
 	                    waypointImage = new Image("res/graphics/waypoint.png");
 	                } catch (SlickException e) {
 	                    throw new IOException("error loading image");
@@ -49,19 +49,19 @@ public class Waypoint extends Point {
 	            }
 				
 			});
-			
-		if (nextWaypointImage == null)
+		}
+		if (nextWaypointImage == null){
 			LoadingList.get().add(new DeferredResource(){
 				public void load() throws IOException{
 					
 	                try { 
 	                    //create the resource
-	                    //loads immediately since deferred loading is OFF
+	                    
 	                    nextWaypointImage = new Image("res/graphics/waypoint_next.png");
 	                } catch (SlickException e) {
 	                    throw new IOException("error loading image");
 	                }
-	                //reset the loading back to what it was before
+	                
 	              
 	            }
 
@@ -70,6 +70,7 @@ public class Waypoint extends Point {
 	            }
 				
 			});
+		}
 	}
 
 	/**

@@ -1,11 +1,15 @@
 package states;
 
+import java.io.IOException;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -30,21 +34,199 @@ public class ControlsState extends BasicGameState {
 		
 		pageNumber = 1;
 		
-		try {
-			controlsBackgroundPage1 = new Image("res/menu_graphics/controls1.jpg");
-			controlsBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
-			backButton = new Image("res/menu_graphics/back.png");
-			backHover = new Image("res/menu_graphics/back_hover.png");
-			nextPageButton = new Image("res/menu_graphics/next page.png");
-			nextPageHover = new Image("res/menu_graphics/next page_hover.png");
-			previousPageButton = new Image("res/menu_graphics/previous page.png");
-			previousPageHover = new Image("res/menu_graphics/previous hover.png");
-			quitButton = new Image("res/menu_graphics/quit_button.png");
-			quitHover = new Image("res/menu_graphics/quit_hover.png");
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	controlsBackgroundPage1 = new Image("res/menu_graphics/controls1.jpg");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
 	
-		} catch(Exception e){
-			e.printStackTrace();
-		}
+	            public String getDescription() {
+	                return "control background page 1 image";
+	            }
+			
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	controlsBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "control background page 2 image";
+	            }
+			
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	backButton = new Image("res/menu_graphics/back.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "back button image";
+	            }
+			
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	backHover = new Image("res/menu_graphics/back_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "back hover image";
+	            }
+			
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	nextPageButton = new Image("res/menu_graphics/next page.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "next page button image";
+	            }
+			
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	nextPageHover = new Image("res/menu_graphics/next page_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "next page hover image";
+	            }
+			
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	previousPageButton = new Image("res/menu_graphics/previous page.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "previous page button image";
+	            }
+			
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	previousPageHover = new Image("res/menu_graphics/previous hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "previous page hover image";
+	            }
+			
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	quitButton = new Image("res/menu_graphics/quit_button.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "quit button image";
+	            }
+			
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	quitHover = new Image("res/menu_graphics/quit_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	               
+	            }
+	
+	            public String getDescription() {
+	                return "quit hover image";
+	            }
+			
+			});
+			
+	
+	
 	
 	}
 

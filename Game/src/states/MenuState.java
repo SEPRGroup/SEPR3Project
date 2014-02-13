@@ -1,6 +1,10 @@
 package states;
 
+import java.io.IOException;
+
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.Color;
@@ -28,16 +32,186 @@ public class MenuState extends BasicGameState {
 
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	menuBackground = new Image("res/menu_graphics/menu_screen.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
 
-		menuBackground = new Image("res/menu_graphics/menu_screen.png");
-		playButton = new Image("res/menu_graphics/play_button.png");
-		playHover = new Image("res/menu_graphics/play_hover.png");
-		quitButton = new Image("res/menu_graphics/quit_button.png");
-		quitHover = new Image("res/menu_graphics/quit_hover.png");
-		creditsButton = new Image("res/menu_graphics/credits.png");
-		creditsHover = new Image("res/menu_graphics/credits_hover.png");
-		controlsButton = new Image("res/menu_graphics/controls_silver.png");
-		controlsHover = new Image("res/menu_graphics/controls_hover.png");
+            public String getDescription() {
+                return "menu background image";
+            }
+			
+		});
+	
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	playButton = new Image("res/menu_graphics/play_button.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "play button image";
+            }
+			
+		});
+	
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	playHover = new Image("res/menu_graphics/play_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "play hover image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	quitButton = new Image("res/menu_graphics/quit_button.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "quit button image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	quitHover = new Image("res/menu_graphics/quit_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "quit hover image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	creditsButton = new Image("res/menu_graphics/credits.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "credits button image";
+            }
+			
+		});
+	
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	creditsHover = new Image("res/menu_graphics/credits_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "credits hover image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+                	controlsButton = new Image("res/menu_graphics/controls_silver.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "controls button image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+				
+                try { 
+                    //create the resource
+                    
+            		controlsHover = new Image("res/menu_graphics/controls_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+                
+              
+            }
+
+            public String getDescription() {
+                return "controls hover image";
+            }
+			
+		});
+
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)

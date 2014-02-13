@@ -1,9 +1,13 @@
 package states;
+import java.io.IOException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.lwjgl.input.Mouse;
@@ -27,27 +31,234 @@ public class PauseState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbj) throws SlickException {
 		pageNumber = 1;
-		try{		
-			pauseBackgroundPage1 = new Image("res/menu_graphics/pause_screen.jpg");
-			pauseBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
-			backButton = new Image("res/menu_graphics/back.png");
-			backButtonHover = new Image("res/menu_graphics/back_hover.png");
-			nextPageButton = new Image("res/menu_graphics/next page.png");
-			nextPageButtonHover = new Image("res/menu_graphics/next page_hover.png");
-			previousPageButton = new Image("res/menu_graphics/previous page.png");
-			previousPageButtonHover = new Image("res/menu_graphics/previous hover.png");
-			menuButton = new Image("res/menu_graphics/menu_button.png");
-			quitButton = new Image("res/menu_graphics/quit_button.png");
-			quitButtonHover = new Image("res/menu_graphics/quit_hover.png");
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	pauseBackgroundPage1 = new Image("res/menu_graphics/pause_screen.jpg");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+	
+	            public String getDescription() {
+	                return "pause background page 1 image";
+	            }
+				
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	pauseBackgroundPage2 = new Image("res/menu_graphics/controls2.jpg");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "pause background page 2 image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	nextPageButton = new Image("res/menu_graphics/next page.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "next page button image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	backButton = new Image("res/menu_graphics/back.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "back button image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	backButtonHover = new Image("res/menu_graphics/back_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "back button hover image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	nextPageButtonHover = new Image("res/menu_graphics/next page_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "next page button hover image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	previousPageButton = new Image("res/menu_graphics/previous page.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "previous page button image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	previousPageButtonHover = new Image("res/menu_graphics/previous hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "previous page hover image";
+	            }
+				
+			});
+		
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	menuButton = new Image("res/menu_graphics/menu_button.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "menu button image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	                	quitButton = new Image("res/menu_graphics/quit_button.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "quit button image";
+	            }
+				
+			});
+			
+			LoadingList.get().add(new DeferredResource(){
+				public void load() throws IOException{
+					
+	                try { 
+	                    //create the resource
+	                    
+	            		quitButtonHover = new Image("res/menu_graphics/quit_hover.png");
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading image");
+	                }
+	                
+	              
+	            }
+
+	            public String getDescription() {
+	                return "quit button hover image";
+	            }
+				
+			});
+	
 			
 			/*InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway_font/bluehigh.ttf");
 			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
 			awtFont = awtFont.deriveFont(20f);
 			font = new TrueTypeFont(awtFont, false);*/
 					
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		
 		
 	}
 	

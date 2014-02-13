@@ -32,7 +32,7 @@ public class EntryPoint extends Point {
     				
                     try { 
                         //create the resource
-                        //loads immediately since deferred loading is OFF
+                        
                         entryPointTop = new Image("res/graphics/entrypoint_top.png");
                     } catch (SlickException e) {
                         throw new IOException("error loading image");
@@ -51,7 +51,7 @@ public class EntryPoint extends Point {
     				
                     try { 
                         //create the resource
-                        //loads immediately since deferred loading is OFF
+                        
                         entryPointRight = new Image("res/graphics/entrypoint_right.png");
                     } catch (SlickException e) {
                         throw new IOException("error loading image");
@@ -69,12 +69,12 @@ public class EntryPoint extends Point {
     			public void load() throws IOException{
                     try { 
                         //create the resource
-                        //loads immediately since deferred loading is OFF
+                        
                         entryPointLeft = new Image("res/graphics/entrypoint_left.png");
                     } catch (SlickException e) {
                         throw new IOException("error loading image");
                     }
-                    //reset the loading back to what it was before
+                    
                    
                 }
 
