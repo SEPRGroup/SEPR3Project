@@ -77,20 +77,29 @@ public class FlightMenu implements MouseListener{
 		sliderIndicatorSelect = sliderIndicator;
 		buttonSelect = button;
 
-		//create scaled copies of images
-		altBase = sliderBase.getScaledCopy(altSize, sliderWidth);
-		altBase.setCenterOfRotation(0, 0);
-		altBase.setRotation(90);	//{!} will leave image positioned sliderWidth to the left
-		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
-		headingBase = sliderRingBase.getScaledCopy(headingSize, headingSize);
-		aIndicator = sliderIndicator.getScaledCopy(indicatorSize, indicatorSize);
-		aIndicatorSelect = sliderIndicatorSelect.getScaledCopy(indicatorSize, indicatorSize);
-		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
-		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
 	}
 
 	public void render(Graphics g, GameContainer gc) throws SlickException {
 		if (flight != null){
+			//create scaled copies of images if invalidated
+			if (altBase == null){
+				altBase = sliderBase.getScaledCopy(altSize, sliderWidth);
+				altBase.setCenterOfRotation(0, 0);
+				altBase.setRotation(90);	//{!} will leave image positioned sliderWidth to the left
+			}
+			if (speedBase == null)
+				speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
+			if (headingBase == null)
+				headingBase = sliderRingBase.getScaledCopy(headingSize, headingSize);
+			if (aIndicator == null)
+				aIndicator = sliderIndicator.getScaledCopy(indicatorSize, indicatorSize);
+			if (aIndicatorSelect == null)
+				aIndicatorSelect = sliderIndicatorSelect.getScaledCopy(indicatorSize, indicatorSize);
+			if (aButton == null)
+				aButton = button.getScaledCopy(buttonWidth, buttonHeight);
+			if (aButtonSelect == null)
+				aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
+			
 			//{!} constrain positions
 	
 			//draw altitude slider and labels
@@ -130,7 +139,7 @@ public class FlightMenu implements MouseListener{
 			else drawImage(aButton, cmdPos);
 			{	//draw button text
 				String cmdString;
-				if (flight.getAltitude()==0)
+				if (flight.getAltitude() == 0)	//detect context
 					cmdString = "Take Off";
 				else cmdString = "Land";
 				drawString(cmdString, buttonFont, buttonColor, 
@@ -405,8 +414,7 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setAltSize(int altSize) {
 		this.altSize = altSize;
-		altBase = sliderBase.getScaledCopy(sliderWidth, altSize);
-		altBase.rotate(90);
+		altBase = null;
 		position();
 	}
 
@@ -415,7 +423,7 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setSpeedSize(int speedSize) {
 		this.speedSize = speedSize;
-		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
+		speedBase = null;
 		position();
 	}
 
@@ -424,7 +432,7 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setHeadingSize(int bearingSize) {
 		this.headingSize = bearingSize;
-		headingBase = sliderRingBase.getScaledCopy(headingSize, headingSize);
+		headingBase = null;
 		position();
 	}
 
@@ -433,10 +441,8 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setSliderWidth(int sliderWidth) {
 		this.sliderWidth = sliderWidth;
-		altBase = sliderBase.getScaledCopy(sliderWidth, altSize);
-		altBase.setCenterOfRotation(0, 0);	//{!} will leave image positioned sliderWidth to the left
-		altBase.setRotation(90);
-		speedBase = sliderBase.getScaledCopy(speedSize, sliderWidth);
+		altBase = null;
+		speedBase = null;
 		position();
 	}
 
@@ -445,8 +451,8 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setIndicatorSize(int indicatorSize) {
 		this.indicatorSize = indicatorSize;
-		aIndicator = sliderIndicator.getScaledCopy(indicatorSize, indicatorSize);
-		aIndicatorSelect = sliderIndicatorSelect.getScaledCopy(indicatorSize, indicatorSize);
+		aIndicator = null;
+		aIndicatorSelect = null;
 		position();
 	}
 
@@ -455,8 +461,8 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setButtonWidth(int buttonWidth) {
 		this.buttonWidth = buttonWidth;
-		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
-		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
+		aButton = null;
+		aButtonSelect = null;
 		position();
 	}
 
@@ -465,8 +471,8 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setButtonHeight(int buttonHeight) {
 		this.buttonHeight = buttonHeight;
-		aButton = button.getScaledCopy(buttonWidth, buttonHeight);
-		aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
+		aButton = null;
+		aButtonSelect = null;
 		position();
 	}
 
