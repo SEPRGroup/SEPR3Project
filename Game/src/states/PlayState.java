@@ -1,11 +1,14 @@
 package states;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.io.InputStream;
 
 import logicClasses.Airspace;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
@@ -67,21 +70,233 @@ public class PlayState extends BasicGameState {
 		}
 		
 		// Music
-		gameplayMusic = new Music("res/music/Jarvic 8.ogg");
-		endOfGameSound = new Sound("res/music/175385__digitaldominic__scream.wav");
-	
-		//Images
-		controlBarImage = new Image("res/graphics/control_bar_vertical.png");
-		clockImage = new Image("res/graphics/clock.png");
-		backgroundImage = new Image("res/graphics/background.png");
-		difficultyBackground = new Image("res/menu_graphics/difficulty.jpg");
-		easyButton = new Image("res/menu_graphics/easy.png");
-		easyHover = new Image("res/menu_graphics/easy_hover.png");
-		mediumButton = new Image("res/menu_graphics/medium.png");
-		mediumHover = new Image("res/menu_graphics/medium_hover.png");
-		hardButton = new Image("res/menu_graphics/hard.png");
-		hardHover = new Image("res/menu_graphics/hard_hover.png");
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    gameplayMusic = new Music("res/music/Jarvic 8.ogg");
+                } catch (SlickException e) {
+                    throw new IOException("error loading music");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "game music";
+            }
+			
+		});
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    endOfGameSound = new Sound("res/music/175385__digitaldominic__scream.wav");
+                } catch (SlickException e) {
+                    throw new IOException("error loading sound");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "end game sound";
+            }
+			
+		});
 		
+		//Images
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    controlBarImage = new Image("res/graphics/control_bar_vertical.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "control bar image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    clockImage = new Image("res/graphics/clock.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "clock image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    backgroundImage = new Image("res/graphics/background.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "background image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    difficultyBackground = new Image("res/menu_graphics/difficulty.jpg");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "control bar image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    easyButton = new Image("res/menu_graphics/easy.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "easy button image";
+            }
+			
+		});
+
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    easyHover = new Image("res/menu_graphics/easy_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "control bar image";
+            }
+			
+		});
+		
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    mediumButton = new Image("res/menu_graphics/medium.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "medium button image";
+            }
+			
+		});
+	
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    mediumHover = new Image("res/menu_graphics/medium_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "medium button hover image";
+            }
+			
+		});
+
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    hardButton = new Image("res/menu_graphics/hard.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "hard button image";
+            }
+			
+		});
+
+		LoadingList.get().add(new DeferredResource(){
+			public void load() throws IOException{
+			
+                try { 
+                    //create the resource
+                    //loads immediately since deferred loading is OFF
+                    hardHover = new Image("res/menu_graphics/hard_hover.png");
+                } catch (SlickException e) {
+                    throw new IOException("error loading image");
+                }
+               
+            }
+
+            public String getDescription() {
+                return "hard hover image";
+            }
+			
+		});
 		//initialise the airspace object;
 		
     	//Waypoints
