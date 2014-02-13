@@ -40,9 +40,11 @@ public class SplashScreen extends BasicGameState {
 		Rectangle 
 			loadBase = new Rectangle(ox, 10*oy, 2*ox, oy),
 			loadFill = new Rectangle(loadBase);	
-		loadFill.width = (loadFill.width * loading.getRemainingResources()) 
-				/ loading.getTotalResources();
 		loadFill.grow(-4, -4);
+		loadFill.width = loadFill.width -
+					((loadFill.width * loading.getRemainingResources()) 
+							/ loading.getTotalResources());
+		
 		
 		g.setColor(Color.white);
 		g.fillRoundRect(loadBase.x, loadBase.y, 
@@ -56,20 +58,15 @@ public class SplashScreen extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta)
 			throws SlickException {
-		int remainingResources = LoadingList.get().getRemainingResources();
 		
-		while( remainingResources > 0){
-
-			DeferredResource nextResource = loading.getNext();
-			try {
-				nextResource.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			remainingResources = loading.getRemainingResources();
+		if (loading.getRemainingResources() == 0){
+			s.enterState(stateContainer.Game.MENUSTATE);
 		}
-
-		s.enterState(stateContainer.Game.MENUSTATE);
+		else try {
+			loading.getNext().load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Override
