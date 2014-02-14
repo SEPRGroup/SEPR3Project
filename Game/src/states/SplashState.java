@@ -14,12 +14,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class SplashScreen extends BasicGameState {
+public class SplashState extends BasicGameState {
 
-	private Image splash;
-	private LoadingList loading = LoadingList.get(); 
+	private static Image splash;
+	private static LoadingList loading = LoadingList.get();
 	
-	public SplashScreen(int state){
+	
+	public SplashState(int state){
 		
 	}
 	
@@ -51,7 +52,7 @@ public class SplashScreen extends BasicGameState {
 				loadBase.width, loadBase.height, oy/3);
 		g.setColor(Color.black);
 		g.fillRoundRect(loadFill.x, loadFill.y, 
-				loadFill.width, loadFill.height, oy/3);	
+				loadFill.width, loadFill.height, oy/3 -1);	
 	}
 	
 	@Override

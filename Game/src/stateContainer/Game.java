@@ -11,7 +11,7 @@ import states.PauseState;
 import states.PlayState;
 import states.CreditsState;
 import states.ControlsState;
-import states.SplashScreen;
+import states.SplashState;
 
 public class Game extends StateBasedGame {
 
@@ -42,7 +42,7 @@ public class Game extends StateBasedGame {
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		
-		addState(new SplashScreen(SPLASHSTATE));
+		addState(new SplashState(SPLASHSTATE));
 		enterState(SPLASHSTATE);
 		addState(new MenuState(MENUSTATE));
 		addState(new PlayState(PLAYSTATE));
