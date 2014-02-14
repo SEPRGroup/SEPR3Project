@@ -6,8 +6,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
+
+import util.DeferredFile;
 
 
 public class EntryPoint extends Point {
@@ -26,65 +27,42 @@ public class EntryPoint extends Point {
      * @throws SlickException
      */
     	
-    	if (entryPointTop == null)
-    		LoadingList.get().add(new DeferredResource(){
-    			public void load() throws IOException{
-    				
-                    try { 
-                        //create the resource
-                        
-                        entryPointTop = new Image("res/graphics/entrypoint_top.png");
-                    } catch (SlickException e) {
-                        throw new IOException("error loading image");
-                    }
-                    
-                }
-
-                public String getDescription() {
-                    return "entry point top image";
-                }
-    			
-    		});
-    	if (entryPointRight == null)
-    		LoadingList.get().add(new DeferredResource(){
-    			public void load() throws IOException{
-    				
-                    try { 
-                        //create the resource
-                        
-                        entryPointRight = new Image("res/graphics/entrypoint_right.png");
-                    } catch (SlickException e) {
-                        throw new IOException("error loading image");
-                    }
-                  
-                }
-
-                public String getDescription() {
-                    return "entry point right image";
-                }
-       		});
+    	{
+    		LoadingList loading = LoadingList.get();
+    		if (entryPointTop == null)
+    			loading.add(new DeferredFile("res/graphics/entrypoint_top.png"){
+    				public void load() throws IOException{
+    					try { 
+    						entryPointTop = new Image(filename);
+    					} catch (SlickException e) {
+    						throw new IOException("error loading:\t" +filename);
+    					}
+    				}
+    			});
+    		if (entryPointRight == null)
+    			loading.add(new DeferredFile("res/graphics/entrypoint_right.png"){
+    				public void load() throws IOException{
+    					try { 
+    						entryPointRight = new Image(filename);
+    					} catch (SlickException e) {
+    						throw new IOException("error loading:\t" +filename);
+    					}
+    				}
+    			});
+    		if (entryPointLeft == null)
+    			loading.add(new DeferredFile("res/graphics/entrypoint_left.png"){
+    				public void load() throws IOException{
+    					try { 
+    						entryPointLeft = new Image(filename);
+    					} catch (SlickException e) {
+    						throw new IOException("error loading:\t" +filename);
+    					}
+    				}
+    			});
     		
-    	if (entryPointLeft == null)
-    		LoadingList.get().add(new DeferredResource(){
-    			public void load() throws IOException{
-                    try { 
-                        //create the resource
-                        
-                        entryPointLeft = new Image("res/graphics/entrypoint_left.png");
-                    } catch (SlickException e) {
-                        throw new IOException("error loading image");
-                    }
-                    
-                   
-                }
+    	}
 
-                public String getDescription() {
-                    return "entry point left image";
-                }
-    			
-    		});
-
-	}
+    }
     
     /**
 	 * render: Render method for the EntryPoint object, position determines orientation of image

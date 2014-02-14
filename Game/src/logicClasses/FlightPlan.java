@@ -1,6 +1,7 @@
 package logicClasses;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
@@ -12,10 +13,10 @@ import org.newdawn.slick.SlickException;
 public class FlightPlan {
 	
 	// FIELDS
-private static final int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
+	private static final int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
 
-	private ArrayList<Point> currentRoute = new ArrayList<Point>(); // Array that stores the current list of waypoints
-	private ArrayList<Point> waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
+	private List<Point> currentRoute = new ArrayList<Point>(); // Array that stores the current list of waypoints
+	private List<Point> waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
 	private double velocity; // velocity of the aircraft
 	private Flight flight; // The flight object associated with the flight plan
 	private Point waypointMouseIsOver; // What waypoint is the mouse currently hovering over
@@ -592,7 +593,7 @@ private static final int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7,
 		return this.velocity;
 	}
 
-	public ArrayList<Point> getCurrentRoute() {
+	public List<Point> getCurrentRoute() {
 		return currentRoute;
 	}
 

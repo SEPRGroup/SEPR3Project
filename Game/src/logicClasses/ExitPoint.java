@@ -6,8 +6,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
+
+import util.DeferredFile;
 
 
 public class ExitPoint extends Point {
@@ -27,65 +28,44 @@ public class ExitPoint extends Point {
 	 */
 
 	public void init(GameContainer gc) throws SlickException {
-
-		if (exitPointTop == null){
-			LoadingList.get().add(new DeferredResource(){
-				public void load() throws IOException{
-	                try { 
-	                    //create the resource
-	                    
-	                	exitPointTop = new Image("res/graphics/exitpoint_top.png");
-	                } catch (SlickException e) {
-	                    throw new IOException("error loading image");
-	                }
-	                
-	               
-	            }
-
-	            public String getDescription() {
-	                return "exit point top image";
-	            }
-			});
-		}
-		if (exitPointRight == null){
-				LoadingList.get().add(new DeferredResource(){
-					public void load() throws IOException{
-		                try { 
-		                    //create the resource
-		                    
-		                	exitPointRight = new Image("res/graphics/exitpoint_right.png");
-		                } catch (SlickException e) {
-		                    throw new IOException("error loading image");
-		                }
-		                
-		               
-		            }
-
-		            public String getDescription() {
-		                return "exit point right image";
-		            }
-				});
-		}
-		if (exitPointLeft == null){
-				LoadingList.get().add(new DeferredResource(){
-					public void load() throws IOException{
-		                try { 
-		                    //create the resource
-		                    
-		                	exitPointLeft = new Image("res/graphics/exitpoint_left.png");
-		                } catch (SlickException e) {
-		                    throw new IOException("error loading image");
-		                }
-		                
-		               
-		            }
-
-		            public String getDescription() {
-		                return "exit point left image";
-		            }
-				});
-		}
+		{
+			LoadingList loading = LoadingList.get();
 			
+			if (exitPointTop == null){
+				loading.add(new DeferredFile("res/graphics/exitpoint_top.png"){
+					public void load() throws IOException{
+						try { 
+							exitPointTop = new Image(filename);
+						} catch (SlickException e) {
+							throw new IOException("error loading:\t" +filename);
+						}
+					}
+				});
+			}
+			if (exitPointRight == null){
+				loading.add(new DeferredFile("res/graphics/exitpoint_right.png"){
+					public void load() throws IOException{
+						try { 
+							exitPointRight = new Image(filename);
+						} catch (SlickException e) {
+							throw new IOException("error loading:\t" +filename);
+						}
+					}
+				});
+			}
+			if (exitPointLeft == null){
+				loading.add(new DeferredFile("res/graphics/exitpoint_left.png"){
+					public void load() throws IOException{
+						try { 
+							exitPointLeft = new Image(filename);
+						} catch (SlickException e) {
+							throw new IOException("error loading:\t" +filename);
+						}
+					}
+				});
+			}
+			
+		}
 	}
 
 	/**

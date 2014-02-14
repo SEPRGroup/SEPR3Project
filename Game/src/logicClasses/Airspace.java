@@ -11,11 +11,9 @@ import org.newdawn.slick.SlickException;
 
 public class Airspace {
 
-	// FIELDS
-
 	private int maximumNumberOfFlightsInAirspace;
-	private int numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
-				numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
+	private int	numberOfGameLoopsSinceLastFlightAdded, numberOfGameLoops,
+		numberOfGameLoopsWhenDifficultyIncreases, randomNumberForFlightGeneration;
 	private List<Flight> listOfFlightsInAirspace;
 	private List<Waypoint> listOfWayppoints;
 	private List<EntryPoint> listOfEntryPoints;
@@ -26,8 +24,8 @@ public class Airspace {
 	private Controls controls;
 	private ScoreTracking score;
 	
+	
 	// CONSTRUCTOR
-
 	public Airspace() {
 		this.maximumNumberOfFlightsInAirspace = 10;
 		this.listOfFlightsInAirspace = new ArrayList<Flight>();
@@ -41,9 +39,7 @@ public class Airspace {
 		this.randomNumberForFlightGeneration = 500;
 		this.controls = new Controls();
 		this.difficultyValueOfGame = 0; // This value will be changed when the user selects a difficulty in the playstate
-		this.score = new ScoreTracking();
-		
-		
+		this.score = new ScoreTracking();	
 	}
 
 	// METHODS
@@ -60,9 +56,7 @@ public class Airspace {
 		this.numberOfGameLoops = 0; 
 		this.numberOfGameLoopsWhenDifficultyIncreases = 3600;
 		this.separationRules.setGameOverViolation(false); // Prevents user immediately entering game over state upon replay
-		this.controls.setSelectedFlight(null); // Prevents information about flight from previous game being displayed 
-		
-		
+		this.controls.setSelectedFlight(null); // Prevents information about flight from previous game being displayed 	
 	}
 	
 	/**
@@ -81,7 +75,8 @@ public class Airspace {
 	 */
 	
 	public boolean newWaypoint(int x, int y, String name)  {
-		if (x < 1250 && x > 150 && y < 650 && y > -50){ // x and y must be within these bounds to be within screen space
+		if (x<1250 && x>150 && y<650 && y>-50){ 
+			// x and y must be within these bounds to be within screen space
 			
 			Waypoint tmpWp = new Waypoint(x, y, name);
 			
@@ -99,7 +94,8 @@ public class Airspace {
 	 */
 	
 	public boolean newExitPoint(int x, int y, String name) {
-		if (x < 1250 && x > 100 && y < 650 && y > -50){ // x and y must be within these bounds to be within screen space
+		if (x<1250 && x>100 && y<650 && y>-50){
+			// x and y must be within these bounds to be within screen space
 			
 			ExitPoint tmpEp = new ExitPoint(x, y, name);
 			
@@ -117,7 +113,7 @@ public class Airspace {
 	 */
 	
 	public boolean newEntryPoint(int x, int y)  {
-		if (x < 1250 && x > 100 && y < 650 && y > -50){
+		if (x<1250 && x>100 && y<650 && y>-50){
 			
 			EntryPoint tmpEp = new EntryPoint(x, y);
 			

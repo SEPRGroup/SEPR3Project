@@ -5,16 +5,16 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
+import util.DeferredFile;
 
 
 public class Airport {
 	
 	//FIELDS
 	private String airportName = "Nothing"; // {!} needs a name
-	Image airportImage;
+	private static Image airportImage;
 	
 	//CONSTRUCTOR
 	
@@ -22,24 +22,17 @@ public class Airport {
 		
 	}
 	
+	
 	public void init(GameContainer gc) throws SlickException {
-		LoadingList.get().add(new DeferredResource(){
+		LoadingList.get().add(new DeferredFile("res/graphics/airport.png"){
 			public void load() throws IOException{
                 try { 
-                    //create the resource
-                    
-                    airportImage = new Image("res/graphics/airport.png");
+                    airportImage = new Image(filename);
                 } catch (SlickException e) {
-                    throw new IOException("error loading image");
+                    throw new IOException("error loading:\t" +filename);
                 }
-            }
-
-            public String getDescription() {
-                return "airport image";
-            }
-			
+            }	
 		});
-		
 	}
 	
 	public void render(Graphics g, GameContainer gc) throws SlickException { 

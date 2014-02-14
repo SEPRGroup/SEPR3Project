@@ -10,14 +10,15 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
-import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 import org.newdawn.slick.GameContainer;
+
+import util.DeferredFile;
 
 public class Controls {
 
 	// FIELDS
-	private TrueTypeFont font;
+	private static TrueTypeFont font;
 	private TextField headingControlTextBox; //Object for heading control
 	private TextField turnRightTextBox; //Object for turn right control
 	private TextField turnLeftTextBox; // Object for turn left control
@@ -55,44 +56,28 @@ public class Controls {
 		turnRightTextBox.setMaxLength(3);
 		headingControlTextBox.setMaxLength(3);
 		
-		LoadingList.get().add(new DeferredResource(){
-			public void load() throws IOException{
-                try { 
-                    //create the resource
-                    
-                	altitudeButton = new Image("res/graphics/altitudebutton.png");
-                } catch (SlickException e) {
-                    throw new IOException("error loading image");
-                }
-                
-               
-            }
-
-            public String getDescription() {
-                return "altitude button image";
-            }
+		{
+			LoadingList loading = LoadingList.get();
+			loading.add(new DeferredFile("res/graphics/airport.png"){
+				public void load() throws IOException{
+	                try { 
+	                	altitudeButton = new Image(filename);
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading:\t" +filename);
+	                }        
+	            }				
+			});
 			
-		});
-		LoadingList.get().add(new DeferredResource(){
-			public void load() throws IOException{
-                try { 
-                    //create the resource
-                    
-                	changePlanButton = new Image("res/graphics/altitudebutton.png"); // same as altitude button
-                } catch (SlickException e) {
-                    throw new IOException("error loading image");
-                }
-                
-               
-            }
-
-            public String getDescription() {
-                return "change plan button image";
-            }
-			
-		});
-		
-		
+			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){
+				public void load() throws IOException{
+	                try { 
+	                	changePlanButton = new Image(filename); // same as altitude button
+	                } catch (SlickException e) {
+	                    throw new IOException("error loading:\t" +filename);
+	                }  
+				}
+			});
+		}
 		
 		menu = new FlightMenu();
 		menu.init();
