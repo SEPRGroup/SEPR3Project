@@ -33,10 +33,13 @@ public class FlightMenu implements MouseListener{
 		labelFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 10), false),
 		buttonFont = new TrueTypeFont(new Font(Font.SANS_SERIF, Font.BOLD, 11), false);
 	private Color
-		labelColor = Color.white, buttonColor = Color.white;
+		labelColor = Color.white,	//slider labels
+		buttonColor = Color.white,	//button labels
+		markerColor = Color.red;	//current position markers
 	
 	private Point2D.Float	//cached graphics position data
 		altPos, speedPos, headingPos, cmdPos, abortPos,
+		altMarkerPos, speedMarkerPos,
 		altIndicatorPos, speedIndicatorPos, headingIndicatorPos;
 		
 	private Input input;
@@ -56,6 +59,8 @@ public class FlightMenu implements MouseListener{
 		headingPos = new Point2D.Float();
 		cmdPos = new Point2D.Float();
 		abortPos = new Point2D.Float();
+		altMarkerPos = new Point2D.Float();
+		speedMarkerPos= new Point2D.Float();
 		altIndicatorPos = new Point2D.Float();
 		speedIndicatorPos = new Point2D.Float();
 		headingIndicatorPos = new Point2D.Float();
@@ -100,23 +105,28 @@ public class FlightMenu implements MouseListener{
 			if (aButtonSelect == null)
 				aButtonSelect = buttonSelect.getScaledCopy(buttonWidth, buttonHeight);
 			
+			setMarkerPos();	//get most recent flight positions
+			g.setColor(markerColor);
+			
 			//{!} constrain positions
 	
 			//draw altitude slider and labels
 			drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
 				//account for image mispositioning after rotation
+			drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
 			drawString(String.valueOf(Controls.MINIMUMALTITUDE),
 			           labelFont, labelColor,
-			           altPos.x +sliderWidth, altPos.y +altSize);	//centred on bottom right edge of slider 
+			           altPos.x, altPos.y +altSize);	//centred on bottom left edge of slider 
 			drawString(String.valueOf(Controls.MAXIMUMALTITUDE),
 			           labelFont, labelColor,
-			           altPos.x +sliderWidth, altPos.y);	//centred on top right edge of slider
+			           altPos.x, altPos.y);	//centred on top left edge of slider
 			if (ALT == mode)
 				drawImage(aIndicatorSelect, altIndicatorPos);
 			else drawImage(aIndicator, altIndicatorPos);
 
 			//draw speed slider and labels
 			drawImage(speedBase, speedPos);
+			drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
 			drawString(String.valueOf(200),	//{!} No variables to use for numbers yet
 			           labelFont, labelColor,
 			           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
@@ -166,11 +176,17 @@ public class FlightMenu implements MouseListener{
 		                (float)( y -(font.getHeight()/2.0) +flight.getY() ),
 		                str, color);
 	}
+	
+	private void drawLine(Graphics g, float x1, float y1, float x2, float y2){
+		float	ox = (float)flight.getX(), 
+				oy = (float)flight.getY();
+		g.drawLine(x1 +ox, y1 +oy, x2 +ox, y2 +oy);
+	}
 
 	private void position(){
 		mode = NONE;	//invalidate any current mouse movements
 
-		double r = headingSize /2.0f;
+		double r = headingSize /2.0;
 
 		//base position at centre of heading slider
 		headingPos.setLocation(-r, -r);
@@ -186,6 +202,18 @@ public class FlightMenu implements MouseListener{
 		abortPos.setLocation(altPos.x -spacingSize -buttonWidth, spacingSize/2.0);
 
 		setIndicatorPos();
+	}
+	
+	private void setMarkerPos(){
+		if (flight != null){
+			altMarkerPos.setLocation(	//rescale from altitude to pixels
+					altPos.x, 
+					altPos.y +multScale(normalScale(flight.getAltitude(), Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE), altSize, 0));
+			
+			speedMarkerPos.setLocation(	//rescale from velocity to pixels
+					speedPos.x +multScale(normalScale(flight.getFlightPlan().getVelocity(), 200, 400), 0, speedSize), 
+					speedPos.y);
+		}
 	}
 
 	private void setIndicatorPos(){
@@ -220,7 +248,7 @@ public class FlightMenu implements MouseListener{
 	}
 	
 	private int constrain(int val, int min, int max){
-		//return value no more than min, no more than max, otherwise val 
+		//return value no more than min, no more than max, otherwise val
 		return (val <= min) ? min : 
 				(val >= max) ? max : val;
 	}
@@ -513,6 +541,13 @@ public class FlightMenu implements MouseListener{
 	}
 	public void setButtonColor(Color buttonColor) {
 		this.buttonColor = buttonColor;
+	}
+	
+	public Color getMarkerColor() {
+		return markerColor;
+	}
+	public void setMarkerColor(Color markerColor) {
+		this.markerColor = markerColor;
 	}
 
 	public void setFlight(Flight flight) {
