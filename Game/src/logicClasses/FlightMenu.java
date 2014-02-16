@@ -211,7 +211,7 @@ public class FlightMenu implements MouseListener{
 					altPos.y +multScale(normalScale(flight.getAltitude(), Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE), altSize, 0));
 			
 			speedMarkerPos.setLocation(	//rescale from velocity to pixels
-					speedPos.x +multScale(normalScale(flight.getFlightPlan().getVelocity(), 200, 400), 0, speedSize), 
+					speedPos.x +multScale(normalScale(flight.getVelocity(), 200, 400), 0, speedSize), 
 					speedPos.y);
 		}
 	}
@@ -556,7 +556,7 @@ public class FlightMenu implements MouseListener{
 		if (flight != null){
 			altIndicator = normalScale(flight.getTargetAltitude(), Controls.MINIMUMALTITUDE,
 			                           Controls.MAXIMUMALTITUDE);
-			speedIndicator = normalScale(flight.getFlightPlan().getVelocity(), 200,
+			speedIndicator = normalScale(flight.getVelocity(), 200,
 			                             400);	//{!}	no variables available
 			headingIndicator = Math.toRadians(flight.getTargetHeading());
 			setIndicatorPos();

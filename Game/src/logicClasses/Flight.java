@@ -10,18 +10,28 @@ import org.newdawn.slick.SlickException;
 public class Flight {
 
 	// FIELDS
-	private double x, y, currentHeading, targetHeading;
-	private int currentAltitude, targetAltitude, flightNumber;
-	private boolean turningRight, turningLeft;
+	private static Image 
+		regularFlightImage, slowFlightImage, fastFlightImage, shadowImage,
+		selectedFlightInformationBackgroundImage;
+	private static double gameScale = 1/1000.0;
+	
+	private int flightNumber;
 	private String flightName;
-	private FlightPlan flightPlan;
-	static Image regularFlightImage, selectedFlightInformationBackgroundImage, slowFlightImage, fastFlightImage, shadowImage;
-	private boolean selected;
+	private double
+		x, y,
+		velocity;
+	private double
+		currentHeading, targetHeading;
+	private int 
+		currentAltitude, targetAltitude;
+	
+	private boolean turningRight, turningLeft;
+	
 	private Airspace airspace;
-
+	private FlightPlan flightPlan;
+	private boolean selected;
 	
 	
-
 	// CONSTRUCTOR
 	public Flight(Airspace airspace) {
 		this.x = 0;
@@ -35,8 +45,6 @@ public class Flight {
 		this.airspace = airspace;
 		this.flightPlan = new FlightPlan(airspace, this);
 		this.selected = false;
-		
-
 	}
 
 	// METHODS
@@ -177,14 +185,14 @@ public class Flight {
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
-				if(this.flightPlan.getVelocity() <= 275){
+				if(velocity <= 275){
 					
 					slowFlightImage.setRotation((int) currentHeading);
 					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
-				else if(this.flightPlan.getVelocity() > 270 && this.flightPlan.getVelocity() < 340){
+				else if(velocity>270 && velocity<340){
 					
 					regularFlightImage.setRotation((int) currentHeading);
 					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
@@ -259,7 +267,7 @@ public class Flight {
 			 10, 520);
 		g.drawString(Math.round(this.currentHeading) + " DEG",
 			10, 540);
-		g.drawString(Math.round(this.getFlightPlan().getVelocity()) + " MPH",
+		g.drawString(Math.round(velocity) + " MPH",
 			10, 560);
 		
 	}
@@ -273,11 +281,11 @@ public class Flight {
 	 */
 
 	public void updateXYCoordinates() {
-		double velocity = (this.flightPlan.getVelocity()) / 1000;
+		double vs = velocity *gameScale;
+		
+		this.x += vs * Math.sin(Math.toRadians(currentHeading));
 
-		this.x += velocity * Math.sin(Math.toRadians(this.currentHeading));
-
-		this.y -= velocity * Math.cos(Math.toRadians(this.currentHeading));
+		this.y -= vs * Math.cos(Math.toRadians(currentHeading));
 
 	}
 
@@ -526,9 +534,15 @@ public class Flight {
 	public int getCurrentAltitude() {
 		return currentAltitude;
 	}
-
 	public void setCurrentAltitude(int currentAltitude) {
 		this.currentAltitude = currentAltitude;
+	}
+	
+	public double getVelocity() {
+		return velocity;
+	}
+	public void setVelocity(double velocity) {
+		this.velocity = velocity;
 	}
 
 	public FlightPlan getFlightPlan() {

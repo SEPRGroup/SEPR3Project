@@ -17,7 +17,6 @@ public class FlightPlan {
 
 	private List<Point> currentRoute = new ArrayList<Point>(); // Array that stores the current list of waypoints
 	private List<Point> waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
-	private double velocity; // velocity of the aircraft
 	private Flight flight; // The flight object associated with the flight plan
 	private Point waypointMouseIsOver; // What waypoint is the mouse currently hovering over
 	private Point waypointClicked;
@@ -31,7 +30,7 @@ public class FlightPlan {
 
 	public FlightPlan(Airspace airspace, Flight flight) {
 		this.flight = flight;
-		this.velocity = generateVelocity();
+		flight.setVelocity(generateVelocity());
 		this.entryPoint = generateEntryPoint(airspace);
 		this.currentRoute = buildRoute(airspace, this.entryPoint);
 		this.waypointsAlreadyVisited = new ArrayList<Point>();
@@ -90,7 +89,6 @@ public class FlightPlan {
 				// Adding ExitPoint to Plan
 				
 				int ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
-				int a = 0;
 				while (exitpointAdded == false){
 					// if entrypoint.y is 0 then top point so remove top exit point
 					if ((entryPoint.getY() == 0) && (entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY())){
@@ -583,15 +581,6 @@ public class FlightPlan {
 	
 
 	// ACCESSORS AND MUTATORS
-
-	public void setVelocity(double newVelocity){
-		this.velocity = newVelocity;
-		
-	}
-	
-	public double getVelocity() {
-		return this.velocity;
-	}
 
 	public List<Point> getCurrentRoute() {
 		return currentRoute;
