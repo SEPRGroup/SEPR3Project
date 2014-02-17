@@ -17,6 +17,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class SplashState extends BasicGameState {
 
 	private static Image splash;
+	private static Color
+		loadBaseColor = Color.white, loadFillColor = Color.black;
 	private static LoadingList loading = LoadingList.get();
 	
 	
@@ -37,7 +39,8 @@ public class SplashState extends BasicGameState {
 		
 		g.drawImage(splash, 0, 0);
 		
-		int	ox = stateContainer.Game.MAXIMUMWIDTH /4,
+		//calculate loading bar sizes
+		int	ox = stateContainer.Game.MAXIMUMWIDTH /4,	// offset/sizing values
 			oy = stateContainer.Game.MAXIMUMHEIGHT /16;
 		Rectangle 
 			loadBase = new Rectangle(ox, 10*oy, 2*ox, oy),
@@ -47,10 +50,11 @@ public class SplashState extends BasicGameState {
 					((loadFill.width * loading.getRemainingResources()) 
 							/ loading.getTotalResources());
 		
-		g.setColor(Color.white);
+		//draw loading bar
+		g.setColor(loadBaseColor);
 		g.fillRoundRect(loadBase.x, loadBase.y, 
 				loadBase.width, loadBase.height, oy/3);
-		g.setColor(Color.black);
+		g.setColor(loadFillColor);
 		g.fillRoundRect(loadFill.x, loadFill.y, 
 				loadFill.width, loadFill.height, oy/3 -1);	
 	}
@@ -59,7 +63,7 @@ public class SplashState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame s, int delta)
 			throws SlickException {
 		
-		if (loading.getRemainingResources() == 0)
+		if (loading.getRemainingResources() == 0)	//finished loading
 			s.enterState(stateContainer.Game.MENUSTATE);
 		else {
 			DeferredResource next = loading.getNext();

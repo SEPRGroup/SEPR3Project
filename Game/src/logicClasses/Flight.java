@@ -19,7 +19,7 @@ public class Flight {
 	
 	private int
 		minVelocity = 200, maxVelocity = 400,
-		minAltitude = 28000, maxAltitude = 31000;
+		minAltitude = 26000, maxAltitude = 31000;
 	
 	private int flightNumber;
 	private String flightName;
