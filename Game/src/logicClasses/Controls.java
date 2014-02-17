@@ -24,8 +24,6 @@ public class Controls {
 	private TextField turnLeftTextBox; // Object for turn left control
 	private boolean selectingHeadingUsingTextBox; // Has the text box been reset?
 	private boolean mouseHeldDownOnAltitudeButton, mouseHeldDownOnFlight, headingAlreadyChangedByMouse;
-	public static final int  MAXIMUMALTITUDE = 31000;
-	public static final int  MINIMUMALTITUDE = 26000;
 	private Flight selectedFlight;
 	private String text; //Used for parsing textbox inputs
 	private Image altitudeButton, changePlanButton;
@@ -58,7 +56,7 @@ public class Controls {
 		
 		{
 			LoadingList loading = LoadingList.get();
-			loading.add(new DeferredFile("res/graphics/airport.png"){
+			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){
 				public void load() throws IOException{
 	                try { 
 	                	altitudeButton = new Image(filename);
@@ -68,10 +66,10 @@ public class Controls {
 	            }				
 			});
 			
-			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){
+			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){	// same as altitude button
 				public void load() throws IOException{
 	                try { 
-	                	changePlanButton = new Image(filename); // same as altitude button
+	                	changePlanButton = new Image(filename);
 	                } catch (SlickException e) {
 	                    throw new IOException("error loading:\t" +filename);
 	                }  
@@ -109,13 +107,13 @@ public class Controls {
 
 		
 			if(posX>10&&posX<150&&posY<410&&posY>390&&Mouse.isButtonDown(0)) { //Is the mouse position in the area enclosed by the increase altitude button and is the button being held down?
-				if(selectedFlight.getTargetAltitude() < MAXIMUMALTITUDE) { //Is the target altitude already at the maximum value?
+				if(selectedFlight.getTargetAltitude() < selectedFlight.getMaxAltitude()) { //Is the target altitude already at the maximum value?
 					selectedFlight.setTargetAltitude(selectedFlight.getTargetAltitude()+1000); //Set the target altitude 1000 higher
 				}
 			}
 
 			else if(posX>10&&posX<150&&posY<440&&posY>420&&Mouse.isButtonDown(0)) {//Is the mouse position in the area enclosed by the decrease altitude button and is the button being held down?
-				if(selectedFlight.getTargetAltitude()> MINIMUMALTITUDE) { //Is the target altitude already at the minimum value?
+				if(selectedFlight.getTargetAltitude()> selectedFlight.getMinAltitude()) { //Is the target altitude already at the minimum value?
 					selectedFlight.setTargetAltitude(selectedFlight.getTargetAltitude()-1000); //Set the target altitude 1000 lower
 				}
 			}
@@ -440,12 +438,12 @@ public class Controls {
 				
 				//ALTITUDE KEYS
 				if(input.isKeyPressed(Input.KEY_UP)){
-					if(selectedFlight.getTargetAltitude() < MAXIMUMALTITUDE) {
+					if(selectedFlight.getTargetAltitude() < selectedFlight.getMaxAltitude()) {
 						selectedFlight.setTargetAltitude(selectedFlight.getTargetAltitude()+1000);
 					}
 				}
 				if(input.isKeyPressed(Input.KEY_DOWN)){
-					if(selectedFlight.getTargetAltitude() > MINIMUMALTITUDE) {
+					if(selectedFlight.getTargetAltitude() > selectedFlight.getMinAltitude()) {
 						selectedFlight.setTargetAltitude(selectedFlight.getTargetAltitude()-1000);
 					}
 				}

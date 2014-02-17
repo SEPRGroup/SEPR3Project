@@ -114,10 +114,10 @@ public class FlightMenu implements MouseListener{
 			drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
 				//account for image mispositioning after rotation
 			drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
-			drawString(String.valueOf(Controls.MINIMUMALTITUDE),
+			drawString(String.valueOf(flight.getMinAltitude()),
 			           labelFont, labelColor,
 			           altPos.x, altPos.y +altSize);	//centred on bottom left edge of slider 
-			drawString(String.valueOf(Controls.MAXIMUMALTITUDE),
+			drawString(String.valueOf(flight.getMaxAltitude()),
 			           labelFont, labelColor,
 			           altPos.x, altPos.y);	//centred on top left edge of slider
 			if (ALT == mode)
@@ -127,10 +127,10 @@ public class FlightMenu implements MouseListener{
 			//draw speed slider and labels
 			drawImage(speedBase, speedPos);
 			drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
-			drawString(String.valueOf(200),	//{!} No variables to use for numbers yet
+			drawString(String.valueOf(flight.getMinVelocity()),
 			           labelFont, labelColor,
 			           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
-			drawString(String.valueOf(400),	//{!} No variables to use for numbers yet
+			drawString(String.valueOf(flight.getMaxVelocity()),
 			           labelFont, labelColor,
 			           speedPos.x +speedSize, speedPos.y +sliderWidth);	//centred on bottom right edge of slider
 			if (SPEED == mode)
@@ -208,10 +208,14 @@ public class FlightMenu implements MouseListener{
 		if (flight != null){
 			altMarkerPos.setLocation(	//rescale from altitude to pixels
 					altPos.x, 
-					altPos.y +multScale(normalScale(flight.getAltitude(), Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE), altSize, 0));
+					altPos.y +multScale(
+							normalScale(flight.getAltitude(), flight.getMinAltitude(), flight.getMaxAltitude()),
+							altSize, 0));
 			
 			speedMarkerPos.setLocation(	//rescale from velocity to pixels
-					speedPos.x +multScale(normalScale(flight.getVelocity(), 200, 400), 0, speedSize), 
+					speedPos.x +multScale(
+							normalScale(flight.getVelocity(), flight.getMinVelocity(), flight.getMaxVelocity()), 
+							0, speedSize), 
 					speedPos.y);
 		}
 	}
@@ -277,13 +281,13 @@ public class FlightMenu implements MouseListener{
 
 	private void eventTargetAltitude(double altitude){
 		int targetAltitude = (int)Math.round(
-				multScale(altitude, Controls.MINIMUMALTITUDE, Controls.MAXIMUMALTITUDE));
+				multScale(altitude, flight.getMinAltitude(), flight.getMaxAltitude()));
 		System.out.println(String.format("altitude := %1$4d", targetAltitude));
 		flight.setTargetAltitude((int)Math.round(targetAltitude));
 	}
 	
 	private void eventTargetSpeed(double speed){
-		double targetSpeed = multScale(speed, 200, 400);
+		double targetSpeed = multScale(speed, flight.getMinVelocity(), flight.getMaxVelocity());
 		System.out.println(String.format("speed := %1$3f", targetSpeed));
 		//{!} nothing available to change at this time
 	}
@@ -554,10 +558,10 @@ public class FlightMenu implements MouseListener{
 		mode = NONE;
 		this.flight = flight;
 		if (flight != null){
-			altIndicator = normalScale(flight.getTargetAltitude(), Controls.MINIMUMALTITUDE,
-			                           Controls.MAXIMUMALTITUDE);
-			speedIndicator = normalScale(flight.getVelocity(), 200,
-			                             400);	//{!}	no variables available
+			altIndicator = normalScale(flight.getTargetAltitude(), flight.getMinAltitude(),
+			                           flight.getMaxAltitude());
+			speedIndicator = normalScale(flight.getVelocity(), flight.getMinVelocity(),
+			                             flight.getMaxVelocity());
 			headingIndicator = Math.toRadians(flight.getTargetHeading());
 			setIndicatorPos();
 		}

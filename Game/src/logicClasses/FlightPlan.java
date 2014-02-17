@@ -8,26 +8,33 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+
+import stateContainer.Game;
 
 public class FlightPlan {
 	
 	// FIELDS
-	private static final int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
-
-	private List<Point> currentRoute = new ArrayList<Point>(); // Array that stores the current list of waypoints
-	private List<Point> waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
-	private Flight flight; // The flight object associated with the flight plan
-	private Point waypointMouseIsOver; // What waypoint is the mouse currently hovering over
-	private Point waypointClicked;
-	private boolean changingPlan; // Is the user currently changing the flight plan?
-	private boolean draggingWaypoint;// Is the user currently dragging a waypoint?
 	private EntryPoint entryPoint;
+	private List<Point>
+		currentRoute = new ArrayList<Point>(), // Array that stores the current list of waypoints
+		waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
+	private Flight flight; // The flight object associated with the flight plan
+	
+	private Point 
+		waypointMouseIsOver, // What waypoint is the mouse currently hovering over
+		waypointClicked;
+	private Boolean
+		changingPlan, // Is the user currently changing the flight plan?
+		draggingWaypoint;// Is the user currently dragging a waypoint?
+	
+	private static final int	//waypoint ID references
+		A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
 	
 
 	// CONSTRUCTOR
 	
-
 	public FlightPlan(Airspace airspace, Flight flight) {
 		this.flight = flight;
 		flight.setVelocity(generateVelocity());
@@ -73,7 +80,7 @@ public class FlightPlan {
 		ArrayList<Point> tempListOfExitPoints = new ArrayList<Point>();
 		Boolean exitpointAdded = false;
 		
-		if (!airspace.getListOfWaypoints().isEmpty()&& !airspace.getListOfExitPoints().isEmpty()) { // if there is a list of waypoints and a list of exit points
+		if (!airspace.getListOfWaypoints().isEmpty() && !airspace.getListOfExitPoints().isEmpty()) { // if there is a list of waypoints and a list of exit points
 				Random rand = new Random();
 				
 				// Initialising Temporary Lists
@@ -360,14 +367,8 @@ public class FlightPlan {
 					}
 					
 					
-					
-					
 					}
-						
-					
-			
-		
-		
+							
 		return tempRoute;
 	}
 	
@@ -377,7 +378,9 @@ public class FlightPlan {
 
 	public int generateVelocity() {
 		Random rand = new Random();
-		return (rand.nextInt(200) + 200);
+		int	min = flight.getMinVelocity(),
+			max = flight.getMaxVelocity();
+		return (rand.nextInt(min) + (max -min));
 	}
 	
 	/**
@@ -386,20 +389,21 @@ public class FlightPlan {
 	
 	private boolean isMouseOnWaypoint() {
 		int mouseX = Mouse.getX(); //Get mouse coordinates
-		int mouseY = Mouse.getY();
-		mouseY=600-mouseY;
+		int mouseY = Game.MAXIMUMHEIGHT -Mouse.getY();
+		
 		if(this.getCurrentRoute().isEmpty()) { //If there are no waypouints
 			return false;
 		}
-		for(int i=0; i<this.flight.getAirspace().getListOfWaypoints().size();i++) { // calculate if the mouse is over the waypoint and set the value
-			if (((Math.abs(Math.round(mouseX) - Math.round(this.flight.getAirspace().getListOfWaypoints().get(i).getX()))) <= 15)
-					&& (Math.abs(Math.round(mouseY) - Math.round(this.flight.getAirspace().getListOfWaypoints().get(i).getY()))) <= 15) {
-				
-					this.waypointMouseIsOver=this.flight.getAirspace().getListOfWaypoints().get(i);
-					return true;
-					
+		
+		for (Waypoint w: flight.getAirspace().getListOfWaypoints()){
+			if (Math.abs(mouseX -w.getX()) <= 15
+					&& Math.abs(mouseY -w.getY()) <= 15){
+				waypointMouseIsOver = w;
+				return true;		
 			}
 		}
+		
+		//else if no waypoints in range
 		this.waypointMouseIsOver=null;
 		return false;
 	}
@@ -427,51 +431,52 @@ public class FlightPlan {
 	
 	public void changeFlightPlan(){
 		if (this.flight.getSelected() && this.currentRoute.size() > 0 ){
+
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
 
-				// Checks if user is not currently dragging a waypoint
-				if (!draggingWaypoint){
-					//Checks if user has clicked on a waypoint
-					if(mouseOverWaypoint && Mouse.isButtonDown(0)) {
-						this.waypointClicked=this.waypointMouseIsOver;
-						this.draggingWaypoint=true;
-					}
+			// Checks if user is not currently dragging a waypoint
+			if (!draggingWaypoint){
+				//Checks if user has clicked on a waypoint
+				if(mouseOverWaypoint && Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+					this.waypointClicked=this.waypointMouseIsOver;
+					this.draggingWaypoint=true;
 				}
-				
-				// Checks if user is currently dragging a waypoint
-				else if(draggingWaypoint){
-					// Checks if user has released mouse from drag over empty airspace
-					if((!Mouse.isButtonDown(0)) && !mouseOverWaypoint){
-						this.waypointClicked=null;
-						this.draggingWaypoint=false;
-							
-					}
-					
-					// Checks if user has released mouse from drag over another waypoint
-					else if((!Mouse.isButtonDown(0)) && mouseOverWaypoint){
-						
-						//Finding waypoint that mouse is over
-						for(int i=0; i<this.currentRoute.size();i++) {
-							
-							// Checks if new waypoint is not already in the plan and adds if not in plan
-							if (this.waypointClicked == this.currentRoute.get(i)&& (!this.currentRoute.contains(this.waypointMouseIsOver))&& (!this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver))){
-								this.currentRoute.remove(i);
-								this.currentRoute.add(i,this.waypointMouseIsOver);
-								this.waypointClicked=null;
-								this.draggingWaypoint=false;
-								
-							}
-							
-							// Checks if waypoint already in plan and doesn't add if not
-							else if(this.waypointClicked == this.currentRoute.get(i)&& ((this.currentRoute.contains(this.waypointMouseIsOver)) || (this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver)))){
-								this.waypointClicked=null;
-								this.draggingWaypoint=false;
-								break;
-								
-							}
+			}
+
+			// Checks if user is currently dragging a waypoint
+			else if(draggingWaypoint){
+				// Checks if user has released mouse from drag over empty airspace
+				if((!Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) && !mouseOverWaypoint){
+					this.waypointClicked=null;
+					this.draggingWaypoint=false;
+
+				}
+
+				// Checks if user has released mouse from drag over another waypoint
+				else if((!Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) && mouseOverWaypoint){
+
+					//Finding waypoint that mouse is over
+					for(int i=0; i<this.currentRoute.size();i++) {
+
+						// Checks if new waypoint is not already in the plan and adds if not in plan
+						if (this.waypointClicked == this.currentRoute.get(i)&& (!this.currentRoute.contains(this.waypointMouseIsOver))&& (!this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver))){
+							this.currentRoute.remove(i);
+							this.currentRoute.add(i,this.waypointMouseIsOver);
+							this.waypointClicked=null;
+							this.draggingWaypoint=false;
+
+						}
+
+						// else checks if waypoint already in plan and doesn't add if not
+						else if(this.waypointClicked == this.currentRoute.get(i)&& ((this.currentRoute.contains(this.waypointMouseIsOver)) || (this.waypointsAlreadyVisited.contains(this.waypointMouseIsOver)))){
+							this.waypointClicked=null;
+							this.draggingWaypoint=false;
+							break;
+
 						}
 					}
 				}
+			}
 		}
 	}
 	

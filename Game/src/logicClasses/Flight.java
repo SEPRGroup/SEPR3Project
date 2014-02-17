@@ -7,6 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import stateContainer.Game;
+
 public class Flight {
 
 	// FIELDS
@@ -14,6 +16,10 @@ public class Flight {
 		regularFlightImage, slowFlightImage, fastFlightImage, shadowImage,
 		selectedFlightInformationBackgroundImage;
 	private static double gameScale = 1/1000.0;
+	
+	private int
+		minVelocity = 200, maxVelocity = 400,
+		minAltitude = 20000, maxAltitude = 31000;
 	
 	private int flightNumber;
 	private String flightName;
@@ -55,7 +61,7 @@ public class Flight {
 	 * @return A random altitude (either 28000, 29000 or 30000)
 	 */
 
-	public int generateAltitude() {
+	public int generateAltitude() {	//{!} not converted to using min/max
 		Random rand = new Random();
 		int check = rand.nextInt(3);
 		switch(check) {
@@ -176,7 +182,7 @@ public class Flight {
 	public void drawFlight(Graphics g, GameContainer gc ){
 
 				g.setColor(Color.white);
-				g.setWorldClip(150, 0, 1200, 600);
+				g.setWorldClip(150, 0, Game.MAXIMUMWIDTH -150, Game.MAXIMUMHEIGHT);
 
 				
 				float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10; // Scale the shadow in accordance to the altitude of the flight
@@ -185,14 +191,14 @@ public class Flight {
 				
 				//Depending on a plane's speed, different images for the plane are drawn
 					
-				if(velocity <= 275){
+				if(velocity <= 275){	//{!} not converted to using min/max
 					
 					slowFlightImage.setRotation((int) currentHeading);
 					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
 					
 				}
 				
-				else if(velocity>270 && velocity<340){
+				else if(velocity>270 && velocity<340){	//{!} not converted to using min/max
 					
 					regularFlightImage.setRotation((int) currentHeading);
 					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
@@ -238,7 +244,7 @@ public class Flight {
 					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
 				}
 				
-				g.setWorldClip(0, 0, 1200, 600);
+				g.setWorldClip(0, 0, Game.MAXIMUMWIDTH, Game.MAXIMUMHEIGHT);
 		
 	}
 	
@@ -482,6 +488,22 @@ public class Flight {
 
 	public void setAltitude(int altitude) {
 		this.currentAltitude = altitude;
+	}
+
+	public int getMinVelocity() {
+		return minVelocity;
+	}
+
+	public int getMaxVelocity() {
+		return maxVelocity;
+	}
+
+	public int getMinAltitude() {
+		return minAltitude;
+	}
+
+	public int getMaxAltitude() {
+		return maxAltitude;
 	}
 
 	public boolean getTurningRight() {
