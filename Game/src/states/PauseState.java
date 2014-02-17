@@ -1,6 +1,4 @@
 package states;
-import java.io.IOException;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -37,112 +35,68 @@ public class PauseState extends BasicGameState {
 			LoadingList loading = LoadingList.get();
 
 			loading.add(new DeferredFile("res/menu_graphics/pause_screen.jpg"){
-				public void load() throws IOException{
-					try { 
-						pauseBackgroundPage1 = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}   
+				public void loadFile(String filename) throws SlickException{
+					pauseBackgroundPage1 = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/controls2.jpg"){
-				public void load() throws IOException{
-					try { 
-						pauseBackgroundPage2 = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					pauseBackgroundPage2 = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/next page.png"){
-				public void load() throws IOException{
-					try { 
-						nextPageButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					nextPageButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/back.png"){
-				public void load() throws IOException{
-					try { 
-						backButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					backButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/back_hover.png"){
-				public void load() throws IOException{
-					try { 
-						backButtonHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					backButtonHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/next page_hover.png"){
-				public void load() throws IOException{
-					try { 
-						nextPageButtonHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					nextPageButtonHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/previous page.png"){
-				public void load() throws IOException{
-					try { 
-						previousPageButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					previousPageButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/previous hover.png"){
-				public void load() throws IOException{
-					try { 
-						previousPageButtonHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					previousPageButtonHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/menu_button.png"){
-				public void load() throws IOException{
-					try { 
-						menuButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					menuButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/quit_button.png"){
-				public void load() throws IOException{
-					try { 
-						quitButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					quitButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/quit_hover.png"){
-				public void load() throws IOException{
-					try { 
-						quitButtonHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					quitButtonHover = new Image(filename);
 				}
 			});
 		}

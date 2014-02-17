@@ -33,34 +33,24 @@ public class ExitPoint extends Point {
 			
 			if (exitPointTop == null){
 				loading.add(new DeferredFile("res/graphics/exitpoint_top.png"){
-					public void load() throws IOException{
-						try { 
-							exitPointTop = new Image(filename);
-						} catch (SlickException e) {
-							throw new IOException("error loading:\t" +filename);
-						}
+					public void loadFile(String filename) throws SlickException{
+						exitPointTop = new Image(filename);
 					}
 				});
 			}
+			
 			if (exitPointRight == null){
 				loading.add(new DeferredFile("res/graphics/exitpoint_right.png"){
-					public void load() throws IOException{
-						try { 
-							exitPointRight = new Image(filename);
-						} catch (SlickException e) {
-							throw new IOException("error loading:\t" +filename);
-						}
+					public void loadFile(String filename) throws SlickException{
+						exitPointRight = new Image(filename);
 					}
 				});
 			}
+			
 			if (exitPointLeft == null){
 				loading.add(new DeferredFile("res/graphics/exitpoint_left.png"){
-					public void load() throws IOException{
-						try { 
-							exitPointLeft = new Image(filename);
-						} catch (SlickException e) {
-							throw new IOException("error loading:\t" +filename);
-						}
+					public void loadFile(String filename) throws SlickException{
+						exitPointLeft = new Image(filename);
 					}
 				});
 			}

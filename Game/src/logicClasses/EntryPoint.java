@@ -31,32 +31,22 @@ public class EntryPoint extends Point {
     		LoadingList loading = LoadingList.get();
     		if (entryPointTop == null)
     			loading.add(new DeferredFile("res/graphics/entrypoint_top.png"){
-    				public void load() throws IOException{
-    					try { 
-    						entryPointTop = new Image(filename);
-    					} catch (SlickException e) {
-    						throw new IOException("error loading:\t" +filename);
-    					}
+    				public void loadFile(String filename) throws SlickException{
+    					entryPointTop = new Image(filename);
     				}
     			});
+    		
     		if (entryPointRight == null)
     			loading.add(new DeferredFile("res/graphics/entrypoint_right.png"){
-    				public void load() throws IOException{
-    					try { 
-    						entryPointRight = new Image(filename);
-    					} catch (SlickException e) {
-    						throw new IOException("error loading:\t" +filename);
-    					}
+    				public void loadFile(String filename) throws SlickException{
+    					entryPointRight = new Image(filename);
     				}
     			});
+    		
     		if (entryPointLeft == null)
     			loading.add(new DeferredFile("res/graphics/entrypoint_left.png"){
-    				public void load() throws IOException{
-    					try { 
-    						entryPointLeft = new Image(filename);
-    					} catch (SlickException e) {
-    						throw new IOException("error loading:\t" +filename);
-    					}
+    				public void loadFile(String filename) throws SlickException{
+    					entryPointLeft = new Image(filename);
     				}
     			});
     		

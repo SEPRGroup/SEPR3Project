@@ -38,102 +38,62 @@ public class ControlsState extends BasicGameState {
 		{
 			LoadingList loading = LoadingList.get();
 			loading.add(new DeferredFile("res/menu_graphics/controls1.jpg"){
-				public void load() throws IOException{
-					try { 
-						controlsBackgroundPage1 = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					controlsBackgroundPage1 = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/controls2.jpg"){
-				public void load() throws IOException{
-					try { 
-						controlsBackgroundPage2 = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					controlsBackgroundPage2 = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/back.png"){
-				public void load() throws IOException{
-					try { 
-						backButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					backButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/back_hover.png"){
-				public void load() throws IOException{
-					try { 
-						backHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					backHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/next page.png"){
-				public void load() throws IOException{
-					try { 
-						nextPageButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					nextPageButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/next page_hover.png"){
-				public void load() throws IOException{
-					try { 
-						nextPageHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					nextPageHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/previous page.png"){
-				public void load() throws IOException{
-					try { 
-						previousPageButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					previousPageButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/previous hover.png"){
-				public void load() throws IOException{
-					try { 
-						previousPageHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{ 
+					previousPageHover = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/quit_button.png"){
-				public void load() throws IOException{
-					try { 
-						quitButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					quitButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/quit_hover.png"){
-				public void load() throws IOException{
-					try { 
-						quitHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					quitHover = new Image(filename);
 				}
 			});
 		}

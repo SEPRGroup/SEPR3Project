@@ -1,7 +1,5 @@
 package logicClasses;
 
-import java.io.IOException;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -36,23 +34,16 @@ public class Waypoint extends Point {
 			
 			if (waypointImage == null){
 				loading.add(new DeferredFile("res/graphics/waypoint.png"){
-					public void load() throws IOException{
-						try { 
-							waypointImage = new Image(filename);
-						} catch (SlickException e) {
-							throw new IOException("error loading:\t" +filename);
-						}
+					public void loadFile(String filename) throws SlickException{
+						waypointImage = new Image(filename);
 					}
 				});
 			}
+			
 			if (nextWaypointImage == null){
 				loading.add(new DeferredFile("res/graphics/waypoint_next.png"){
-					public void load() throws IOException{
-						try { 
-							nextWaypointImage = new Image(filename);
-						} catch (SlickException e) {
-							throw new IOException("error loading:\t" +filename);
-						}
+					public void loadFile(String filename) throws SlickException{
+						nextWaypointImage = new Image(filename);
 					}
 				});
 			}

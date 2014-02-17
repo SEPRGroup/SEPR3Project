@@ -3,8 +3,6 @@ package states;
 //import java.awt.Font;
 //import java.io.InputStream;
 
-import java.io.IOException;
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -42,32 +40,20 @@ public class CreditsState extends BasicGameState {
 			LoadingList loading = LoadingList.get();
 
 			loading.add(new DeferredFile("res/menu_graphics/menu_screen.png"){	
-				public void load() throws IOException{
-					try { 
-						menuBackground = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					menuBackground = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/menu_button.png"){
-				public void load() throws IOException{
-					try { 
-						menuButton = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					menuButton = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/menu_graphics/menu_hover.png"){
-				public void load() throws IOException{
-					try { 
-						menuHover = new Image(filename);
-					} catch (SlickException e) {
-						throw new IOException("error loading:\t" +filename);
-					}
+				public void loadFile(String filename) throws SlickException{
+					menuHover = new Image(filename);
 				}
 			});
 		}

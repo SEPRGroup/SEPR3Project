@@ -57,22 +57,14 @@ public class Controls {
 		{
 			LoadingList loading = LoadingList.get();
 			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){
-				public void load() throws IOException{
-	                try { 
-	                	altitudeButton = new Image(filename);
-	                } catch (SlickException e) {
-	                    throw new IOException("error loading:\t" +filename);
-	                }        
+				public void loadFile(String filename) throws SlickException{
+	                altitudeButton = new Image(filename);       
 	            }				
 			});
 			
 			loading.add(new DeferredFile("res/graphics/altitudebutton.png"){	// same as altitude button
-				public void load() throws IOException{
-	                try { 
-	                	changePlanButton = new Image(filename);
-	                } catch (SlickException e) {
-	                    throw new IOException("error loading:\t" +filename);
-	                }  
+				public void loadFile(String filename) throws SlickException{
+	                changePlanButton = new Image(filename);
 				}
 			});
 		}
