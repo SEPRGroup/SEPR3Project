@@ -37,6 +37,10 @@ public class Flight {
 	private FlightPlan flightPlan;
 	private boolean selected;
 	
+	private final static int RADIUS = 30;
+	private int closestDistance = 30;
+	private int distanceFromWaypoint = 30;
+	
 	
 	// CONSTRUCTOR
 	public Flight(Airspace airspace) {
@@ -160,15 +164,46 @@ public class Flight {
 	 */
 	
 	public boolean checkIfFlightAtWaypoint(Point waypoint) {
+		int distanceX;
+		int distanceY;
 		
-		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= 15)
-				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= 15) {
-			return true;
-		}
+		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())));
+		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())));
 
+		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
+		
+		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= RADIUS)
+				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= RADIUS) {
+			if (closestDistance < distanceFromWaypoint){
+				System.out.println("DistanceX(2) = " + distanceX);
+				System.out.println("DistanceY(2) = " + distanceY);
+				System.out.println();
+				return true;
+			}		
+		}
 		return false;
 	}
 
+	public int minDistanceFromWaypoint(Point waypoint){
+		int distanceX;
+		int distanceY;
+		
+		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())))/10;
+		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())))/10;
+
+		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
+
+		if (closestDistance > distanceFromWaypoint){
+				closestDistance = distanceFromWaypoint;
+		}		
+		
+		System.out.println("DistanceX = " + distanceX);
+		System.out.println("DistanceY = " + distanceY);
+		System.out.println("closestDistance = " + closestDistance);
+		System.out.println("distanceFromWaypoint = " + distanceFromWaypoint);
+		
+		return closestDistance;
+	}
 	
 	// DRAWING METHODS
 	

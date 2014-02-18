@@ -32,6 +32,8 @@ public class FlightPlan {
 	private static final int	//waypoint ID references
 		A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
 	
+	private int closestDistance;
+	
 
 	// CONSTRUCTOR
 	
@@ -413,14 +415,16 @@ public class FlightPlan {
 	 */
 	
 	public void updateFlightPlan(ScoreTracking score){
-
+		int waypointScore = 0;
 		if (this.currentRoute.size() > 0) { //Check to see if there are still waypoints to visit and then check if the flight is passing through waypoint
 			if (this.flight.checkIfFlightAtWaypoint(currentRoute.get(0))) {
 				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
+				closestDistance = this.flight.minDistanceFromWaypoint(this.currentRoute.get(0));
+				waypointScore = score.updateWaypointScore(closestDistance);
 				this.currentRoute.remove(0);
-				score.updateWaypointScore();
 			}
 		}
+		score.updateScore(waypointScore);
 
 	}
 	
