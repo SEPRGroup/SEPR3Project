@@ -1,7 +1,5 @@
 package logicClasses;
 import java.awt.Font;
-import java.io.IOException;
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
