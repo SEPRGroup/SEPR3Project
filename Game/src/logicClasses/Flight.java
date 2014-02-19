@@ -39,7 +39,7 @@ public class Flight {
 	
 	private final static int RADIUS = 30;
 	private int closestDistance = 30;
-	private int distanceFromWaypoint = 30;
+	private int distanceFromWaypoint = 29;
 	
 	
 	// CONSTRUCTOR
@@ -167,19 +167,36 @@ public class Flight {
 		int distanceX;
 		int distanceY;
 		
+		closestDistance = 30;
+		
+		System.out.println("This.y = " + this.y);
+		System.out.println("This.x = " + this.x);
+		System.out.println("Waypointx = " + waypoint.getX());
+		System.out.println("Waypointy = " + waypoint.getY());
+		System.out.println();
+		
 		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())));
 		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())));
 
 		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
 		
+		if (closestDistance > distanceFromWaypoint){
+				closestDistance = distanceFromWaypoint;
+				System.out.println("distanceFromWaypoint 1st instance = " + distanceFromWaypoint);
+				System.out.println("Closest Distance 1st instance = " + closestDistance);
+				System.out.println();
+		}	
+		
 		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= RADIUS)
 				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= RADIUS) {
-			if (closestDistance < distanceFromWaypoint){
-				System.out.println("DistanceX(2) = " + distanceX);
-				System.out.println("DistanceY(2) = " + distanceY);
-				System.out.println();
-				return true;
-			}		
+//			if (closestDistance < distanceFromWaypoint){
+//				System.out.println("DistanceX(2) = " + distanceX);
+//				System.out.println("DistanceY(2) = " + distanceY);
+//				System.out.println("Closest Distance 2 = " + closestDistance);
+//				System.out.println();
+//				return true;
+//			}	
+			return true;
 		}
 		return false;
 	}
@@ -188,14 +205,12 @@ public class Flight {
 		int distanceX;
 		int distanceY;
 		
-		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())))/10;
-		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())))/10;
+		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())));
+		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())));
 
 		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
 
-		if (closestDistance > distanceFromWaypoint){
-				closestDistance = distanceFromWaypoint;
-		}		
+			
 		
 		System.out.println("DistanceX = " + distanceX);
 		System.out.println("DistanceY = " + distanceY);
