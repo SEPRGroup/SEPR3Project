@@ -562,7 +562,7 @@ public class FlightMenu implements MouseListener{
 		if (flight != null){
 			altIndicator = normalScale(flight.getTargetAltitude(), flight.getMinAltitude(),
 			                           flight.getMaxAltitude());
-			speedIndicator = normalScale(flight.getVelocity(), flight.getMinVelocity(),
+			speedIndicator = normalScale(flight.getTargetVelocity(), flight.getMinVelocity(),
 			                             flight.getMaxVelocity());
 			headingIndicator = Math.toRadians(flight.getTargetHeading());
 			setIndicatorPos();

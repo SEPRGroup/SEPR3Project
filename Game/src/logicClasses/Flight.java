@@ -37,7 +37,7 @@ public class Flight {
 	private FlightPlan flightPlan;
 	private boolean selected;
 	private final static int RADIUS = 30;
-	private int closestDistance = 42; // this is the maximum distance a plane
+	private int closestDistance = Integer.MAX_VALUE; // this is the maximum distance a plane
 									  // can be away from the waypoint once it has 
 									  // been checked that the plane is inside the waypoint
 	private int distanceFromWaypoint;
@@ -201,19 +201,19 @@ public class Flight {
 		return closestDistance;
 	}
 	public void resetMinDistanceFromWaypoint(){
-		closestDistance = 42;
+		closestDistance = Integer.MAX_VALUE;
 	}
 	
 	public void takeOff(){
 		takingOff = true;
-		setTargetVelocity(300);
+		setTargetVelocity((minVelocity +maxVelocity) /2);
 	}
 	
 	public void land(){	
 		// if next point is an exit point
 		if(getFlightPlan().getPointByIndex(0) == getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
 			// if flight is within a box at one end of runway
-			if(getX() >= 300 && getY() >= 300 && getX() <= 400 && getY() < 400){
+			if(x >= 300 && y >= 300 && x <= 400 && y < 400){
 				landing = true;
 			}
 		}
@@ -425,25 +425,29 @@ public class Flight {
 	}
 	
 	public void updateVelocity(){
-		double accel = 10;
+		double accel = 20/60.0;
 		
-		double dv = 0.002*(targetVelocity - velocity);
-		if (Math.round(targetVelocity) < Math.round(velocity)) {
+		double dv = 0.01*(targetVelocity - velocity);
+		if (targetVelocity > velocity) {
 			dv = Math.min(dv , accel);
 		}else{
 			dv = Math.max(dv,-accel);
 		}
+
 		velocity += dv;
+		
 		if (Math.abs(targetVelocity - velocity)< 0.5){
 			
 			velocity = targetVelocity;
 		}
-		if (Math.abs(230 - velocity)< 0.5){
-			
-			if(takingOff){
-				setTargetAltitude(30000);
-				takingOff = false;
-			}
+		
+		
+		
+		
+		if (takingOff && (Math.abs(minVelocity - velocity)< 0.5)){
+
+			setTargetAltitude(minAltitude);
+			takingOff = false;
 		}
 	}
 
@@ -646,7 +650,7 @@ public class Flight {
 		this.targetVelocity = velocity;
 	}
 	
-	public double getTargetVelocity(double velocity){
+	public double getTargetVelocity(){
 		return targetVelocity;
 	}
 	public FlightPlan getFlightPlan() {
