@@ -39,7 +39,7 @@ public class CreditsState extends BasicGameState {
 		{
 			LoadingList loading = LoadingList.get();
 
-			loading.add(new DeferredFile("res/menu_graphics/menu_screen.png"){	
+			loading.add(new DeferredFile("res/menu_graphics/new/menu_screen.png"){	
 				public void loadFile(String filename) throws SlickException{
 					menuBackground = new Image(filename);
 				}
