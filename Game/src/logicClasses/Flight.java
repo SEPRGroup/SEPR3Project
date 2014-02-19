@@ -20,6 +20,10 @@ public class Flight {
 	private int
 		minVelocity = 200, maxVelocity = 400,
 		minAltitude = 26000, maxAltitude = 31000;
+	private double
+		accel = 20/60.0,
+		climbRate = 60/60.0,
+		turnRate = 30/60.0;	//20 mph per second
 	
 	private int flightNumber;
 	private String flightName;
@@ -43,8 +47,8 @@ public class Flight {
 	private int distanceFromWaypoint;
 
 	private boolean 
-			takingOff = false,
-			landing = false;
+		takingOff = false,
+		landing = false;
 
 	
 	// CONSTRUCTOR
@@ -351,11 +355,11 @@ public class Flight {
 	
 	public void updateAltitude() {
 		if (this.currentAltitude > this.targetAltitude) {
-			this.currentAltitude -= 1;
+			this.currentAltitude -= climbRate;
 		}
 
 		else if (this.currentAltitude < this.targetAltitude) {
-			this.currentAltitude += 1;
+			this.currentAltitude += climbRate;
 		}
 	}
 	
@@ -367,7 +371,6 @@ public class Flight {
 
 	public void updateCurrentHeading() {
 	
-		double rate = 0.5;
 		if (Math.round(this.targetHeading) != Math.round(this.currentHeading)) {
 			
 
@@ -407,7 +410,7 @@ public class Flight {
 			// If plane is already turning right or user has told it to turn right
 			
 			if (this.turningRight == true) {
-				this.currentHeading += rate;
+				this.currentHeading += turnRate;
 				if (Math.round(this.currentHeading) >= 360 && this.targetHeading != 360) {
 					this.currentHeading = 0;
 				}
@@ -416,7 +419,7 @@ public class Flight {
 			// If plane is already turning left or user has told it to turn left
 			
 			if (this.turningLeft == true) {
-				this.currentHeading -= rate;
+				this.currentHeading -= turnRate;
 				if (Math.round(this.currentHeading) <= 0 && this.targetHeading != 0) {
 					this.currentHeading = 360;
 				}
@@ -425,7 +428,6 @@ public class Flight {
 	}
 	
 	public void updateVelocity(){
-		double accel = 20/60.0;
 		
 		double dv = 0.01*(targetVelocity - velocity);
 		if (targetVelocity > velocity) {

@@ -14,7 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class SplashState extends BasicGameState {
+public final class SplashState extends BasicGameState {
 
 	private static Image splash;
 	private static Color
@@ -25,7 +25,7 @@ public class SplashState extends BasicGameState {
 	public SplashState(int state){
 		
 	}
-	
+
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame s)
@@ -63,8 +63,10 @@ public class SplashState extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame s, int delta)
 			throws SlickException {
 		
-		if (loading.getRemainingResources() == 0)	//finished loading
+		if (loading.getRemainingResources() == 0){	//finished loading
+			gc.setShowFPS(false);
 			s.enterState(stateContainer.Game.MENUSTATE);
+		}
 		else {
 			DeferredResource next = loading.getNext();
 			try {

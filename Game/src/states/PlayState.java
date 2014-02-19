@@ -50,7 +50,6 @@ public class PlayState extends BasicGameState {
 		settingDifficulty = true;
 		time = 0;
 		airspace = new Airspace();
-		// Removed i as not necessary 
 		this.stringTime="";
 		
 		gc.setAlwaysRender(true);
