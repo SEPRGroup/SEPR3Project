@@ -276,6 +276,7 @@ public class Airspace {
 				this.removeSpecificFlight(i);
 			}
 			else if (this.checkIfFlightHasLeftAirspace(this.getListOfFlights().get(i))) {
+				score.reduceScoreOnFlightLost();
 				this.removeSpecificFlight(i);
 			}
 			

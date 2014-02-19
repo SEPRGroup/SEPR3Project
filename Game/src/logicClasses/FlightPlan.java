@@ -444,7 +444,7 @@ public class FlightPlan {
 	 * plan mode
 	 */
 	
-	public void changeFlightPlan(){
+	public void changeFlightPlan(ScoreTracking score){
 		if (this.flight.getSelected() && this.currentRoute.size() > 0 ){
 
 			boolean mouseOverWaypoint = this.isMouseOnWaypoint();
@@ -469,7 +469,10 @@ public class FlightPlan {
 
 				// Checks if user has released mouse from drag over another waypoint
 				else if((!Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) && mouseOverWaypoint){
-
+					
+					// reduce the score by 20 if the user changes the flight plan
+					score.reduceScoreOnFlightplanChange();
+					
 					//Finding waypoint that mouse is over
 					for(int i=0; i<this.currentRoute.size();i++) {
 
@@ -576,7 +579,7 @@ public class FlightPlan {
 		
 		this.updateFlightPlan(score);
 		if(this.changingPlan == true){
-			this.changeFlightPlan();
+			this.changeFlightPlan(score);
 		}
 
 	}
