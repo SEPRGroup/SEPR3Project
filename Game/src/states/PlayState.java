@@ -86,7 +86,7 @@ public class PlayState extends BasicGameState {
 			});
 
 			//Images
-			loading.add(new DeferredFile("res/graphics/control_bar_vertical.png"){
+			loading.add(new DeferredFile("res/graphics/new/control_bar_vertical.png"){
 				public void loadFile(String filename) throws SlickException{
 					controlBarImage = new Image(filename);
 				}
@@ -98,7 +98,7 @@ public class PlayState extends BasicGameState {
 				}
 			});
 
-			loading.add(new DeferredFile("res/graphics/background.png"){
+			loading.add(new DeferredFile("res/graphics/new/background.png"){
 				public void loadFile(String filename) throws SlickException{
 					backgroundImage = new Image(filename);
 				}
