@@ -17,15 +17,15 @@ public class ScoreTracking {
 	
 	public int updateWaypointScore(int closestDistance){
 					
-		if (closestDistance >= 0 && closestDistance <= 10){		//checks to see if the plane is within 10 pixels
+		if (closestDistance >= 0 && closestDistance <= 14){		//checks to see if the plane is within 10 pixels
 			waypointScore = 100;								//if yes, the score given is 100 points
 		}
 					
-		if (closestDistance >= 11 && closestDistance <= 20){	
+		if (closestDistance >= 15 && closestDistance <= 28){	
 			waypointScore = 50;
 		}
 					
-		if (closestDistance >= 21 && closestDistance <= 30){
+		if (closestDistance >= 29 && closestDistance <= 42){
 			waypointScore = 20;
 		}
 			

@@ -416,12 +416,13 @@ public class FlightPlan {
 	
 	public void updateFlightPlan(ScoreTracking score){
 		int waypointScore = 0;
-		//flight.minDistanceFromWaypoint(this.currentRoute.get(0));
+		
 		if (this.currentRoute.size() > 0) { //Check to see if there are still waypoints to visit and then check if the flight is passing through waypoint
 			if (this.flight.checkIfFlightAtWaypoint(currentRoute.get(0))) {
 				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
-				closestDistance = this.flight.minDistanceFromWaypoint(this.currentRoute.get(0));
-				waypointScore = score.updateWaypointScore(closestDistance);
+				closestDistance = this.flight.minDistanceFromWaypoint(this.currentRoute.get(0)); // get the closest distance from the waypoint
+				flight.resetMinDistanceFromWaypoint();
+				waypointScore = score.updateWaypointScore(closestDistance); // update the score based on how close to the waypoints
 				this.currentRoute.remove(0);
 			}
 		}

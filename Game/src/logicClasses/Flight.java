@@ -38,8 +38,10 @@ public class Flight {
 	private boolean selected;
 	
 	private final static int RADIUS = 30;
-	private int closestDistance = 30;
-	private int distanceFromWaypoint = 29;
+	private int closestDistance = 42; // this is the maximum distance a plane
+									  // can be away from the waypoint once it has 
+									  // been checked that the plane is inside the waypoint
+	private int distanceFromWaypoint;
 	
 	
 	// CONSTRUCTOR
@@ -158,66 +160,41 @@ public class Flight {
 	
 	/**
 	 * checkIfFlightAtWaypoint: checks whether a flight is close enough to the next waypoint in it's plan
-	 * for it to be considered at that waypoint.
+	 * for it to be considered at that waypoint. Update the closestDistance so that it knows how close the plane
+	 * was from the waypoint when it leaves the waypoint. This is so the score can be updated correctly
 	 * @param Waypoint - The next waypoint in the flight's plan.
-	 * @return True if flight is at it's next waypoint.
+	 * @return True if flight is at it's next waypoint and it is moving away from that waypoint.
 	 */
-	
+
 	public boolean checkIfFlightAtWaypoint(Point waypoint) {
 		int distanceX;
 		int distanceY;
 		
-		closestDistance = 30;
-		
-		System.out.println("This.y = " + this.y);
-		System.out.println("This.x = " + this.x);
-		System.out.println("Waypointx = " + waypoint.getX());
-		System.out.println("Waypointy = " + waypoint.getY());
-		System.out.println();
-		
 		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())));
 		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())));
 
 		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
 		
+		// The plane is coming towards the waypoint
 		if (closestDistance > distanceFromWaypoint){
 				closestDistance = distanceFromWaypoint;
-				System.out.println("distanceFromWaypoint 1st instance = " + distanceFromWaypoint);
-				System.out.println("Closest Distance 1st instance = " + closestDistance);
-				System.out.println();
 		}	
 		
-		if (((Math.abs(Math.round(this.x) - Math.round(waypoint.getX()))) <= RADIUS)
-				&& (Math.abs(Math.round(this.y) - Math.round(waypoint.getY()))) <= RADIUS) {
-//			if (closestDistance < distanceFromWaypoint){
-//				System.out.println("DistanceX(2) = " + distanceX);
-//				System.out.println("DistanceY(2) = " + distanceY);
-//				System.out.println("Closest Distance 2 = " + closestDistance);
-//				System.out.println();
-//				return true;
-//			}	
-			return true;
+		if ((distanceX <= RADIUS) && (distanceY <= RADIUS)) {
+			// The plane is going away from the way point
+			if (closestDistance < distanceFromWaypoint){				
+				return true;
+			}
 		}
 		return false;
 	}
 
-	public int minDistanceFromWaypoint(Point waypoint){
-		int distanceX;
-		int distanceY;
-		
-		distanceX = (int)(Math.abs(Math.round(this.x) - Math.round(waypoint.getX())));
-		distanceY = (int)(Math.abs(Math.round(this.y) - Math.round(waypoint.getY())));
-
-		distanceFromWaypoint = (int)Math.sqrt((int)Math.pow(distanceX,2) + (int)Math.pow(distanceY,2));
-
-			
-		
-		System.out.println("DistanceX = " + distanceX);
-		System.out.println("DistanceY = " + distanceY);
-		System.out.println("closestDistance = " + closestDistance);
-		System.out.println("distanceFromWaypoint = " + distanceFromWaypoint);
-		
+	public int minDistanceFromWaypoint(Point waypoint){	
 		return closestDistance;
+	}
+	
+	public void resetMinDistanceFromWaypoint(){
+		closestDistance = 42;
 	}
 	
 	// DRAWING METHODS

@@ -14,7 +14,7 @@ public class PlayState_Test {
 	
 	@Before
 	public void setup() {
-		int playState = 1;
+		int playState = 2;
 		playStateInstance =  new PlayState(playState);
 		airspaceInstance = new Airspace();
 	}
@@ -22,7 +22,7 @@ public class PlayState_Test {
 	@Test
 	public void testGetID() {
 		int actualID = playStateInstance.getID(); 
-		assertEquals(1, actualID);
+		assertEquals(2, actualID);
 	}
 
 	@Test
