@@ -111,38 +111,41 @@ public class FlightMenu implements MouseListener{
 			//{!} constrain positions
 	
 			//draw altitude slider and labels
-			drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
-				//account for image mispositioning after rotation
-			drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
-			drawString(String.valueOf(flight.getMinAltitude()),
-			           labelFont, labelColor,
-			           altPos.x, altPos.y +altSize);	//centred on bottom left edge of slider 
-			drawString(String.valueOf(flight.getMaxAltitude()),
-			           labelFont, labelColor,
-			           altPos.x, altPos.y);	//centred on top left edge of slider
-			if (ALT == mode)
-				drawImage(aIndicatorSelect, altIndicatorPos);
-			else drawImage(aIndicator, altIndicatorPos);
-
-			//draw speed slider and labels
-			drawImage(speedBase, speedPos);
-			drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
-			drawString(String.valueOf(flight.getMinVelocity()),
-			           labelFont, labelColor,
-			           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
-			drawString(String.valueOf(flight.getMaxVelocity()),
-			           labelFont, labelColor,
-			           speedPos.x +speedSize, speedPos.y +sliderWidth);	//centred on bottom right edge of slider
-			if (SPEED == mode)
-				drawImage(aIndicatorSelect, speedIndicatorPos);
-			else drawImage(aIndicator, speedIndicatorPos);
-
-			//draw heading slider and labels
-			drawImage(headingBase, headingPos);
-			if (HEADING == mode)
-				drawImage(aIndicatorSelect, headingIndicatorPos);
-			else drawImage(aIndicator, headingIndicatorPos);
-
+			if(!flight.isGrounded()){
+				
+				drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
+					//account for image mispositioning after rotation
+				drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
+				drawString(String.valueOf(flight.getMinAltitude()),
+				           labelFont, labelColor,
+				           altPos.x, altPos.y +altSize);	//centred on bottom left edge of slider 
+				drawString(String.valueOf(flight.getMaxAltitude()),
+				           labelFont, labelColor,
+				           altPos.x, altPos.y);	//centred on top left edge of slider
+				if (ALT == mode)
+					drawImage(aIndicatorSelect, altIndicatorPos);
+				else drawImage(aIndicator, altIndicatorPos);
+				
+				//draw speed slider and labels
+				drawImage(speedBase, speedPos);
+				drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
+				drawString(String.valueOf(flight.getMinVelocity()),
+				           labelFont, labelColor,
+				           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
+				drawString(String.valueOf(flight.getMaxVelocity()),
+				           labelFont, labelColor,
+				           speedPos.x +speedSize, speedPos.y +sliderWidth);	//centred on bottom right edge of slider
+				if (SPEED == mode)
+					drawImage(aIndicatorSelect, speedIndicatorPos);
+				else drawImage(aIndicator, speedIndicatorPos);
+	
+				//draw heading slider and labels
+				drawImage(headingBase, headingPos);
+				if (HEADING == mode)
+					drawImage(aIndicatorSelect, headingIndicatorPos);
+				else drawImage(aIndicator, headingIndicatorPos);
+			}
+			
 			//draw command button and label
 			if (CMD == mode)
 				drawImage(aButtonSelect, cmdPos);
@@ -155,13 +158,14 @@ public class FlightMenu implements MouseListener{
 				drawString(cmdString, buttonFont, buttonColor, 
 				           cmdPos.x +(buttonWidth/2.0f), cmdPos.y +(buttonHeight/2.0f));
 			}
-
-			//draw abort button and label
-			if (ABORT == mode)
-				drawImage(aButtonSelect, abortPos);
-			else drawImage(aButton, abortPos);
-			drawString("Abort", buttonFont, buttonColor, 
-			           abortPos.x +(buttonWidth/2.0f), abortPos.y +(buttonHeight/2.0f));
+			if(!flight.isGrounded()){
+				//draw abort button and label
+				if (ABORT == mode)
+					drawImage(aButtonSelect, abortPos);
+				else drawImage(aButton, abortPos);
+				drawString("Abort", buttonFont, buttonColor, 
+				           abortPos.x +(buttonWidth/2.0f), abortPos.y +(buttonHeight/2.0f));
+			}
 			
 		}
 	}
