@@ -116,7 +116,7 @@ public class PlayState extends BasicGameState {
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/difficulty.jpg"){
+			loading.add(new DeferredFile("res/menu_graphics/new/difficulty.png"){
 				public void loadFile(String filename) throws SlickException{
 					difficultyBackground = new Image(filename);
 				}
