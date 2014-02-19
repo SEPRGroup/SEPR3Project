@@ -45,13 +45,13 @@ public class CreditsState extends BasicGameState {
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/menu_button.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/menu_button.png"){
 				public void loadFile(String filename) throws SlickException{
 					menuButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/menu_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/menu_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					menuHover = new Image(filename);
 				}
