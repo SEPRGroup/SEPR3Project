@@ -308,7 +308,7 @@ public class Flight {
 	
 	public void drawSelectedFlightInformation(Graphics g, GameContainer gc) {
 		
-		selectedFlightInformationBackgroundImage.draw(0,450);
+		/*selectedFlightInformationBackgroundImage.draw(0,450);
 		g.setColor(Color.white);
 		g.drawString(this.flightName,  10, 460);
 		g.drawString("Plan: ",  10, 480);
@@ -327,6 +327,7 @@ public class Flight {
 			10, 540);
 		g.drawString(Math.round(velocity) + " MPH",
 			10, 560);
+			*/
 		
 	}
 	

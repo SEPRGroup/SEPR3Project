@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.io.InputStream;
 
 import logicClasses.Airspace;
+import logicClasses.Controls;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.loading.LoadingList;
@@ -28,7 +29,8 @@ public class PlayState extends BasicGameState {
 		easyButton, mediumButton,hardButton,  
 		easyHover, mediumHover, hardHover,  
 		backgroundImage, difficultyBackground,
-		controlBarImage, clockImage, cursorImg;
+		statusBarImage, clockImage, windImage,
+		cursorImg;
 	private static Sound endOfGameSound;
 	private static Music gameplayMusic;
 	private static TrueTypeFont font;	
@@ -59,17 +61,22 @@ public class PlayState extends BasicGameState {
 	
 		
 		// Font
-		try{
-			InputStream inputStream = ResourceLoader.getResourceAsStream("res/blue_highway_font/bluehigh.ttf");
-			Font awtFont= Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(20f);
-			font = new TrueTypeFont(awtFont, true);		
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 		
 		{
 			LoadingList loading = LoadingList.get();
+			
+			loading.add(new DeferredFile("res/blue_highway_font/bluehigh.ttf"){
+				public void loadFile(String filename) {
+					InputStream inputStream = ResourceLoader.getResourceAsStream(filename);
+					try {
+						Font awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+						awtFont = awtFont.deriveFont(20f);
+						font = new TrueTypeFont(awtFont, true);	
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
 			
 			// Music
 			loading.add(new DeferredFile("res/music/new/muzikele.ogg"){
@@ -87,13 +94,19 @@ public class PlayState extends BasicGameState {
 			//Images
 			loading.add(new DeferredFile("res/graphics/new/control_bar_vertical.png"){
 				public void loadFile(String filename) throws SlickException{
-					controlBarImage = new Image(filename);
+					statusBarImage = new Image(filename);
 				}
 			});
 
 			loading.add(new DeferredFile("res/graphics/clock.png"){
 				public void loadFile(String filename) throws SlickException{
 					clockImage = new Image(filename);
+				}
+			});
+			
+			loading.add(new DeferredFile("res/graphics/new/wind_indicator.png"){
+				public void loadFile(String filename) throws SlickException{
+					windImage = new Image(filename);
 				}
 			});
 
@@ -171,7 +184,7 @@ public class PlayState extends BasicGameState {
     	
     	airspace.init(gc);
 	}
-
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
@@ -200,11 +213,12 @@ public class PlayState extends BasicGameState {
 		}
 		
 		else{	//main game
+			//set font for the rest of the render
 			g.setFont(font);
 			
 			// Drawing Side Images
 			backgroundImage.draw(150,0);
-			controlBarImage.draw(0,0);
+			statusBarImage.draw(0,0);
 			
 			// Drawing Airspace and elements within it
 			g.setColor(Color.white);
@@ -213,11 +227,17 @@ public class PlayState extends BasicGameState {
 			// Drawing Clock and Time
 			g.setColor(Color.white);
 			clockImage.draw(0,5);
-			g.drawString(this.stringTime, 25, 11);
+			g.drawString(stringTime, 25, 10);
 			
 			// Drawing Score
-			g.setColor(Color.white);
-			g.drawString(airspace.getScore().toString(), 10, 101);
+			g.drawString(airspace.getScore().toString(), 10, 35);
+			
+			//drawing wind direction
+			windImage.setRotation(windImage.getRotation() +((float)Math.cos(time/2999.0) +(float)Math.sin(time/1009.0))/3);
+				//for now, set wind direction pseudo-randomly
+			windImage.draw(14, 550);
+			g.drawString("Wind:", 60, 550);
+			g.drawString(String.valueOf(Math.round(windImage.getRotation())), 65, 565);
 		
 		}	
 
@@ -248,7 +268,7 @@ public class PlayState extends BasicGameState {
 				if((posX>100&&posX<216) && (posY>300&&posY<354)) {
 					
 					airspace.setDifficultyValueOfGame(1);
-					airspace.getControls().setDifficultyValueOfGame(1);
+					airspace.getControls().setDifficultyValueOfGame(Controls.EASY);
 					airspace.createAndSetSeparationRules();
 					settingDifficulty = false;			
 				}
@@ -257,7 +277,7 @@ public class PlayState extends BasicGameState {
 				if((posX>100&&posX<284) && (posY>400&&posY<454)) {
 					
 					airspace.setDifficultyValueOfGame(2);
-					airspace.getControls().setDifficultyValueOfGame(2);
+					airspace.getControls().setDifficultyValueOfGame(Controls.NORMAL);
 					airspace.createAndSetSeparationRules();
 					settingDifficulty = false;	
 				}
@@ -266,7 +286,7 @@ public class PlayState extends BasicGameState {
 				if((posX>100&&posX<227) && (posY>500&&posY<554)) {
 					
 					airspace.setDifficultyValueOfGame(3);
-					airspace.getControls().setDifficultyValueOfGame(3);
+					airspace.getControls().setDifficultyValueOfGame(Controls.HARD);
 					airspace.createAndSetSeparationRules();
 					settingDifficulty = false;
 				}	
