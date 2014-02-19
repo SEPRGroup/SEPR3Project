@@ -17,6 +17,7 @@ public class FlightPlan {
 	
 	// FIELDS
 	private EntryPoint entryPoint;
+	private ExitPoint exitPoint;
 	private List<Point>
 		currentRoute = new ArrayList<Point>(), // Array that stores the current list of waypoints
 		waypointsAlreadyVisited; // Array that stores all the waypoints the flight has passed through
@@ -28,19 +29,21 @@ public class FlightPlan {
 	private Boolean
 		changingPlan, // Is the user currently changing the flight plan?
 		draggingWaypoint;// Is the user currently dragging a waypoint?
-	
+	private int closestDistance;
 	private static final int	//waypoint ID references
 		A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
-	
-	private int closestDistance;
 	
 
 	// CONSTRUCTOR
 	
 	public FlightPlan(Airspace airspace, Flight flight) {
 		this.flight = flight;
-		flight.setVelocity(generateVelocity());
 		this.entryPoint = generateEntryPoint(airspace);
+		
+		double v = generateVelocity();
+		flight.setVelocity(v);
+		flight.setTargetVelocity(v);
+	
 		this.currentRoute = buildRoute(airspace, this.entryPoint);
 		this.waypointsAlreadyVisited = new ArrayList<Point>();
 		this.changingPlan = false;
@@ -59,8 +62,8 @@ public class FlightPlan {
 	public EntryPoint generateEntryPoint(Airspace airspace){
 		
 		Random rand = new Random();
-		int randomNumber = rand.nextInt(3);
-			
+		int randomNumber = rand.nextInt(4);
+		//randomNumber = 3;
 		// Setting flights x and y to the coordinates of it's entrypoint
 		flight.setX(airspace.getListOfEntryPoints().get(randomNumber).getX()); // choose one a get the x and y values
 		flight.setY(airspace.getListOfEntryPoints().get(randomNumber).getY());
@@ -101,17 +104,17 @@ public class FlightPlan {
 				while (exitpointAdded == false){
 					// if entrypoint.y is 0 then top point so remove top exit point
 					if ((entryPoint.getY() == 0) && (entryPoint.getY() == tempListOfExitPoints.get(ExitPointIndex).getY())){
-						tempListOfExitPoints.remove(ExitPointIndex);
+						//tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					// if entrypoint.x is 150 then left point so remove left exit point
 					else if ((entryPoint.getX() == 150) && (entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX())){
-						tempListOfExitPoints.remove(ExitPointIndex);
+						//tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					// if entrypoint.x is 1200
 					else if ((entryPoint.getX() == 1200) && (entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX())){
-						tempListOfExitPoints.remove(ExitPointIndex);
+						//tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					else{
@@ -119,6 +122,7 @@ public class FlightPlan {
 						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
 						exitpointAdded = true;
 					}
+					exitPoint = (ExitPoint) tempListOfExitPoints.get(ExitPointIndex);
 				}
 //					double[] distanceToExit = new double[tempListOfWaypoints.size()];
 //					double[] distanceToWaypoint = new double[tempListOfWaypoints.size()];
@@ -380,6 +384,10 @@ public class FlightPlan {
 
 	public int generateVelocity() {
 		Random rand = new Random();
+		
+		if(entryPoint.isRunway()){
+			return 0;
+		}
 		int	min = flight.getMinVelocity(),
 			max = flight.getMaxVelocity();
 		return (rand.nextInt(min) + (max -min));
@@ -416,17 +424,18 @@ public class FlightPlan {
 	
 	public void updateFlightPlan(ScoreTracking score){
 		int waypointScore = 0;
-		
 		if (this.currentRoute.size() > 0) { //Check to see if there are still waypoints to visit and then check if the flight is passing through waypoint
 			if (this.flight.checkIfFlightAtWaypoint(currentRoute.get(0))) {
 				this.waypointsAlreadyVisited.add(this.currentRoute.get(0));
+				
 				closestDistance = this.flight.minDistanceFromWaypoint(this.currentRoute.get(0)); // get the closest distance from the waypoint
 				flight.resetMinDistanceFromWaypoint();
 				waypointScore = score.updateWaypointScore(closestDistance); // update the score based on how close to the waypoints
+
 				this.currentRoute.remove(0);
 			}
+			score.updateScore(waypointScore);
 		}
-		score.updateScore(waypointScore);
 
 	}
 	
@@ -617,7 +626,9 @@ public class FlightPlan {
 	public EntryPoint getEntryPoint(){
 		return this.entryPoint;
 	}
-
+	public ExitPoint getExitPoint(){
+		return exitPoint;
+	}
 	@Override
 	public String toString() {
 		String returnString = "";

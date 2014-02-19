@@ -289,6 +289,7 @@ public class FlightMenu implements MouseListener{
 	private void eventTargetSpeed(double speed){
 		double targetSpeed = multScale(speed, flight.getMinVelocity(), flight.getMaxVelocity());
 		System.out.println(String.format("speed := %1$3f", targetSpeed));
+		flight.setTargetVelocity(targetSpeed);
 		//{!} nothing available to change at this time
 	}
 	
@@ -310,6 +311,7 @@ public class FlightMenu implements MouseListener{
 
 	private void eventTakeoff(){
 		System.out.println("takeoff");
+		flight.takeOff();
 		//{!} set flight parameters
 	}
 	

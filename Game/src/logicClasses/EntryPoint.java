@@ -1,5 +1,7 @@
 package logicClasses;
 
+import java.io.IOException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,7 +14,7 @@ import util.DeferredFile;
 public class EntryPoint extends Point {
 	
 	static Image entryPointTop, entryPointRight, entryPointLeft;
-
+	private boolean runway;
     public EntryPoint(double xcoord, double ycoord) {
     	super(xcoord, ycoord);
     }
@@ -51,7 +53,9 @@ public class EntryPoint extends Point {
     	}
 
     }
-    
+    public boolean isRunway(){
+    	return runway;
+    }
     /**
 	 * render: Render method for the EntryPoint object, position determines orientation of image
 	 * @param g Graphics required by Slick2d
@@ -59,7 +63,7 @@ public class EntryPoint extends Point {
 	 */
     
 	public void render(Graphics g) throws SlickException {
-		
+		runway = false;
 		if(y == 0){
 			entryPointTop.draw((int)x-20, (int)y);
 		}
@@ -70,6 +74,9 @@ public class EntryPoint extends Point {
 		
 		else if(x == 1200){
 			entryPointRight.draw((int)x-40, (int)y-20);
+		}else{
+			entryPointRight.draw((int)x-40, (int)y-20);
+			runway = true;
 		}
     }
 	

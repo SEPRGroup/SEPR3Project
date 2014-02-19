@@ -135,7 +135,7 @@ public class Airspace {
 		if (this.listOfFlightsInAirspace.size() < this.maximumNumberOfFlightsInAirspace) {
 			
 			if ((this.numberOfGameLoopsSinceLastFlightAdded >= 850  || this.listOfFlightsInAirspace.isEmpty())) {
-					
+				
 				Random rand = new Random();
 				int checkNumber;
 					
@@ -160,17 +160,23 @@ public class Airspace {
 					Flight tempFlight = new Flight(this);
 					tempFlight.setFlightName(this.generateFlightName());
 					tempFlight.setTargetAltitude(tempFlight.getAltitude());
-					double heading = tempFlight.calculateHeadingToFirstWaypoint(
+					double heading;
+					if (tempFlight.getFlightPlan().getEntryPoint().isRunway()){
+						heading = 270;
+					}else{
+						heading = tempFlight.calculateHeadingToFirstWaypoint(
 										tempFlight.getFlightPlan().getPointByIndex(0).getX() ,
 										tempFlight.getFlightPlan().getPointByIndex(0).getY());
+					}
 					tempFlight.setTargetHeading(heading);
 					tempFlight.setCurrentHeading(heading);
-					this.numberOfGameLoopsSinceLastFlightAdded = 0;
-					if (this.listOfFlightsInAirspace.add(tempFlight)) {
+					if(addFlight(tempFlight)){
+						this.numberOfGameLoopsSinceLastFlightAdded = 0;
 						this.listOfFlightsInAirspace.get(
 								this.listOfFlightsInAirspace.size() -1).init(gc);
 						return true;
 					}
+					
 				}
 			}
 		}
@@ -371,6 +377,12 @@ public class Airspace {
 				&& (this.listOfFlightsInAirspace.size() > this.maximumNumberOfFlightsInAirspace - 1)) {
 			return false;
 		} else {
+			for(Flight a : listOfFlightsInAirspace){
+				if(a.isGrounded() && flight.getFlightPlan().getEntryPoint().isRunway()){
+					System.out.println("Flight already on runway!");
+					return false;
+				}
+			}
 			this.listOfFlightsInAirspace.add(flight);
 			return true;
 		}

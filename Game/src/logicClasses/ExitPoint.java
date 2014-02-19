@@ -1,4 +1,6 @@
 package logicClasses;
+import java.io.IOException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -12,13 +14,15 @@ import util.DeferredFile;
 public class ExitPoint extends Point {
 
 	static Image exitPointTop, exitPointRight, exitPointLeft;
-
+	private boolean runway = false;
 	public ExitPoint(double xcoord, double ycoord, String name){
 		super(xcoord, ycoord, name);
 
 		//System.out.println("ExitPoint " + pointRef + " set:(" + x + "," + y +").");
 	}
-
+	public boolean isRunway(){
+		return runway;
+	}
 	/**
 	 * init: Initialises the variables and resources required for the ExitPoint object render (Sets ExitPoint Images)
 	 * @param gc Game container required by Slick2d
@@ -33,6 +37,7 @@ public class ExitPoint extends Point {
 				loading.add(new DeferredFile("res/graphics/exitpoint_top.png"){
 					public void loadFile(String filename) throws SlickException{
 						exitPointTop = new Image(filename);
+						
 					}
 				});
 			}
@@ -73,10 +78,12 @@ public class ExitPoint extends Point {
 			exitPointLeft.draw((int)x, (int)y-20);
 		}
 
-		if(x == 1200){
+		else if(x == 1200){
+			exitPointRight.draw((int)x-40, (int)y-20);
+		} else {
 			exitPointRight.draw((int)x-40, (int)y-20);
 		}
-
+		
 
 		g.setColor(Color.white);
 		if(y == 0){
@@ -88,6 +95,9 @@ public class ExitPoint extends Point {
 
 		else if(x ==1200){
 			g.drawString(pointRef, (int)x-35, (int)y-7);
+		}else{
+			g.drawString(pointRef, (int)x-35, (int)y-7);
+			runway = true;
 		}
 
 	}

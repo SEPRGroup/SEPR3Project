@@ -25,7 +25,7 @@ public class Flight {
 	private String flightName;
 	private double
 		x, y,
-		velocity;
+		velocity, targetVelocity;
 	private double
 		currentHeading, targetHeading;
 	private int 
@@ -36,26 +36,29 @@ public class Flight {
 	private Airspace airspace;
 	private FlightPlan flightPlan;
 	private boolean selected;
-	
 	private final static int RADIUS = 30;
 	private int closestDistance = 42; // this is the maximum distance a plane
 									  // can be away from the waypoint once it has 
 									  // been checked that the plane is inside the waypoint
 	private int distanceFromWaypoint;
-	
+
+	private boolean 
+			takingOff = false,
+			landing = false;
+
 	
 	// CONSTRUCTOR
 	public Flight(Airspace airspace) {
 		this.x = 0;
 		this.y = 0;
 		this.targetAltitude = 0;
-		this.currentAltitude = generateAltitude();
 		this.targetHeading = 0;
 		this.currentHeading = 0;
 		this.turningRight = false;
 		this.turningLeft = false;
 		this.airspace = airspace;
 		this.flightPlan = new FlightPlan(airspace, this);
+		this.currentAltitude = generateAltitude();
 		this.selected = false;
 	}
 
@@ -68,6 +71,9 @@ public class Flight {
 	 */
 
 	public int generateAltitude() {	//{!} not converted to using min/max
+		if(getFlightPlan().getEntryPoint().isRunway()){
+			return 0;
+		}else{
 		Random rand = new Random();
 		int check = rand.nextInt(3);
 		switch(check) {
@@ -79,6 +85,7 @@ public class Flight {
 			return 30000;
 		}
 		return 27000; // Default state (this won't ever be returned)
+		}
 	}
 
 /**
@@ -165,8 +172,9 @@ public class Flight {
 	 * @param Waypoint - The next waypoint in the flight's plan.
 	 * @return True if flight is at it's next waypoint and it is moving away from that waypoint.
 	 */
-
+	
 	public boolean checkIfFlightAtWaypoint(Point waypoint) {
+		
 		int distanceX;
 		int distanceY;
 		
@@ -192,11 +200,24 @@ public class Flight {
 	public int minDistanceFromWaypoint(Point waypoint){	
 		return closestDistance;
 	}
-	
 	public void resetMinDistanceFromWaypoint(){
 		closestDistance = 42;
 	}
 	
+	public void takeOff(){
+		takingOff = true;
+		setTargetVelocity(300);
+	}
+	
+	public void land(){	
+		// if next point is an exit point
+		if(getFlightPlan().getPointByIndex(0) == getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
+			// if flight is within a box at one end of runway
+			if(getX() >= 300 && getY() >= 300 && getX() <= 400 && getY() < 400){
+				landing = true;
+			}
+		}
+	}
 	// DRAWING METHODS
 	
 	/**
@@ -207,7 +228,7 @@ public class Flight {
 	 */
 	
 	public void drawFlight(Graphics g, GameContainer gc ){
-
+	
 				g.setColor(Color.white);
 				g.setWorldClip(150, 0, Game.MAXIMUMWIDTH -150, Game.MAXIMUMHEIGHT);
 
@@ -403,7 +424,28 @@ public class Flight {
 		}
 	}
 	
-	
+	public void updateVelocity(){
+		double accel = 10;
+		
+		double dv = 0.002*(targetVelocity - velocity);
+		if (Math.round(targetVelocity) < Math.round(velocity)) {
+			dv = Math.min(dv , accel);
+		}else{
+			dv = Math.max(dv,-accel);
+		}
+		velocity += dv;
+		if (Math.abs(targetVelocity - velocity)< 0.5){
+			
+			velocity = targetVelocity;
+		}
+		if (Math.abs(230 - velocity)< 0.5){
+			
+			if(takingOff){
+				setTargetAltitude(30000);
+				takingOff = false;
+			}
+		}
+	}
 
 
 	// UPDATE, RENDER, INIT
@@ -438,7 +480,8 @@ public class Flight {
  */
 
 	public void update(ScoreTracking score) {
-
+	
+		this.updateVelocity();
 		this.updateCurrentHeading();
 		this.updateXYCoordinates();
 		this.updateAltitude();
@@ -516,7 +559,11 @@ public class Flight {
 	public void setAltitude(int altitude) {
 		this.currentAltitude = altitude;
 	}
-
+	
+	public boolean isGrounded(){
+		return (getAltitude() ==0);
+	}
+	
 	public int getMinVelocity() {
 		return minVelocity;
 	}
@@ -590,10 +637,18 @@ public class Flight {
 	public double getVelocity() {
 		return velocity;
 	}
+	
 	public void setVelocity(double velocity) {
 		this.velocity = velocity;
 	}
-
+	
+	public void setTargetVelocity(double velocity){
+		this.targetVelocity = velocity;
+	}
+	
+	public double getTargetVelocity(double velocity){
+		return targetVelocity;
+	}
 	public FlightPlan getFlightPlan() {
 		return flightPlan;
 	}
