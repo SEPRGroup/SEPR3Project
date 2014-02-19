@@ -72,13 +72,13 @@ public class PlayState extends BasicGameState {
 			LoadingList loading = LoadingList.get();
 			
 			// Music
-			loading.add(new DeferredFile("res/music/Jarvic 8.ogg"){
+			loading.add(new DeferredFile("res/music/new/muzikele.ogg"){
 				public void loadFile(String filename) throws SlickException{
 					gameplayMusic = new Music(filename);
 				}
 			});
 			
-			loading.add(new DeferredFile("res/music/175385__digitaldominic__scream.wav"){
+			loading.add(new DeferredFile("res/music/new/Big Explosion.ogg"){
 				public void loadFile(String filename) throws SlickException{
 					endOfGameSound = new Sound(filename);
 				}
