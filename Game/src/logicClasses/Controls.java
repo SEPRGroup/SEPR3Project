@@ -111,7 +111,7 @@ public class Controls {
 						//OR flight is outside of the circle 
 					if (selectedFlight.getFlightPlan().getChangingPlan() 
 							|| (distance(selectedFlight.getX(),selectedFlight.getY(),
-									nearestFlight.getX(), nearestFlight.getY()) > menu.getBearingSize())){
+									nearestFlight.getX(), nearestFlight.getY()) > menu.getBearingSize()/2)){
 						
 						//deselect old flight (if any)
 						selectedFlight.setSelected(false);
@@ -251,13 +251,6 @@ public class Controls {
 		selectedFlight = flight1;
 		menu.setFlight(flight1);
 	}
-
-
-	
-	/*public TextField getHeadingControlTB() {
-		return headingControlTextBox;
-	}*/
-
 	
 	public Flight getSelectedFlight(){
 		return selectedFlight;
