@@ -73,10 +73,14 @@ public class CreditsState extends BasicGameState {
 					"http://creativecommons.org/licenses/by/3.0/"
 				},
 				{"Images",
-					"Background image attributed to Rijksdienst voor het Cultureel Erfgoed",
-					"This files are licensed under the Creative Commons Attribution-Share Alike 3.0 Netherlands license.",
-					"Clouds image attirubted to Keith Pomakis"
-				}				
+					"Loading screen plane created by Sallee Design",
+					"http://salleedesign.com/resources/plane-psd/"
+				},
+				{"Font",
+					"A love of thunder",
+					"Downloaded from DaFont",
+					"http://www.dafont.com/a-love-of-thunder.font"
+				}
 		};
 	}
 
