@@ -9,8 +9,11 @@ import logicClasses.FlightMenu;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import stateContainer.Game;
@@ -22,22 +25,47 @@ public class FlightMenu_Tests {
 	
 	@Before
 	public void setUp() throws SlickException {
-		new AppGameContainer(new Game("TEST"));
-		flightMenuInstance = new FlightMenu();
-		
+		 flightMenuInstance = new FlightMenu();
 	}
 
 	@After
 	public void tearDown() {
 		flightMenuInstance = null;
 	}
-
+	
+	// As the TrueTypeFont needs OpenGL context all these test fail
+	// In theory they should all pass, below is the idea of how to fix
+	// this issue however this is not fully correct with the limited time
 	@Test
-	public void testIsAcceptingInput() {
-		boolean acceptingInput = true;
-		boolean actualAcceptingInput = flightMenuInstance.isAcceptingInput();
-		assertEquals(acceptingInput, actualAcceptingInput);
+	public void testIsAcceptingInput() throws SlickException {
+		AppGameContainer ap = new AppGameContainer(new BasicGame("Test") {
+			 
+
+            @Override
+            public void update(GameContainer container, int delta)
+                    throws SlickException {
+            }
+
+            @Override
+            public void init(GameContainer container) throws SlickException {
+            	flightMenuInstance = new FlightMenu();
+            	// no flight added test
+				boolean acceptingInput = true;
+				boolean actualAcceptingInput = flightMenuInstance.isAcceptingInput();
+				assertEquals(acceptingInput, actualAcceptingInput);
+				container.exit();
+            }
+
+			@Override
+			public void render(GameContainer container, Graphics g)
+					throws SlickException {
+				
+				
+			}
+        });
+		ap.start();
 	}
+		
 
 	@Test
 	public void testSetInput() {
