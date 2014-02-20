@@ -20,8 +20,7 @@ public class Achievements {
 	//CONSTRUCTOR
 	
 	public Achievements(){
-		//this.score = score;
-		//currentScore = score.getScore();
+
 	}
 	
 	//METHODS

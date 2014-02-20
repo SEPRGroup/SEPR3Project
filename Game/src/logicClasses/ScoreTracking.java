@@ -38,7 +38,7 @@ public class ScoreTracking {
 		return currentScore+=score;			//increase the current score by the score passed by parameter
 	}
 	
-	public String scoreAcheievement(){
+	public String scoreAchievement(){
 		String achievementScore = achievements.pointsAchievement(currentScore);
 		return achievementScore;
 	}

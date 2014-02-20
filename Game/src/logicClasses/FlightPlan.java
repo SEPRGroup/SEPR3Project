@@ -572,10 +572,7 @@ public class FlightPlan {
 
 				// Checks if user has released mouse from drag over another waypoint
 				else if((!Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON)) && mouseOverWaypoint){
-					
-					// reduce the score by 20 if the user changes the flight plan
-					score.reduceScoreOnFlightplanChange();
-					
+						
 					//Finding waypoint that mouse is over
 					for(int i=0; i<this.currentRoute.size();i++) {
 
@@ -585,7 +582,9 @@ public class FlightPlan {
 							this.currentRoute.add(i,this.waypointMouseIsOver);
 							this.waypointClicked=null;
 							this.draggingWaypoint=false;
-
+							
+							// reduce the score if the user changes the flight plan
+							score.reduceScoreOnFlightplanChange();
 						}
 
 						// else checks if waypoint already in plan and doesn't add if not
@@ -701,10 +700,6 @@ public class FlightPlan {
 		
 	}
 	
-	
-	
-	
-	
 
 	// ACCESSORS AND MUTATORS
 
@@ -738,12 +733,10 @@ public class FlightPlan {
 	@Override
 	public String toString() {
 		String returnString = "";
-		for (int i = 0; i < this.currentRoute.size(); i++) {
-			returnString += "Point " + i + ": ";
-			returnString += this.currentRoute.get(i).getX();
-			returnString += ", ";
-			returnString += this.currentRoute.get(i).getY();
-			returnString += " | ";
+		if (currentRoute.size() > 0)		
+			returnString = currentRoute.get(0).getPointRef();	
+		for (int i=1; i<currentRoute.size(); i++) {		
+			returnString += ", " +currentRoute.get(i).getPointRef();	
 		}
 		return returnString;
 	}

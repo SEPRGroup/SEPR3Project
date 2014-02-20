@@ -6,6 +6,7 @@ import java.io.InputStream;
 import logicClasses.Achievements;
 import logicClasses.Airspace;
 import logicClasses.Controls;
+import logicClasses.Flight;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.loading.LoadingList;
@@ -31,14 +32,15 @@ public class PlayState extends BasicGameState {
 		easyHover, mediumHover, hardHover,  
 		backgroundImage, difficultyBackground,
 		statusBarImage, clockImage, windImage,
+		flightIcon,
 		cursorImg;
 	private static Sound endOfGameSound;
 	private static Music gameplayMusic;
-	private static TrueTypeFont font;	
+	private static TrueTypeFont
+		font, panelFont;	
 	public static float time;
 
 	private Airspace airspace;
-	// added in state field 
 	private String stringTime;
 	private boolean settingDifficulty, gameEnded;
 	
@@ -74,8 +76,8 @@ public class PlayState extends BasicGameState {
 					InputStream inputStream = ResourceLoader.getResourceAsStream(filename);
 					try {
 						Font awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-						awtFont = awtFont.deriveFont(20f);
-						font = new TrueTypeFont(awtFont, true);	
+						font = new TrueTypeFont(awtFont.deriveFont(20f), true);
+						panelFont = new TrueTypeFont(awtFont.deriveFont(14f), true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -113,6 +115,12 @@ public class PlayState extends BasicGameState {
 					windImage = new Image(filename);
 				}
 			});
+			
+			loading.add(new DeferredFile("res/graphics/new/control_bar_plane.png"){		
+				public void loadFile(String filename) throws SlickException{	
+					flightIcon = new Image(filename);
+				}	
+			});		
 
 			loading.add(new DeferredFile("res/graphics/new/background.png"){
 				public void loadFile(String filename) throws SlickException{
@@ -237,10 +245,14 @@ public class PlayState extends BasicGameState {
 			
 			// Drawing Score
 			g.drawString(airspace.getScore().toString(), 10, 35);
-			
-			// Drawing Achievements
-			g.drawString(airspace.getScore().scoreAcheievement(), 1000, 30);
-			g.drawString(achievementMessage, 1000, 40);
+						
+			{	//draw flight information panels	
+				int baseY = 60;	
+				for (Flight f: airspace.getListOfFlights()){	
+					renderFlightPanel(f, g, baseY);
+					baseY += 50;
+				}	
+			}		
 			
 			//drawing wind direction
 			windImage.setRotation(windImage.getRotation() +((float)Math.cos(time/2999.0) +(float)Math.sin(time/1009.0))/3);
@@ -249,9 +261,43 @@ public class PlayState extends BasicGameState {
 			g.drawString("Wind:", 60, 550);
 			g.drawString(String.valueOf(Math.round(windImage.getRotation())), 65, 565);
 		
+			
+			// Drawing Achievements
+			g.drawString(airspace.getScore().scoreAchievement(), 
+					stateContainer.Game.MAXIMUMWIDTH -font.getWidth(airspace.getScore().scoreAchievement()) -10, 30);
+			g.drawString(achievementMessage, 
+					stateContainer.Game.MAXIMUMWIDTH -10 -font.getWidth(achievementMessage), 40);
 		}	
-
 	}
+	
+	private void renderFlightPanel(Flight f, Graphics g, int baseY){						
+		//draw border if flight is selected					
+		if (f.getSelected()){					
+			g.drawRoundRect(1, baseY, 135, 50, 3);				
+		}					
+							
+		int h = panelFont.getHeight();					
+							
+		//draw icon, rotated to match plane					
+		flightIcon.setRotation((float)f.getCurrentHeading());					
+		flightIcon.draw(7, 7 +baseY);					
+		//draw flight name at bottom of box					
+		panelFont.drawString(4, 50 -h +baseY, f.getFlightName());					
+							
+		String[] data = new String[] {					
+				"Plan: " +f.getFlightPlan().toString(),			
+				"Speed: " +String.valueOf(Math.round(f.getVelocity())) +" mph",			
+				"Altitude: " +String.valueOf(Math.round(f.getCurrentAltitude())) +" ft"			
+		};					
+							
+		baseY = baseY +3;					
+		for (String str: data){					
+			panelFont.drawString(40, baseY, str);				
+			baseY += h;				
+		}					
+							
+	}						
+							
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {

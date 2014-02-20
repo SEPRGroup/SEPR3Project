@@ -14,6 +14,7 @@ public class Point {
 	public Point(double xcoord, double ycoord) {
 		x = xcoord;
 		y = ycoord;
+		pointRef = "-";
 	}
 
 	//Point Constructor that also takes pointRef string, more commonly used.
@@ -21,7 +22,6 @@ public class Point {
 		x = xcoord; 
 		y = ycoord;
 		pointRef = name;
-		//System.out.println("Point " + pointRef + " set:(" + x + "," + y +").");
 	}
 
 
