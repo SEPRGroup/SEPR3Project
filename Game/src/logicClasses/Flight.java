@@ -192,9 +192,18 @@ public class Flight {
 		if ((distanceX <= RADIUS) && (distanceY <= RADIUS)) {
 			// The plane is going away from the way point
 			if (closestDistance < distanceFromWaypoint){				
+				if (waypoint instanceof ExitPoint){
+					if (((ExitPoint)waypoint).isRunway()){
+						return currentAltitude==0;
+					}
+					else return true;					
+				}
+				
+				//for any non-exit waypoint
 				return true;
 			}
 		}
+		//getting closer OR not close enough
 		return false;
 	}
 
@@ -220,20 +229,18 @@ public class Flight {
 	}
 	public void land(){	
 		// if next point is an exit point
-		if(getFlightPlan().getPointByIndex(0) == getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
-			boolean linedUp, closeEnough;
-		
-			linedUp  = currentHeading < (airspace.getAirport().getRunwayHeading() + 5) && currentHeading > (airspace.getAirport().getRunwayHeading() -5);
-			//closeEnough =  
-			// if flight is within a box at one end of runway
-			//if(x >= 750  && y >= 400  && x <= 850 && y <= 500 && linedUp){
+		if (!landing){
+			if(getFlightPlan().getPointByIndex(0)==getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
+	
 				landing = true;
+				//point towards exitpoint
 				double heading = Math.atan2(flightPlan.getExitPoint().getY() -y, flightPlan.getExitPoint().getX() -x) +PI/2; 
 				heading = (heading< 0) ? heading+(2*PI) : heading;
 				giveHeading((int)Math.round(Math.toDegrees(heading)));
-			//}
+			}
 		}
 	}
+	
 	// DRAWING METHODS
 	
 	/**
@@ -618,6 +625,9 @@ public boolean withinTolerance(double x1, double x2,double tolerance){
 	
 	public boolean isGrounded(){
 		return (getAltitude() ==0);
+	}
+	public Boolean isCommandable(){
+		return (!isGrounded() && !landing);
 	}
 	
 	public int getMinVelocity() {

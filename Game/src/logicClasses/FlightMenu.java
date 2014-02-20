@@ -110,12 +110,13 @@ public class FlightMenu implements MouseListener{
 			
 			//{!} constrain positions
 	
-			//draw altitude slider and labels
-			if(!flight.isGrounded()){
-				
+			
+			if (flight.isCommandable()){
+				//draw altitude slider and labels
 				drawImage(altBase,  new Point2D.Float(altPos.x +sliderWidth, altPos.y));
 					//account for image mispositioning after rotation
-				drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
+				if (altMarkerPos.y == constrain(altMarkerPos.y, altPos.y, altPos.y +altSize))
+					drawLine(g, altMarkerPos.x, altMarkerPos.y, altMarkerPos.x +sliderWidth, altMarkerPos.y);
 				drawString(String.valueOf(flight.getMinAltitude()),
 				           labelFont, labelColor,
 				           altPos.x, altPos.y +altSize);	//centred on bottom left edge of slider 
@@ -128,7 +129,8 @@ public class FlightMenu implements MouseListener{
 				
 				//draw speed slider and labels
 				drawImage(speedBase, speedPos);
-				drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
+				if (speedMarkerPos.x == constrain(speedMarkerPos.x, speedPos.x, speedPos.x +speedSize))
+					drawLine(g, speedMarkerPos.x, speedMarkerPos.y, speedMarkerPos.x, speedMarkerPos.y +sliderWidth);
 				drawString(String.valueOf(flight.getMinVelocity()),
 				           labelFont, labelColor,
 				           speedPos.x, speedPos.y +sliderWidth);	//centred on bottom left edge of slider 
@@ -158,7 +160,8 @@ public class FlightMenu implements MouseListener{
 				drawString(cmdString, buttonFont, buttonColor, 
 				           cmdPos.x +(buttonWidth/2.0f), cmdPos.y +(buttonHeight/2.0f));
 			}
-			if(!flight.isGrounded()){
+			
+			if(flight.isCommandable()){
 				//draw abort button and label
 				if (ABORT == mode)
 					drawImage(aButtonSelect, abortPos);
@@ -256,6 +259,12 @@ public class FlightMenu implements MouseListener{
 	}
 	
 	private int constrain(int val, int min, int max){
+		//return value no more than min, no more than max, otherwise val
+		return (val <= min) ? min : 
+				(val >= max) ? max : val;
+	}
+	
+	private double constrain(double val, double min, double max){
 		//return value no more than min, no more than max, otherwise val
 		return (val <= min) ? min : 
 				(val >= max) ? max : val;
@@ -416,6 +425,10 @@ public class FlightMenu implements MouseListener{
 
 	@Override
 	public void mouseReleased(int button, int x, int y) {
+		//disable invalid commands
+		if ((mode != CMD) && !flight.isCommandable())
+			mode = NONE;
+		
 		if (Input.MOUSE_LEFT_BUTTON == button){
 			switch (mode){
 			case NONE:	//nothing to check
