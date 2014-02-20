@@ -13,7 +13,7 @@ import util.DeferredFile;
 
 public class EntryPoint extends Point {
 	
-	static Image entryPointTop, entryPointRight, entryPointLeft;
+	static Image entryPointTop, entryPointRight, entryPointLeft,entryPointRunway;
 	private boolean runway;
     public EntryPoint(double xcoord, double ycoord) {
     	super(xcoord, ycoord);
@@ -64,6 +64,8 @@ public class EntryPoint extends Point {
     
 	public void render(Graphics g) throws SlickException {
 		runway = false;
+		entryPointRunway = entryPointRight.copy();
+		entryPointRunway.setRotation(45);
 		if(y == 0){
 			entryPointTop.draw((int)x-20, (int)y);
 		}
@@ -75,7 +77,7 @@ public class EntryPoint extends Point {
 		else if(x == 1200){
 			entryPointRight.draw((int)x-40, (int)y-20);
 		}else{
-			entryPointRight.draw((int)x-40, (int)y-20);
+			entryPointRunway.draw((int)x-20, (int)y-20);
 			runway = true;
 		}
     }

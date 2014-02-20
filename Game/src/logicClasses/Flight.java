@@ -211,13 +211,18 @@ public class Flight {
 	public void takeOff(){
 		takingOff = true;
 		setTargetVelocity((minVelocity +maxVelocity) /2);
+		setTargetAltitude(minAltitude);
 	}
 	
 	public void land(){	
 		// if next point is an exit point
 		if(getFlightPlan().getPointByIndex(0) == getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
+			boolean linedUp, closeEnough;
+		
+			linedUp  = currentHeading < (airspace.getAirport().getRunwayHeading() + 5) && currentHeading > (airspace.getAirport().getRunwayHeading() -5);
+			//closeEnough =  
 			// if flight is within a box at one end of runway
-			if(x >= 300 && y >= 300 && x <= 400 && y < 400){
+			if(x >= 300 && y >= 300 && x <= 400 && y < 400 && linedUp){
 				landing = true;
 			}
 		}
@@ -355,11 +360,11 @@ public class Flight {
 	 */
 	
 	public void updateAltitude() {
-		if (this.currentAltitude > this.targetAltitude) {
+		if (this.currentAltitude > this.targetAltitude&& !takingOff) {
 			this.currentAltitude -= climbRate;
 		}
 
-		else if (this.currentAltitude < this.targetAltitude) {
+		else if (this.currentAltitude < this.targetAltitude && !takingOff) {
 			this.currentAltitude += climbRate;
 		}
 	}
@@ -444,12 +449,7 @@ public class Flight {
 			velocity = targetVelocity;
 		}
 		
-		
-		
-		
 		if (takingOff && (Math.abs(minVelocity - velocity)< 0.5)){
-
-			setTargetAltitude(minAltitude);
 			takingOff = false;
 		}
 	}

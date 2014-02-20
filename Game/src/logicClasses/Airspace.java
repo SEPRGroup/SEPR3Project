@@ -162,7 +162,7 @@ public class Airspace {
 					tempFlight.setTargetAltitude(tempFlight.getAltitude());
 					double heading;
 					if (tempFlight.getFlightPlan().getEntryPoint().isRunway()){
-						heading = 270;
+						heading = airport.getRunwayHeading();
 					}else{
 						heading = tempFlight.calculateHeadingToFirstWaypoint(
 										tempFlight.getFlightPlan().getPointByIndex(0).getX() ,
@@ -439,6 +439,10 @@ public class Airspace {
 	
 	public int getNumberOfGameLoopsWhenDifficultyIncreases(){
 		return this.numberOfGameLoopsWhenDifficultyIncreases;
+	}
+	
+	public Airport getAirport() {
+		return airport;
 	}
 	
 	@Override
