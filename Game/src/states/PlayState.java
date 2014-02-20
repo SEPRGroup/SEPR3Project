@@ -3,6 +3,7 @@ package states;
 import java.awt.Font;
 import java.io.InputStream;
 
+import logicClasses.Achievements;
 import logicClasses.Airspace;
 import logicClasses.Controls;
 
@@ -40,9 +41,12 @@ public class PlayState extends BasicGameState {
 	// added in state field 
 	private String stringTime;
 	private boolean settingDifficulty, gameEnded;
+	
+	private Achievements achievement;
+	private String achievementMessage = "";
 
 	public PlayState(int state) {
-		
+		achievement = new Achievements();
 	}
 
 	@Override
@@ -116,43 +120,43 @@ public class PlayState extends BasicGameState {
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/difficulty.png"){
+			loading.add(new DeferredFile("res/menu_graphics/difficulty.jpg"){
 				public void loadFile(String filename) throws SlickException{
 					difficultyBackground = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/easy.png"){
+			loading.add(new DeferredFile("res/menu_graphics/easy.png"){
 				public void loadFile(String filename) throws SlickException{
 					easyButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/easy_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/easy_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					easyHover = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/medium.png"){
+			loading.add(new DeferredFile("res/menu_graphics/medium.png"){
 				public void loadFile(String filename) throws SlickException{
 					mediumButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/medium_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/medium_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					mediumHover = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/hard.png"){
+			loading.add(new DeferredFile("res/menu_graphics/hard.png"){
 				public void loadFile(String filename) throws SlickException{
 					hardButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/new/hard_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/hard_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					hardHover = new Image(filename);
 				}
@@ -160,32 +164,28 @@ public class PlayState extends BasicGameState {
 		}
 		
 		//initialise the airspace object;
-		//Waypoints
-		airspace.newWaypoint(350, 150, "A");
-		airspace.newWaypoint(400, 470, "B");
-		airspace.newWaypoint(700, 60,  "C");
-		airspace.newWaypoint(800, 320, "D");
-		airspace.newWaypoint(600, 418, "E");
-		airspace.newWaypoint(500, 220, "F");
-		airspace.newWaypoint(950, 188, "G");
-		airspace.newWaypoint(1050, 272,"H");
-		airspace.newWaypoint(900, 420, "I");
-		airspace.newWaypoint(240, 250, "J");
-		
-	
-		//EntryPoints
-		airspace.newEntryPoint(150, 400);
-		airspace.newEntryPoint(1200, 200);
-		airspace.newEntryPoint(600, 0);
-		airspace.newEntryPoint(760, 405);
-		// Exit Points
-		airspace.newExitPoint(800, 0, "1");
-		airspace.newExitPoint(150, 200, "2");
-		airspace.newExitPoint(1200, 300, "3");
-		airspace.newExitPoint(590,195,"4");
-				
-	    	
-		
+    	//Waypoints
+    	airspace.newWaypoint(350, 150, "A");
+    	airspace.newWaypoint(400, 470, "B");
+    	airspace.newWaypoint(700, 60,  "C");
+    	airspace.newWaypoint(800, 320, "D");
+    	airspace.newWaypoint(600, 418, "E");
+    	airspace.newWaypoint(500, 220, "F");
+    	airspace.newWaypoint(950, 188, "G");
+    	airspace.newWaypoint(1050, 272,"H");
+    	airspace.newWaypoint(900, 420, "I");
+    	airspace.newWaypoint(240, 250, "J");
+    	//EntryPoints
+    	airspace.newEntryPoint(150, 400);
+    	airspace.newEntryPoint(1200, 200);
+    	airspace.newEntryPoint(600, 0);
+    	airspace.newEntryPoint(785, 285);
+    	// Exit Points
+    	airspace.newExitPoint(800, 0, "1");
+    	airspace.newExitPoint(150, 200, "2");
+    	airspace.newExitPoint(1200, 300, "3");
+    	airspace.newExitPoint(685, 290, "4");
+    	
     	airspace.init(gc);
 	}
 	
@@ -235,6 +235,10 @@ public class PlayState extends BasicGameState {
 			
 			// Drawing Score
 			g.drawString(airspace.getScore().toString(), 10, 35);
+			
+			// Drawing Achievements
+			g.drawString(airspace.getScore().scoreAcheievement(), 1000, 30);
+			g.drawString(achievementMessage, 1000, 40);
 			
 			//drawing wind direction
 			windImage.setRotation(windImage.getRotation() +((float)Math.cos(time/2999.0) +(float)Math.sin(time/1009.0))/3);
@@ -302,6 +306,7 @@ public class PlayState extends BasicGameState {
 			// Updating Clock and Time
 			
 			time += delta;
+			achievement.timeAchievement((int)time);
 			float decMins=time/1000/60;
 			int mins = (int) decMins;
 			float decSecs=decMins-mins;
@@ -338,6 +343,7 @@ public class PlayState extends BasicGameState {
 			airspace.newFlight(gc);
 			airspace.update(gc);
 			if (airspace.getSeparationRules().getGameOverViolation() == true){
+				achievementMessage = achievement.crashAchievement((int)time); //pass the game time as of game over into the crashAchievement
 				airspace.getSeparationRules().setGameOverViolation(false);
 				airspace.resetAirspace();
 				gameplayMusic.stop();

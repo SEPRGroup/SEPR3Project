@@ -14,7 +14,7 @@ public abstract class DeferredFile implements DeferredResource {
 	}
 	
 	//to be overridden; use to load the resource as needed
-	protected abstract void loadFile(String filename) throws SlickException;
+	public abstract void loadFile(String filename) throws SlickException;
 	
 	
 	@Override

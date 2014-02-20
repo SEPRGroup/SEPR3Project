@@ -80,21 +80,6 @@ public class Controls_Tests {
 		fail("Not yet implemented");
 	}
 
-
-	@Test
-	public void testGetHeadingControlTB() throws SlickException {
-		GameContainer gc = new AppGameContainer(new Game("Hello"));
-		// Need to initiate the game to set the headingControlTextBox
-		controlsInstance.init(gc);
-		Font awtFont = new Font("Courier", Font.BOLD, 15);
-		TrueTypeFont font = new TrueTypeFont(awtFont, false); // Font used in controls class
-		TextField tf = new TextField(gc, font, 10, 215, 100, 23);
-		
-		TextField actualHeadingControlTB = controlsInstance.getHeadingControlTB();
-		
-		assertEquals(tf, actualHeadingControlTB);
-	}
-
 	
 	@Test // This also tests 'setSelectedFlight()'
 	// 		 No need to repeat test!

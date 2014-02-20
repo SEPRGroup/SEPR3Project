@@ -1,4 +1,6 @@
 package states;
+import logicClasses.Achievements;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -20,8 +22,10 @@ public class GameOverState extends BasicGameState {
 		quitHover, menuHover, playAgainHover,
 		gameOverBackground;
 	
+	private Achievements achievement;
 	
 	public GameOverState(int state) {
+		achievement = new Achievements();
 		
 	}
 	
@@ -97,7 +101,7 @@ public class GameOverState extends BasicGameState {
 		if ((posX > 1150 && posX < 1170) && (posY > 550 && posY < 580))
 			quitHover.draw(1148,556);
 		else quitButton.draw(1148,556);
-		
+		g.drawString(achievement.crashAchievement(60), 900, 30);
 		g.setColor(Color.white);
 	}
 
