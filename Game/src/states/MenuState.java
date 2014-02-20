@@ -98,7 +98,7 @@ public class MenuState extends BasicGameState {
 
 			public void load(){
 				play = new HoverImage(playButton, playHover, 439, 349);
-				quit = new HoverImage(quitButton, quitHover, 1148, 556);
+				quit = new HoverImage(quitButton, quitHover, 1078, 534);
 				credits = new HoverImage(creditsButton, creditsHover, 20, 534);
 				controls = new HoverImage(controlsButton, controlsHover, 490, 534);
 			}
