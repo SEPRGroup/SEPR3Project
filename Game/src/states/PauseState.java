@@ -34,49 +34,49 @@ public class PauseState extends BasicGameState {
 		{
 			LoadingList loading = LoadingList.get();
 
-			loading.add(new DeferredFile("res/menu_graphics/pause_screen.jpg"){
+			loading.add(new DeferredFile("res/menu_graphics/new/pause1.png"){
 				public void loadFile(String filename) throws SlickException{
 					pauseBackgroundPage1 = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/controls2.jpg"){
+			loading.add(new DeferredFile("res/menu_graphics/new/pause2.png"){
 				public void loadFile(String filename) throws SlickException{
 					pauseBackgroundPage2 = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/next page.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/next_page.png"){
 				public void loadFile(String filename) throws SlickException{
 					nextPageButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/back.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/back.png"){
 				public void loadFile(String filename) throws SlickException{
 					backButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/back_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/back_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					backButtonHover = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/next page_hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/next_page_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					nextPageButtonHover = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/previous page.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/previous_page.png"){
 				public void loadFile(String filename) throws SlickException{
 					previousPageButton = new Image(filename);
 				}
 			});
 
-			loading.add(new DeferredFile("res/menu_graphics/previous hover.png"){
+			loading.add(new DeferredFile("res/menu_graphics/new/previous_page_hover.png"){
 				public void loadFile(String filename) throws SlickException{
 					previousPageButtonHover = new Image(filename);
 				}
