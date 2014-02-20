@@ -28,7 +28,7 @@ public class Achievements {
 	public String pointsAchievement(int pointsTotal){
 		
 		if (silverAchievementGained == false){
-			if (pointsTotal >= 100){
+			if (pointsTotal >= 1000){
 				//then display silver achievement
 				achievementMessage = "silver achievement gained";
 				silverAchievementGained = true;
@@ -37,7 +37,7 @@ public class Achievements {
 		}
 		
 		if (goldAchievementGained == false){
-			if (pointsTotal >= 200){
+			if (pointsTotal >= 2000){
 				//then display gold achievement
 				achievementMessage = "gold achievement gained";
 				goldAchievementGained = true;

@@ -251,72 +251,72 @@ public class Flight {
 	 */
 	
 	public void drawFlight(Graphics g, GameContainer gc ){
-	
-				g.setColor(Color.white);
-				g.setWorldClip(150, 0, Game.MAXIMUMWIDTH -150, Game.MAXIMUMHEIGHT);
 
-				
-				float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10; // Scale the shadow in accordance to the altitude of the flight
-				shadowImage.setRotation((int) currentHeading);
-				shadowImage.draw((int) this.x-35, (int) this.y, shadowScale);
-				
-				//Depending on a plane's speed, different images for the plane are drawn
-					
-				if(velocity <= 275){	//{!} not converted to using min/max
-					
-					slowFlightImage.setRotation((int) currentHeading);
-					slowFlightImage.draw((int) this.x-10, (int) this.y-10);
-					
-				}
-				
-				else if(velocity>270 && velocity<340){	//{!} not converted to using min/max
-					
-					regularFlightImage.setRotation((int) currentHeading);
-					regularFlightImage.draw((int) this.x-10, (int) this.y-10);
-			
-				}
-				
-				else{
-					fastFlightImage.setRotation((int) currentHeading);
-					fastFlightImage.draw((int) this.x-10, (int) this.y-10);
-					
-				}
-				
-				// Drawing Separation Circle
-				
-				g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
-				
-				
-				// Drawing information around flight
-				// If flight is selected then also display current heading
-				
-				if (this.selected){
-					g.setColor(Color.white);
-					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
-					g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
-					
-					if (this.flightPlan.getCurrentRoute().size() > 0) {
-						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
-						
-					}
-	
-				}
-				
-				// If flight isn't selected then don't display current heading
-				else{
-					g.setColor(Color.lightGray);
-					g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
-					g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
-					
-					if (this.flightPlan.getCurrentRoute().size() > 0) {
-						g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
-					}
-					g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
-				}
-				
-				g.setWorldClip(0, 0, Game.MAXIMUMWIDTH, Game.MAXIMUMHEIGHT);
-		
+		g.setColor(Color.white);
+		g.setWorldClip(150, 0, Game.MAXIMUMWIDTH -150, Game.MAXIMUMHEIGHT);
+
+
+		float shadowScale = (float) (36 - (this.currentAltitude / 1000))/10; // Scale the shadow in accordance to the altitude of the flight
+		shadowImage.setRotation((int) currentHeading);
+		shadowImage.draw((int) this.x-35, (int) this.y, shadowScale);
+
+		//Depending on a plane's speed, different images for the plane are drawn
+
+		if(velocity <= 275){	//{!} not converted to using min/max
+
+			slowFlightImage.setRotation((int) currentHeading);
+			slowFlightImage.draw((int) this.x-10, (int) this.y-10);
+
+		}
+
+		else if(velocity>270 && velocity<340){	//{!} not converted to using min/max
+
+			regularFlightImage.setRotation((int) currentHeading);
+			regularFlightImage.draw((int) this.x-10, (int) this.y-10);
+
+		}
+
+		else{
+			fastFlightImage.setRotation((int) currentHeading);
+			fastFlightImage.draw((int) this.x-10, (int) this.y-10);
+
+		}
+
+		// Drawing Separation Circle
+
+		g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+
+
+		// Drawing information around flight
+		// If flight is selected then also display current heading
+
+		if (this.selected){
+			g.setColor(Color.white);
+			g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
+			g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
+			g.drawString(Math.round(this.currentHeading) + "°",(int) this.x - 13, (int) this.y + 25);//-15,20
+
+			if (this.flightPlan.getCurrentRoute().size() > 0) {
+				g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+
+			}
+
+		}
+
+		// If flight isn't selected then don't display current heading
+		else{
+			g.setColor(Color.lightGray);
+			g.drawString(this.flightName, (int) this.x-24, (int) this.y-44);
+			g.drawString(Math.round(this.currentAltitude) + " ft",(int) this.x-30, (int) this.y + 10);
+
+			if (this.flightPlan.getCurrentRoute().size() > 0) {
+				g.drawString("Aim: "+this.flightPlan.getPointByIndex(0).getPointRef(),(int) this.x -22, (int)this.y-28);
+			}
+			g.drawOval((int) this.x - 50, (int) this.y - 50, 100, 100);
+		}
+
+		g.setWorldClip(0, 0, Game.MAXIMUMWIDTH, Game.MAXIMUMHEIGHT);
+
 	}
 	
 	/**
