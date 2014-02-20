@@ -22,6 +22,11 @@ public class Airport {
 	
 	//CONSTRUCTOR
 	
+	public int getRunwayLength() {
+		return runwayLength - 10;
+	}
+
+
 	Airport() {
 		
 	}

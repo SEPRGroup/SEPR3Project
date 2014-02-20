@@ -13,7 +13,7 @@ import util.DeferredFile;
 
 public class ExitPoint extends Point {
 
-	static Image exitPointTop, exitPointRight, exitPointLeft;
+	static Image exitPointTop, exitPointRight, exitPointLeft,exitPointRunway;
 	private boolean runway = false;
 	public ExitPoint(double xcoord, double ycoord, String name){
 		super(xcoord, ycoord, name);
@@ -45,9 +45,10 @@ public class ExitPoint extends Point {
 			if (exitPointRight == null){
 				loading.add(new DeferredFile("res/graphics/exitpoint_right.png"){
 					public void loadFile(String filename) throws SlickException{
-						exitPointRight = new Image(filename);
+						exitPointRight = new Image(filename);						
 					}
 				});
+				
 			}
 			
 			if (exitPointLeft == null){
@@ -69,7 +70,11 @@ public class ExitPoint extends Point {
 	 */
 
 	public void render(Graphics g, Airspace airspace) throws SlickException {
-
+		if(exitPointLeft != null){
+			exitPointRunway = exitPointLeft.copy();
+			exitPointRunway.setRotation(45);
+		}
+	
 		if(y == 0){
 			exitPointTop.draw((int)x-20, (int)y);
 		}
@@ -81,7 +86,7 @@ public class ExitPoint extends Point {
 		else if(x == 1200){
 			exitPointRight.draw((int)x-40, (int)y-20);
 		} else {
-			exitPointRight.draw((int)x-40, (int)y-20);
+			exitPointRunway.draw((int)x-20, (int)y-20);
 		}
 		
 
