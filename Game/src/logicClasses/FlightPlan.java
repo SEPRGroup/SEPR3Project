@@ -82,7 +82,7 @@ public class FlightPlan {
 	public ArrayList<Point> buildRoute(Airspace airspace, EntryPoint entryPoint) {
 		ArrayList<Point> tempRoute = new ArrayList<Point>();  // Create the array lists for route and points
 		ArrayList<Point> tempListOfWaypoints = new ArrayList<Point>();
-		ArrayList<Point> tempListOfExitPoints = new ArrayList<Point>();
+		ArrayList<ExitPoint> tempListOfExitPoints = new ArrayList<ExitPoint>();
 		Boolean exitpointAdded = false;
 		
 		if (!airspace.getListOfWaypoints().isEmpty() && !airspace.getListOfExitPoints().isEmpty()) { // if there is a list of waypoints and a list of exit points
@@ -116,57 +116,15 @@ public class FlightPlan {
 					else if ((entryPoint.getX() == 1200) && (entryPoint.getX() == tempListOfExitPoints.get(ExitPointIndex).getX())){
 						//tempListOfExitPoints.remove(ExitPointIndex);
 						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
+					}else if(entryPoint.isRunway() == tempListOfExitPoints.get(ExitPointIndex).isRunway()){
+						ExitPointIndex = rand.nextInt(tempListOfExitPoints.size());
 					}
 					else{
-					
 						tempRoute.add(tempListOfExitPoints.get(ExitPointIndex));
 						exitpointAdded = true;
 					}
-					exitPoint = (ExitPoint) tempListOfExitPoints.get(ExitPointIndex);
+					exitPoint =  tempListOfExitPoints.get(ExitPointIndex);
 				}
-//					double[] distanceToExit = new double[tempListOfWaypoints.size()];
-//					double[] distanceToWaypoint = new double[tempListOfWaypoints.size()];
-//					double distanceLeft = 0;
-//					System.out.println(distanceToExit);
-					// Adding Waypoints to Plan
-//					for (int b = 0; b < 5; b++ ){
-//						for (int i = 0; i < tempListOfWaypoints.size(); i++){
-//							
-//							if(tempRoute.size() == 1){
-//								distanceLeft = Math.sqrt(Math.pow((entryPoint.getX() -tempListOfExitPoints.get(ExitPointIndex).getX()),2) 
-//										+ Math.pow((entryPoint.getY() -tempListOfExitPoints.get(ExitPointIndex).getY()),2));
-//								
-//								distanceToExit[i] = Math.sqrt(Math.pow((entryPoint.getX() -tempListOfExitPoints.get(ExitPointIndex).getX()),2) 
-//										+ Math.pow((entryPoint.getY() -tempListOfExitPoints.get(ExitPointIndex).getY()),2));
-//							}else{
-//								distanceLeft = Math.sqrt(Math.pow((tempRoute.get(tempRoute.size()-1).getX() -tempListOfExitPoints.get(ExitPointIndex).getX()),2) 
-//										+ Math.pow((tempRoute.get(tempRoute.size()-1).getY() -tempListOfExitPoints.get(ExitPointIndex).getY()),2));
-//							
-//								Math.sqrt(Math.pow((tempRoute.get(tempRoute.size()-1).getX() -tempListOfExitPoints.get(ExitPointIndex).getX()),2) 
-//										+ Math.pow((tempRoute.get(tempRoute.size()-1).getY() -tempListOfExitPoints.get(ExitPointIndex).getY()),2));
-//							}
-//								
-//								distanceToWaypoint[i] = Math.sqrt(Math.pow(entryPoint.getX() - tempListOfWaypoints.get(i).getX(),2) 
-//										+ Math.pow(entryPoint.getY() - tempListOfWaypoints.get(i).getY(),2));
-//								
-//								
-//							String str = "distance to waypoint " + i + " is "+ distanceToWaypoint[i];
-//							System.out.println(str);
-//						}
-//						double minValue = 900000;  
-//						int minIndex = 1;
-//						for( int i = 1;i<distanceToWaypoint.length;i++){
-//							if((distanceToWaypoint[i] < minValue)){// && (distanceToExit[i] < distanceLeft )){  
-//								minValue = distanceToWaypoint[i];  
-//								minIndex = i;
-//								String str = "min val " + i + " is " + minValue;
-//								System.out.println(str);
-//						     }  
-//						}  
-//						tempRoute.add(a, tempListOfWaypoints.get(minIndex));
-//						a++;
-//						tempListOfWaypoints.remove(minIndex);
-//					}
 				
 					for ( int i = 0; i < airspace.getListOfEntryPoints().size(); i ++){
 						if(entryPoint == airspace.getListOfEntryPoints().get(i)){
@@ -230,6 +188,123 @@ public class FlightPlan {
 												}
 												
 												break;
+											//left to runway
+											case 3:
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(B));
+													tempRoute.add(1,tempListOfWaypoints.get(E));
+													tempRoute.add(2,tempListOfWaypoints.get(D));
+													tempRoute.add(3,tempListOfWaypoints.get(I));
+													break;
+												case 1:
+													tempRoute.add(0,tempListOfWaypoints.get(J));
+													tempRoute.add(1,tempListOfWaypoints.get(A));
+													tempRoute.add(2,tempListOfWaypoints.get(C));
+													tempRoute.add(3,tempListOfWaypoints.get(G));
+													tempRoute.add(4,tempListOfWaypoints.get(I));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(J));
+													tempRoute.add(1,tempListOfWaypoints.get(F));
+													tempRoute.add(2,tempListOfWaypoints.get(D));
+													tempRoute.add(3,tempListOfWaypoints.get(I));
+													break;
+												}
+												
+												break;
+											}
+										}
+									}
+									break;
+									
+								// entry point on the right
+								case 1:
+									for (int k = 0; k < airspace.getListOfExitPoints().size(); k++){
+										if(tempRoute.get(tempRoute.size()-1) == airspace.getListOfExitPoints().get(k)){
+											int randInt = new Random().nextInt(2);
+											switch(k){
+											//right to left
+											case 0:
+												
+												//selects random flight plan
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(G));
+													tempRoute.add(2,tempListOfWaypoints.get(C));
+													break;
+												case 1:
+
+													tempRoute.add(0,tempListOfWaypoints.get(G));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(F));
+													tempRoute.add(3,tempListOfWaypoints.get(C));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(I));
+													tempRoute.add(2,tempListOfWaypoints.get(D));
+													tempRoute.add(3,tempListOfWaypoints.get(C));
+													break;
+												}
+												break;
+											//right to top
+											case 1:
+												switch(randInt){
+												//selects random flight plan
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(F));
+													tempRoute.add(3,tempListOfWaypoints.get(J));
+													break;
+												case 1:
+
+													tempRoute.add(0,tempListOfWaypoints.get(G));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(E));
+													tempRoute.add(3,tempListOfWaypoints.get(B));
+													tempRoute.add(4,tempListOfWaypoints.get(J));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(I));
+													tempRoute.add(2,tempListOfWaypoints.get(D));
+													tempRoute.add(3,tempListOfWaypoints.get(F));
+													tempRoute.add(4,tempListOfWaypoints.get(A));
+													tempRoute.add(5,tempListOfWaypoints.get(J));
+													break;
+												}
+												
+												break;
+												//right to runway
+											case 3:
+												
+												//selects random flight plan
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(I));
+													break;
+												case 1:
+
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(G));
+													tempRoute.add(2,tempListOfWaypoints.get(F));
+													tempRoute.add(3,tempListOfWaypoints.get(E));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(H));
+													tempRoute.add(1,tempListOfWaypoints.get(G));
+													tempRoute.add(2,tempListOfWaypoints.get(C));
+													tempRoute.add(3,tempListOfWaypoints.get(F));
+													tempRoute.add(4,tempListOfWaypoints.get(B));
+													break;
+												}
+												break;
+												
+											
 											}
 										}
 									}
@@ -257,14 +332,14 @@ public class FlightPlan {
 													tempRoute.add(1,tempListOfWaypoints.get(D));
 													tempRoute.add(2,tempListOfWaypoints.get(E));
 													tempRoute.add(3,tempListOfWaypoints.get(B));
-													tempRoute.add(3,tempListOfWaypoints.get(J));
+													tempRoute.add(4,tempListOfWaypoints.get(J));
 													break;
 												case 2:
 													tempRoute.add(0,tempListOfWaypoints.get(C));
 													tempRoute.add(1,tempListOfWaypoints.get(F));
 													tempRoute.add(2,tempListOfWaypoints.get(B));
 													tempRoute.add(3,tempListOfWaypoints.get(A));
-													tempRoute.add(3,tempListOfWaypoints.get(J));
+													tempRoute.add(4,tempListOfWaypoints.get(J));
 													break;
 												}
 												break;
@@ -293,75 +368,103 @@ public class FlightPlan {
 												}
 												
 												break;
+												//top to runway
+											case 3:
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(C));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(I));
+													break;
+												case 1:
+													tempRoute.add(0,tempListOfWaypoints.get(C));
+													tempRoute.add(1,tempListOfWaypoints.get(G));
+													tempRoute.add(2,tempListOfWaypoints.get(H));
+													tempRoute.add(3,tempListOfWaypoints.get(I));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(A));
+													tempRoute.add(1,tempListOfWaypoints.get(J));
+													tempRoute.add(2,tempListOfWaypoints.get(B));
+													break;
+												}
+												
+												break;
 											}
 										}
 									}
 								
 									break;
-								// entry point on the right
-									
-								case 1:
+								//entry point on the runway
+								case 3:
 									for (int k = 0; k < airspace.getListOfExitPoints().size(); k++){
 										if(tempRoute.get(tempRoute.size()-1) == airspace.getListOfExitPoints().get(k)){
 											int randInt = new Random().nextInt(2);
 											switch(k){
 											
-											//right to top
-											case 1:
-												switch(randInt){
-												//selects random flight plan
-												case 0:
-													tempRoute.add(0,tempListOfWaypoints.get(H));
-													tempRoute.add(1,tempListOfWaypoints.get(D));
-													tempRoute.add(2,tempListOfWaypoints.get(F));
-													tempRoute.add(3,tempListOfWaypoints.get(J));
-													break;
-												case 1:
-
-													tempRoute.add(0,tempListOfWaypoints.get(G));
-													tempRoute.add(1,tempListOfWaypoints.get(D));
-													tempRoute.add(2,tempListOfWaypoints.get(E));
-													tempRoute.add(3,tempListOfWaypoints.get(B));
-													tempRoute.add(3,tempListOfWaypoints.get(J));
-													break;
-												case 2:
-													tempRoute.add(0,tempListOfWaypoints.get(H));
-													tempRoute.add(1,tempListOfWaypoints.get(I));
-													tempRoute.add(2,tempListOfWaypoints.get(D));
-													tempRoute.add(3,tempListOfWaypoints.get(F));
-													tempRoute.add(3,tempListOfWaypoints.get(A));
-													tempRoute.add(3,tempListOfWaypoints.get(J));
-													break;
-												}
-												
-												break;
-											//right to left
+											//runway to top
 											case 0:
-												
 												//selects random flight plan
 												switch(randInt){
 												case 0:
-													tempRoute.add(0,tempListOfWaypoints.get(H));
-													tempRoute.add(1,tempListOfWaypoints.get(G));
-													tempRoute.add(2,tempListOfWaypoints.get(C));
+													tempRoute.add(0,tempListOfWaypoints.get(C));
 													break;
 												case 1:
-
-													tempRoute.add(0,tempListOfWaypoints.get(G));
-													tempRoute.add(1,tempListOfWaypoints.get(D));
-													tempRoute.add(2,tempListOfWaypoints.get(F));
-													tempRoute.add(3,tempListOfWaypoints.get(C));
+													tempRoute.add(0,tempListOfWaypoints.get(F));
+													tempRoute.add(1,tempListOfWaypoints.get(E));
+													tempRoute.add(2,tempListOfWaypoints.get(D));
 													break;
 												case 2:
-													tempRoute.add(0,tempListOfWaypoints.get(H));
-													tempRoute.add(1,tempListOfWaypoints.get(I));
-													tempRoute.add(2,tempListOfWaypoints.get(D));
-													tempRoute.add(3,tempListOfWaypoints.get(C));
+													tempRoute.add(0,tempListOfWaypoints.get(F));
+													tempRoute.add(1,tempListOfWaypoints.get(A));
+													tempRoute.add(2,tempListOfWaypoints.get(J));
+													tempRoute.add(3,tempListOfWaypoints.get(B));
 													break;
 												}
 												break;
+											//runway to left
+											case 1:
+												//selects random flight plan
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(F));
+													tempRoute.add(1,tempListOfWaypoints.get(J));
+													break;
+												case 1:
+													tempRoute.add(0,tempListOfWaypoints.get(F));
+													tempRoute.add(1,tempListOfWaypoints.get(A));
+													tempRoute.add(2,tempListOfWaypoints.get(J));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(F));
+													tempRoute.add(1,tempListOfWaypoints.get(B));
+													tempRoute.add(2,tempListOfWaypoints.get(J));
+													break;
+												}
+												break;
+											//runway to right
+											case 2:
+												switch(randInt){
+												case 0:
+													tempRoute.add(0,tempListOfWaypoints.get(C));
+													tempRoute.add(1,tempListOfWaypoints.get(G));
+													tempRoute.add(2,tempListOfWaypoints.get(H));
+													break;
+												case 1:
+													tempRoute.add(0,tempListOfWaypoints.get(C));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(I));
+													tempRoute.add(3,tempListOfWaypoints.get(H));
+													break;
+												case 2:
+													tempRoute.add(0,tempListOfWaypoints.get(C));
+													tempRoute.add(1,tempListOfWaypoints.get(D));
+													tempRoute.add(2,tempListOfWaypoints.get(G));
+													tempRoute.add(3,tempListOfWaypoints.get(H));
+													break;
+												}
 												
-											
+												break;
 											}
 										}
 									}

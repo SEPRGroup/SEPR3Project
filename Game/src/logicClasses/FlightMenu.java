@@ -311,6 +311,7 @@ public class FlightMenu implements MouseListener{
 	private void eventLand(){
 		System.out.println("land");
 		//{!} set flight parameters
+		flight.land();
 	}
 
 	private void eventTakeoff(){
