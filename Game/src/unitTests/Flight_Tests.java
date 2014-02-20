@@ -35,12 +35,6 @@ public class Flight_Tests {
     	flight1 = new Flight(airspace);
 		
 	}
-	
-	
-	
-
-	
-	
 	// Testing generate_altitude()
 
 	@Test
@@ -222,7 +216,7 @@ public class Flight_Tests {
 	@Test
 	public void updateXYCoordinates(){
 		// Testing that it updates the x and y coordinate correctly.
-		flight1.getFlightPlan().setVelocity(300);
+		flight1.getFlightPlan();
 		flight1.setCurrentHeading(50);
 		flight1.setTargetHeading(50);
 		flight1.setX(100);
