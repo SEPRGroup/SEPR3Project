@@ -15,8 +15,7 @@ public class Flight {
 
 	// FIELDS
 	private static Image 
-		regularFlightImage, slowFlightImage, fastFlightImage, shadowImage,
-		selectedFlightInformationBackgroundImage;
+		regularFlightImage, slowFlightImage, fastFlightImage, shadowImage;
 	private static double gameScale = 1/1000.0;
 	
 	private int
@@ -488,9 +487,6 @@ public class Flight {
 		}
 		if (fastFlightImage == null){
 			fastFlightImage = new Image("res/graphics/flight_fast.png");
-		}
-		if (selectedFlightInformationBackgroundImage == null){
-			selectedFlightInformationBackgroundImage = new Image("res/graphics/selected_flight2.jpg");
 		}
 
 	}
