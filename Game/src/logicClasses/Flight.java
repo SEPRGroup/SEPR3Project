@@ -232,10 +232,12 @@ public class Flight {
 			if(getFlightPlan().getPointByIndex(0)==getFlightPlan().getExitPoint() && getFlightPlan().getExitPoint().isRunway()){
 	
 				landing = true;
+								
 				//point towards exitpoint
 				double heading = Math.atan2(flightPlan.getExitPoint().getY() -y, flightPlan.getExitPoint().getX() -x) +PI/2; 
 				heading = (heading< 0) ? heading+(2*PI) : heading;
 				giveHeading((int)Math.round(Math.toDegrees(heading)));
+				setTargetVelocity(velocity);
 			}
 		}
 	}

@@ -111,7 +111,8 @@ public class Controls {
 						//OR flight is outside of the circle 
 					if (selectedFlight.getFlightPlan().getChangingPlan() 
 							|| (distance(selectedFlight.getX(),selectedFlight.getY(),
-									nearestFlight.getX(), nearestFlight.getY()) > menu.getBearingSize()/2)){
+									nearestFlight.getX(), nearestFlight.getY()) 
+								> (menu.getBearingSize()/2 +menu.getSliderWidth()))){
 						
 						//deselect old flight (if any)
 						selectedFlight.setSelected(false);
@@ -221,7 +222,7 @@ public class Controls {
 			}
 				
 			// Only allow controls if user isn't changing a plan
-			if (!(selectedFlight.getFlightPlan().getChangingPlan()) && !selectedFlight.isCommandable()){
+			if (!(selectedFlight.getFlightPlan().getChangingPlan()) && selectedFlight.isCommandable()){
 				//allow mouse control of flight if not in h
 				if(Mouse.isButtonDown(Input.MOUSE_RIGHT_BUTTON) && (difficultyValueOfGame != HARD)){
 					giveHeadingWithMouse(posX, posY, airspace);
